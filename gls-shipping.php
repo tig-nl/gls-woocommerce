@@ -41,9 +41,9 @@ if ( ! defined( 'WPINC' ) ) {
  */
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
-    function tutsplus_shipping_method() {
-        if ( ! class_exists( 'TutsPlus_Shipping_Method' ) ) {
-            class TutsPlus_Shipping_Method extends WC_Shipping_Method {
+    function GLS_shipping_method() {
+        if ( ! class_exists( 'GlS_Shipping_Method' ) ) {
+            class GLS_Shipping_Method extends WC_Shipping_Method {
                 /**
                  * Constructor for your shipping class
                  *
@@ -51,9 +51,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                  * @return void
                  */
                 public function __construct() {
-                    $this->id                 = 'tutsplus';
-                    $this->method_title       = __( 'TutsPlus Shipping', 'tutsplus' );
-                    $this->method_description = __( 'Custom Shipping Method for TutsPlus', 'tutsplus' );
+                    $this->id                 = 'TIG';
+                    $this->method_title       = __( 'GLS Shipping', 'TIG' );
+                    $this->method_description = __( 'Custom Shipping Method for GLS', 'TIG' );
 
                     // Availability & Countries
                     $this->availability = 'including';
@@ -70,7 +70,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                     $this->init();
 
                     $this->enabled = isset( $this->settings['enabled'] ) ? $this->settings['enabled'] : 'yes';
-                    $this->title = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'TutsPlus Shipping', 'tutsplus' );
+                    $this->title = isset( $this->settings['title'] ) ? $this->settings['title'] : __( 'GLS Shipping', 'TIG' );
                 }
 
                 /**
@@ -97,23 +97,23 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                     $this->form_fields = array(
 
                         'enabled' => array(
-                            'title' => __( 'Enable', 'tutsplus' ),
+                            'title' => __( 'Enable', 'TIG' ),
                             'type' => 'checkbox',
-                            'description' => __( 'Enable this shipping.', 'tutsplus' ),
+                            'description' => __( 'Enable this shipping.', 'TIG' ),
                             'default' => 'yes'
                         ),
 
                         'title' => array(
-                            'title' => __( 'Title', 'tutsplus' ),
+                            'title' => __( 'Title', 'TIG' ),
                             'type' => 'text',
-                            'description' => __( 'Title to be display on site', 'tutsplus' ),
-                            'default' => __( 'TutsPlus Shipping', 'tutsplus' )
+                            'description' => __( 'Title to be display on site', 'TIG' ),
+                            'default' => __( 'GLS Shipping', 'TIG' )
                         ),
 
                         'weight' => array(
-                            'title' => __( 'Weight (kg)', 'tutsplus' ),
+                            'title' => __( 'Weight (kg)', 'GLS' ),
                             'type' => 'number',
-                            'description' => __( 'Maximum allowed weight', 'tutsplus' ),
+                            'description' => __( 'Maximum allowed weight', 'GLS' ),
                             'default' => 100
                         ),
 
@@ -195,33 +195,33 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
         }
     }
 
-    add_action( 'woocommerce_shipping_init', 'tutsplus_shipping_method' );
+    add_action( 'woocommerce_shipping_init', 'GLS_shipping_method' );
 
-    function add_tutsplus_shipping_method( $methods ) {
-        $methods[] = 'TutsPlus_Shipping_Method';
+    function add_GLS_shipping_method( $methods ) {
+        $methods[] = 'GLS_Shipping_Method';
         return $methods;
     }
 
-    add_filter( 'woocommerce_shipping_methods', 'add_tutsplus_shipping_method' );
+    add_filter( 'woocommerce_shipping_methods', 'add_GLS_shipping_method' );
 
-    function tutsplus_validate_order( $posted )   {
+    function GLS_validate_order( $posted )   {
 
         $packages = WC()->shipping->get_packages();
 
         $chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
 
-        if( is_array( $chosen_methods ) && in_array( 'tutsplus', $chosen_methods ) ) {
+        if( is_array( $chosen_methods ) && in_array( 'GLS', $chosen_methods ) ) {
 
             foreach ( $packages as $i => $package ) {
 
-                if ( $chosen_methods[ $i ] != "tutsplus" ) {
+                if ( $chosen_methods[ $i ] != "GLS" ) {
 
                     continue;
 
                 }
 
-                $TutsPlus_Shipping_Method = new TutsPlus_Shipping_Method();
-                $weightLimit = (int) $TutsPlus_Shipping_Method->settings['weight'];
+                $GLS_Shipping_Method = new GLS_Shipping_Method();
+                $weightLimit = (int) $GLS_Shipping_Method->settings['weight'];
                 $weight = 0;
 
                 foreach ( $package['contents'] as $item_id => $values )
@@ -234,7 +234,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
                 if( $weight > $weightLimit ) {
 
-                    $message = sprintf( __( 'Sorry, %d kg exceeds the maximum weight of %d kg for %s', 'tutsplus' ), $weight, $weightLimit, $TutsPlus_Shipping_Method->title );
+                    $message = sprintf( __( 'Sorry, %d kg exceeds the maximum weight of %d kg for %s', 'GLS' ), $weight, $weightLimit, $GLS_Shipping_Method->title );
 
                     $messageType = "error";
 
@@ -248,6 +248,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
         }
     }
 
-    add_action( 'woocommerce_review_order_before_cart_contents', 'tutsplus_validate_order' , 10 );
-    add_action( 'woocommerce_after_checkout_validation', 'tutsplus_validate_order' , 10 );
+    add_action( 'woocommerce_review_order_before_cart_contents', 'GLS_validate_order' , 10 );
+    add_action( 'woocommerce_after_checkout_validation', 'GLS_validate_order' , 10 );
 }
