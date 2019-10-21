@@ -1,12 +1,12 @@
 <?php
 
-/*
+/**
 Plugin Name: TIG GLS for Woocommerce
-Plugin URI:http://woocommerce/
+Plugin URI: https://tig.nl/
 Description: Plugin from to TIG to add GLS shipping to Woocommerce
-Version: 1.0
+Version: 1.0.0
 Author: TIG
-Author URI:https://tig.nl/
+Author URI: https://tig.nl/
  */
 
 
