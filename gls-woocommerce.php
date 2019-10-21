@@ -12,7 +12,7 @@ Author URI: https://tig.nl/
 
 add_action('woocommerce_checkout_before_order_review_heading', 'tig_gls_delivery_options', 10, 1);
 
-function tig_gls_delivery_options ()
+function tig_gls_delivery_options()
 {
         _e( "Shipping options ", "");
     ?>
