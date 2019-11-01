@@ -16,14 +16,31 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!defined('GLS_PLUGIN_FILE')) {
+    define('GLS_PLUGIN_FILE', __FILE__);
+}
+
 /**
  * Add Shipping Options before Order Review in WooCommerce Checkout.
  */
 function tig_gls_delivery_options()
 {
-    _e("Shipping Options", "gls-woocommerce");
+    include_once dirname(__FILE__) . '/templates/checkout/delivery-options.php';
 }
+
 add_action('woocommerce_checkout_before_order_review_heading', 'tig_gls_delivery_options');
+
+/**
+ *
+ */
+function tig_gls_settings_tab($settings)
+{
+    $settings[] = include 'includes/admin/settings/class-wc-settings-gls.php';
+
+    return $settings;
+}
+
+add_filter('woocommerce_get_settings_pages', 'tig_gls_settings_tab');
 
 /**
  * Adds the GLS shipping method.
@@ -48,42 +65,62 @@ function tig_gls_shipping_method()
                 $this->id                 = self::GLS_SHIPPING_METHOD_ID;
                 $this->instance_id        = absint($instance_id);
                 $this->plugin_id          = self::GLS_SHIPPING_METHOD_ID;
-                $this->method_title       = __('Ship with GLS', 'gls-woocommerce');
-                $this->method_description = __('GLS shipping services for WooCommerce.', 'gls-woocommerce');
+                $this->method_title       = __('GLS', 'gls-woocommerce');
+                $this->method_description = __('Connect WooCommerce to GLS to provide GLS delivery options in checkout.', 'gls-woocommerce');
                 $this->supports           = array(
-                    'settings',
                     'shipping-zones',
                     'instance-settings',
                     'instance-settings-modal'
                 );
+
                 $this->init();
             }
 
-            /**
-             * Init your settings
-             *
-             * @access public
-             * @return void
-             */
-            function init()
+            public function init()
             {
-                $this->instance_form_fields = include plugin_dir_path(WC_PLUGIN_FILE) . 'includes/shipping/flat-rate/includes/settings-flat-rate.php';
-                $this->title                = $this->get_option('title');
-                $this->tax_status           = $this->get_option('tax_status');
-                $this->cost                 = $this->get_option('cost');
-                $this->type                 = $this->get_option('type', 'class');
+                // Load the settings API
+                $this->init_form_fields();
+                $this->init_settings();
 
                 // Save settings in admin if you have any defined
                 add_action(
-                    'woocommerce_update_options_shipping_' . $this->id, array(
+                    'woocommerce_update_options_shipping_' . $this->id,
+                    array(
                         $this,
                         'process_admin_options'
+                    )
+                );
+
+                parent::init();
+            }
+
+            public function init_form_fields()
+            {
+                $this->form_fields = array(
+                    'test_mode'        => array(
+                        'title'   => __('Test mode', 'gls-woocommerce'),
+                        'type'    => 'checkbox',
+                        'label'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
+                        'default' => 'no'
+                    ),
+                    'username'         => array(
+                        'title' => __('Username', 'gls-woocommerce'),
+                        'type'  => 'text'
+                    ),
+                    'password'         => array(
+                        'title' => __('Password', 'gls-woocommerce'),
+                        'type'  => 'password'
+                    ),
+                    'subscription_key' => array(
+                        'title' => __('Subscription key', 'gls-woocommerce'),
+                        'type'  => 'password'
                     )
                 );
             }
         }
     }
 }
+
 add_action('woocommerce_shipping_init', 'tig_gls_shipping_method');
 
 /**
@@ -97,4 +134,24 @@ function tig_gls_add_shipping_method($methods)
 
     return $methods;
 }
+
 add_filter('woocommerce_shipping_methods', 'tig_gls_add_shipping_method');
+
+// Include the main GLS class.
+if (!class_exists('GLS', false)) {
+    include_once dirname(__FILE__) . '/includes/class-gls.php';
+}
+
+/**
+ * Return the Main Instance of GLS
+ *
+ * @return GLS
+ */
+function GLS()
+{ // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+    return GLS::instance();
+}
+
+// Global for backwards compatibility.
+$GLOBALS['tig_gls'] = GLS();
+
