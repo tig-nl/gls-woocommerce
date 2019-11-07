@@ -100,12 +100,12 @@ class GLS_Delivery_Options
     public function init()
     {
         $load_delivery_options = array(
-            'T9',
-            'T12',
-            'T17',
-            'S9',
-            'S12',
-            'S17'
+            'GLS_Option_T9',
+            'GLS_Option_T12',
+            'GLS_Option_T17',
+            'GLS_Option_S9',
+            'GLS_Option_S12',
+            'GLS_Option_S17'
         );
 
         // Filter.
@@ -121,9 +121,9 @@ class GLS_Delivery_Options
             if (!is_a($option, 'GLS_Delivery_Option')) {
                 continue;
             }
-        }
 
-        ksort($this->delivery_options);
+            $this->delivery_options[$option->id] = $option;
+        }
     }
 
     /**
@@ -142,5 +142,15 @@ class GLS_Delivery_Options
         }
 
         return $_available_delivery_options;
+    }
+
+    /**
+     * Save options in admin.
+     */
+    public function process_admin_options()
+    {
+        $delivery_fees = isset($_POST['additional_fee']) ? wc_clean($_POST['additional_fee']) : '';
+
+        update_option('gls_option_additional_fee', $delivery_fees);
     }
 }

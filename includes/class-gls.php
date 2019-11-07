@@ -117,6 +117,7 @@ final class GLS
     private function define_constants()
     {
         $this->define('GLS_ABSPATH', dirname(GLS_PLUGIN_FILE) . '/');
+        $this->define('GLS_VERSION', $this->version);
     }
 
     /**
@@ -133,6 +134,27 @@ final class GLS
     }
 
     /**
+     * What type of request is this?
+     *
+     * @param string $type admin, ajax, cron or frontend.
+     *
+     * @return bool
+     */
+    private function is_request($type)
+    {
+        switch ($type) {
+            case 'admin':
+                return is_admin();
+            case 'ajax':
+                return defined('DOING_AJAX');
+            case 'cron':
+                return defined('DOING_CRON');
+            case 'frontend':
+                return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON') && !$this->is_rest_api_request();
+        }
+    }
+
+    /**
      * Include required core files used in admin and on the frontend.
      */
     public function includes()
@@ -141,11 +163,46 @@ final class GLS
          * Class autoloader.
          */
         include_once GLS_ABSPATH . 'includes/class-gls-autoloader.php';
+
+        /**
+         * Abstract classes.
+         */
+        include_once GLS_ABSPATH . 'includes/abstracts/abstract-gls-delivery-option.php';
+
+        /**
+         * Admin classes.
+         */
+        if ($this->is_request('admin')) {
+            include_once GLS_ABSPATH . 'includes/admin/class-gls-admin.php';
+        }
     }
 
+    /**
+     *
+     */
     private function init_hooks()
     {
+        // None necessary yet.
+    }
 
+    /**
+     * Get the plugin url.
+     *
+     * @return string
+     */
+    public function plugin_url()
+    {
+        return untrailingslashit(plugins_url('/', GLS_PLUGIN_FILE));
+    }
+
+    /**
+     * Get the plugin path.
+     *
+     * @return string
+     */
+    public function plugin_path()
+    {
+        return untrailingslashit(plugin_dir_path(GLS_PLUGIN_FILE));
     }
 
     /**

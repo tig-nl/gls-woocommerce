@@ -49,4 +49,74 @@ abstract class GLS_Delivery_Option extends WC_Settings_API
      * @var string
      */
     public $method_title = '';
+
+    /**
+     * Option description.
+     *
+     * @var string
+     */
+    public $method_description = '';
+
+    /**
+     * Option title.
+     *
+     * @var string
+     */
+    public $title = '';
+
+    /**
+     * Option Additional Fee
+     *
+     * @var int
+     */
+    public $additional_fee = 0;
+
+    /**
+     * Init settings for gateways.
+     */
+    public function init_settings()
+    {
+        parent::init_settings();
+        $this->enabled = !empty($this->settings['enabled']) && 'yes' === $this->settings['enabled'] ? 'yes' : 'no';
+    }
+
+    /**
+     * Return the title for admin screens.
+     *
+     * @return string
+     */
+    public function get_method_title()
+    {
+        return apply_filters('tig_gls_option_title', $this->method_title, $this);
+    }
+
+    /**
+     * Return the description for admin screens.
+     *
+     * @return string
+     */
+    public function get_method_description()
+    {
+        return apply_filters('tig_gls_option_description', $this->method_description, $this);
+    }
+
+    /**
+     * Return the option's title.
+     *
+     * @return string
+     */
+    public function get_title()
+    {
+        return apply_filters('tig_gls_option_title', $this->title, $this->id);
+    }
+
+    /**
+     * Return the option's additional fee.
+     *
+     * @return mixed|void
+     */
+    public function get_additional_fee()
+    {
+        return apply_filters('tig_gls_option_additional_fee', $this->additional_fee, $this->id);
+    }
 }

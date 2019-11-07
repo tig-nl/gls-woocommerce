@@ -35,7 +35,7 @@ defined('ABSPATH') || exit;
 /**
  * Autoloader class.
  */
-class GLS_Autoloader
+class GLS_Autoloader extends WC_Autoloader
 {
     /**
      * Path to the includes directory.
@@ -104,6 +104,8 @@ class GLS_Autoloader
         $class = strtolower($class);
 
         if (0 !== strpos($class, 'gls_')) {
+            parent::autoload($class);
+
             return;
         }
 
@@ -114,6 +116,8 @@ class GLS_Autoloader
             $path = $this->include_path . 'shipping/' . substr(str_replace('_', '-', $class), 12) . '/';
         } elseif (0 === strpos($class, 'wc_admin')) {
             $path = $this->include_path . 'admin/';
+        } elseif (0 === strpos($class, 'gls_option_')) {
+            $path = $this->include_path . 'options/';
         }
 
         if (empty($path) || !$this->load_file($path . $file)) {
