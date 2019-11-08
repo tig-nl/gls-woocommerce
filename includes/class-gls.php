@@ -170,6 +170,11 @@ final class GLS
         include_once GLS_ABSPATH . 'includes/abstracts/abstract-gls-delivery-option.php';
 
         /**
+         * Core classes.
+         */
+        include_once GLS_ABSPATH . 'includes/class-gls-ajax.php';
+
+        /**
          * Admin classes.
          */
         if ($this->is_request('admin')) {
@@ -203,6 +208,16 @@ final class GLS
     public function plugin_path()
     {
         return untrailingslashit(plugin_dir_path(GLS_PLUGIN_FILE));
+    }
+
+    /**
+     * Get Ajax URL.
+     *
+     * @return string
+     */
+    public function ajax_url()
+    {
+        return admin_url('admin-ajax.php', 'relative');
     }
 
     /**

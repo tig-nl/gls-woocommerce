@@ -1,16 +1,16 @@
 /* global woocommerce_admin */
 (function (
     $,
-    woocommerce_admin
+    gls_admin
 ) {
     $(function () {
         if ('undefined' ===
-            typeof woocommerce_admin) {
+            typeof gls_admin) {
             return;
         }
 
         // Toggle gateway on/off.
-        $('.wc_gateways')
+        $('.gls_options')
         .on('click',
             '.gls-delivery-option-method-toggle-enabled',
             function () {
@@ -22,9 +22,9 @@
                         '.woocommerce-input-toggle');
 
                 var data = {
-                    action: 'gls_toggle_option_enabled',
-                    security: woocommerce_admin.nonces.option_toggle,
-                    gateway_id: $row.data(
+                    action: 'woocommerce_toggle_option_enabled',
+                    security: gls_admin.nonces.option_toggle,
+                    option_id: $row.data(
                         'option_id')
                 };
 
@@ -33,7 +33,7 @@
 
                 $.ajax(
                     {
-                        url: woocommerce_admin.ajax_url,
+                        url: gls_admin.ajax_url,
                         data: data,
                         dataType: 'json',
                         type: 'POST',
@@ -68,5 +68,5 @@
     });
 })(
     jQuery,
-    woocommerce_admin
+    gls_admin
 );

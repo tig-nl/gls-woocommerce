@@ -203,7 +203,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                                     echo "<input type='number' min='0' value='$additional_fee' name='additional_fee[$option->id]' />";
                                     break;
                                 case 'status':
-                                    echo '<a class="wc-delivery-option-method-toggle-enabled" href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=tig_gls&section=' . strtolower($option->id))) . '">';
+                                    echo '<a class="gls-delivery-option-method-toggle-enabled" href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=tig_gls&section=' . strtolower($option->id))) . '">';
                                     if (wc_string_to_bool($option->enabled)) {
                                         /* Translators: %s Payment gateway name. */
                                         echo '<span class="woocommerce-input-toggle woocommerce-input-toggle--enabled" aria-label="' . esc_attr(sprintf(__('The "%s" delivery option is currently enabled', 'gls-woocommerce'), $method_title)) . '">' . esc_attr__('Yes', 'woocommerce') . '</span>';

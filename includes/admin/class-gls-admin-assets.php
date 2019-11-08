@@ -70,6 +70,15 @@ if (!class_exists('GLS_Admin_Assets', false)) {
             );
 
             wp_enqueue_script('gls_admin');
+
+            $params = array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonces'   => array(
+                    'option_toggle' => wp_create_nonce('gls-toggle-delivery-option-enabled'),
+                )
+            );
+
+            wp_localize_script('gls_admin', 'gls_admin', $params);
         }
     }
 }

@@ -81,6 +81,17 @@ abstract class GLS_Delivery_Option extends WC_Settings_API
     }
 
     /**
+     * Return whether or not this option requires additional setup to function when this option is toggled on via AJAX.
+     * If this returns true a redirect will occur to the settings page instead.
+     *
+     * @return bool
+     * @since 1.0.0
+     */
+    public function needs_setup() {
+        return false;
+    }
+
+    /**
      * Return the title for admin screens.
      *
      * @return string
