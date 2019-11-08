@@ -72,7 +72,7 @@ abstract class GLS_Delivery_Option extends WC_Settings_API
     public $additional_fee = 0;
 
     /**
-     * Init settings for gateways.
+     * Init settings for options.
      */
     public function init_settings()
     {

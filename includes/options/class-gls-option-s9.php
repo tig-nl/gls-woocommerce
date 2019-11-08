@@ -37,7 +37,7 @@ class GLS_Option_S9 extends GLS_Delivery_Option
      */
     public function __construct()
     {
-        $this->id                 = 's9';
+        $this->id                 = 'gls_s9';
         $this->method_title       = _x('TimeDefiniteService (Saturday before 9.00 AM)', 'gls-woocommerce');
         $this->method_description = __('Delivery on Saturday before 9.00 AM.', 'gls-woocommerce');
 

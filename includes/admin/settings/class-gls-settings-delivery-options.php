@@ -143,7 +143,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
     }
 
     /**
-     * Output payment gateway settings.
+     * Output delivery options settings.
      */
     public function delivery_options_settings()
     {
@@ -231,33 +231,21 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
      */
     public function save()
     {
-        global $current_section;
+        // TODO: Fix bug where settings aren't updated after saving changes. They are updated in the database, however...
+        if (current_user_can('manage_woocommerce') && isset($_POST['additional_fee'])) {
+            $delivery_options = GLS()->delivery_options->delivery_options();
+            $additional_fee = wc_clean(wp_unslash($_POST['additional_fee']));
 
-        $gls_delivery_options = GLS_Delivery_Options::instance();
-
-        // Save settings fields based on section.
-        WC_Admin_Settings::save_fields($this->get_settings($current_section));
-
-        if (!$current_section) {
-            // If section is empty, we're on the main settings page. This makes sure 'gateway ordering' is saved.
-            $gls_delivery_options->process_admin_options();
-            $gls_delivery_options->init();
-        } else {
-            // There is a section - this may be a gateway or custom section.
-            foreach ($gls_delivery_options->delivery_options() as $option) {
-                if (in_array(
-                    $current_section, array(
-                    $option->id,
-                    sanitize_title(get_class($option))
-                ), true
-                )) {
-                    do_action('tig_gls_update_options_delivery_options_' . $option->id);
-                    $gls_delivery_options->init();
+            foreach ($delivery_options as $option) {
+                if (!array_search($additional_fee[$option->id], $additional_fee, true)) {
+                    continue;
                 }
-            }
 
-            do_action('tig_gls_update_options_' . $this->id . '_' . $current_section);
+                $option->update_option('additional_fee', $additional_fee[$option->id]);
+            }
         }
+
+        parent::save();
     }
 }
 

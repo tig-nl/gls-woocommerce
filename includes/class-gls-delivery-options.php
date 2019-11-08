@@ -151,6 +151,6 @@ class GLS_Delivery_Options
     {
         $delivery_fees = isset($_POST['additional_fee']) ? wc_clean($_POST['additional_fee']) : '';
 
-        update_option('gls_option_additional_fee', $delivery_fees);
+        update_option('tig_gls_option_additional_fee', $delivery_fees);
     }
 }
