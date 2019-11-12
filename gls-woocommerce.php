@@ -95,24 +95,7 @@ function tig_gls_shipping_method()
             public function init_form_fields()
             {
                 $this->form_fields = array(
-                    'test_mode'        => array(
-                        'title'   => __('Test mode', 'gls-woocommerce'),
-                        'type'    => 'checkbox',
-                        'label'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
-                        'default' => 'no'
-                    ),
-                    'username'         => array(
-                        'title' => __('Username', 'gls-woocommerce'),
-                        'type'  => 'text'
-                    ),
-                    'password'         => array(
-                        'title' => __('Password', 'gls-woocommerce'),
-                        'type'  => 'password'
-                    ),
-                    'subscription_key' => array(
-                        'title' => __('Subscription key', 'gls-woocommerce'),
-                        'type'  => 'password'
-                    )
+
                 );
             }
         }

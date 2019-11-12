@@ -50,6 +50,13 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         $this->label = _x('GLS', 'Settings tab label', 'gls-woocommerce');
 
         add_action(
+            'woocommerce_admin_field_services', array(
+                $this,
+                'services_settings'
+            )
+        );
+
+        add_action(
             'woocommerce_admin_field_delivery_options', array(
                 $this,
                 'delivery_options_settings'
@@ -67,7 +74,8 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
     public function get_sections()
     {
         $sections = array(
-            '' => __('GLS Configuration', 'gls-woocommerce'),
+            ''                 => __('API Configuration', 'gls-woocommerce'),
+            'delivery_options' => __('Delivery Options', 'gls-woocommerce')
         );
 
         return apply_filters('tig_gls_get_sections_' . $this->id, $sections);
@@ -86,11 +94,95 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
 
         if ('' === $current_section) {
             $settings = apply_filters(
+                'tig_gls_api_configuration_settings',
+                array(
+                    array(
+                        'title' => __('API Configuration', 'gls-woocommerce'),
+                        'desc'  => __('Add your API credentials to connect WooCommerce to the GLS API.', 'gls-woocommerce'),
+                        'type'  => 'title',
+                        'id'    => 'api_configuration_options'
+                    ),
+                    array(
+                        'title'   => __('Test mode', 'gls-woocommerce'),
+                        'type'    => 'checkbox',
+                        'label'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
+                        'default' => 'no',
+                        'id'      => 'tig_gls_api[test_mode]'
+                    ),
+                    array(
+                        'title' => __('Username', 'gls-woocommerce'),
+                        'type'  => 'text',
+                        'id'    => 'tig_gls_api[username]'
+                    ),
+                    array(
+                        'title' => __('Password', 'gls-woocommerce'),
+                        'type'  => 'password',
+                        'id'    => 'tig_gls_api[password]'
+                    ),
+                    array(
+                        'title' => __('Subscription key', 'gls-woocommerce'),
+                        'type'  => 'password',
+                        'id'    => 'tig_gls_api[subscription_key]'
+                    ),
+                    array(
+                        'type' => 'sectionend',
+                        'id'   => 'api_configuration_options'
+                    )
+                )
+            );
+        }
+
+        if ('delivery_options' === $current_section) {
+            $settings = apply_filters(
                 'tig_gls_delivery_options_settings',
                 array(
                     array(
-                        'title' => __('GLS Configuration', 'gls-woocommerce'),
-                        'desc'  => __('Add your API credentials to connect WooCommerce to the GLS API. Available delivery options are listed below and can be enabled/disabled to control their visibility on the frontend.', 'gls-woocommerce'),
+                        'title' => __('Services', 'gls-woocommerce'),
+                        'desc'  => __('Configure the display of the available delivery options in checkout.'),
+                        'type'  => 'title',
+                        'id'    => 'services_options'
+                    ),
+                    array(
+                        'title'   => __('Cut-off Time', 'gls-woocommerce'),
+                        'desc'    => __('Deadline at which an order can be placed in order to be processed.', 'gls-woocommerce'),
+                        'type'    => 'select',
+                        'id'      => 'tig_gls_services[cutoff_time]',
+                        'options' => $this->generateTimeIntervals(),
+                        'default' => '17:00'
+                    ),
+                    array(
+                        'title'   => __('Processing Time', 'gls-woocommerce'),
+                        'desc'    => __('The time (in days) it takes to process and package an order before it\'s shipped.', 'gls-woocommerce'),
+                        'type'    => 'number',
+                        'id'      => 'tig_gls_services[processing_time]',
+                        'min'     => '0',
+                        'default' => '0'
+                    ),
+                    array(
+                        'title'   => __('No. of Shops to Display', 'gls-woocommerce'),
+                        'desc'    => __('Number of ParcelShops to display in the ShopDelivery-tab in checkout.', 'gls-woocommerce'),
+                        'type'    => 'number',
+                        'id'      => 'tig_gls_services[display_shops]',
+                        'min'     => '1',
+                        'default' => '5'
+                    ),
+                    array(
+                        'title'   => __('Enable ShopReturnService'),
+                        'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label.'),
+                        'type'    => 'checkbox',
+                        'id'      => 'tig_gls_services[shop_return]',
+                        'default' => 'yes'
+                    ),
+                    array(
+                        'type' => 'services'
+                    ),
+                    array(
+                        'type' => 'sectionend',
+                        'id'   => 'services_options'
+                    ),
+                    array(
+                        'title' => __('Delivery Options', 'gls-woocommerce'),
+                        'desc'  => __('Available delivery options are listed below and can be enabled/disabled to control their visibility on the frontend.', 'gls-woocommerce'),
                         'type'  => 'title',
                         'id'    => 'delivery_options_options',
                     ),
@@ -100,12 +192,35 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     array(
                         'type' => 'sectionend',
                         'id'   => 'delivery_options_options',
-                    ),
+                    )
                 )
             );
         }
 
         return apply_filters('tig_gls_get_settings_' . $this->id, $settings, $current_section);
+    }
+
+    /**
+     * @param int    $lower
+     * @param int    $upper
+     * @param int    $step
+     * @param string $format
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function generateTimeIntervals($lower = 0, $upper = 86400, $step = 1800, $format = 'H:i')
+    {
+        $times = array();
+
+        foreach (range($lower, $upper, $step) as $interval) {
+            $increment = date('H:i', $interval);
+            list($hour, $minutes) = explode(':', $increment);
+            $date                       = new DateTime($hour . ':' . $minutes);
+            $times[(string) $increment] = $date->format($format);
+        }
+
+        return $times;
     }
 
     /**
@@ -115,7 +230,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
     {
         global $current_section;
 
-        // Load gateways so we can show any global options they may have.
+        // Load options so we can show any global options they may have.
         $delivery_options = GLS()->delivery_options->delivery_options();
 
         if ($current_section) {
@@ -126,7 +241,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     sanitize_title(get_class($option))
                 ), true
                 )) {
-                    if (isset($_GET['toggle_enabled'])) { // WPCS: input var ok, CSRF ok.
+                    if (isset($_GET['toggle_enabled'])) {
                         $enabled = $option->get_option('enabled');
 
                         if ($enabled) {
@@ -140,6 +255,15 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         }
         $settings = $this->get_settings($current_section);
         WC_Admin_Settings::output_fields($settings);
+    }
+
+    public function services_settings()
+    {
+        ?>
+        <tbody>
+
+        </tbody>
+        <?php
     }
 
     /**
@@ -188,7 +312,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                             }
 
                             $method_title   = $option->get_method_title() ?: $option->get_title();
-                            $additional_fee = $option->get_additional_fee();
+                            $additional_fee = $option->get_additional_fee() ?: 0;
 
                             echo '<td class="' . esc_attr($key) . '" width="' . esc_attr($width) . '">';
 
@@ -200,7 +324,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                                     echo wp_kses_post($option->get_method_description());
                                     break;
                                 case 'additional_fee':
-                                    echo "<input type='number' min='0' value='$additional_fee' name='additional_fee[$option->id]' />";
+                                    echo "<input type='number' value='$additional_fee' name='additional_fee[$option->id]' />";
                                     break;
                                 case 'status':
                                     echo '<a class="gls-delivery-option-method-toggle-enabled" href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=tig_gls&section=' . strtolower($option->id))) . '">';
@@ -231,10 +355,12 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
      */
     public function save()
     {
-        // TODO: Fix bug where settings aren't updated after saving changes. They are updated in the database, however...
+        global $current_section;
+
+        // TODO: Fix bug where updated settings aren't show immediately after saving changes. They are updated in the database, however...
         if (current_user_can('manage_woocommerce') && isset($_POST['additional_fee'])) {
             $delivery_options = GLS()->delivery_options->delivery_options();
-            $additional_fee = wc_clean(wp_unslash($_POST['additional_fee']));
+            $additional_fee   = wc_clean(wp_unslash($_POST['additional_fee']));
 
             foreach ($delivery_options as $option) {
                 if (!array_search($additional_fee[$option->id], $additional_fee, true)) {
@@ -244,6 +370,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                 $option->update_option('additional_fee', $additional_fee[$option->id]);
             }
         }
+
+        // TODO: Encrypt storage of passwords in database.
+        $settings = $this->get_settings($current_section);
+        WC_Admin_Settings::save_fields($settings);
 
         parent::save();
     }
