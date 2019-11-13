@@ -49,8 +49,18 @@ class GLS_AJAX extends WC_AJAX
      */
     public static function init()
     {
-        add_action('init', array(__CLASS__, 'define_ajax'), 0);
-        add_action('template_redirect', array(__CLASS__, 'do_wc_ajax'), 0);
+        add_action(
+            'init', array(
+            __CLASS__,
+            'define_ajax'
+        ), 0
+        );
+        add_action(
+            'template_redirect', array(
+            __CLASS__,
+            'do_wc_ajax'
+        ), 0
+        );
         self::add_ajax_events();
     }
 
@@ -59,7 +69,8 @@ class GLS_AJAX extends WC_AJAX
      */
     public static function add_ajax_events()
     {
-        $ajax_events_nopriv = array(// TODO: Update shipping costs using AJAX in checkout.
+        $ajax_events_nopriv = array(
+            'update_delivery_options'
         );
 
         foreach ($ajax_events_nopriv as $ajax_event) {
@@ -99,6 +110,15 @@ class GLS_AJAX extends WC_AJAX
         }
     }
 
+    public static function update_delivery_options()
+    {
+        check_ajax_referer('update-delivery-options', 'security');
+
+        $response = GLS()->api_delivery_options()->call();
+
+        return $response;
+    }
+
     /**
      * Toggle delivery option on or off via AJAX.
      *
@@ -108,13 +128,18 @@ class GLS_AJAX extends WC_AJAX
     {
         if (current_user_can('manage_woocommerce') && check_ajax_referer('gls-toggle-delivery-option-enabled', 'security') && isset($_POST['option_id'])) {
             $delivery_options = GLS()->delivery_options->delivery_options();
-            $option_id = wc_clean(wp_unslash($_POST['option_id']));
+            $option_id        = wc_clean(wp_unslash($_POST['option_id']));
 
             foreach ($delivery_options as $option) {
-                if (!in_array($option_id, array($option->id, sanitize_title(get_class($option))), true)) {
+                if (!in_array(
+                    $option_id, array(
+                    $option->id,
+                    sanitize_title(get_class($option))
+                ), true
+                )) {
                     continue;
                 }
-                
+
                 $enabled = $option->get_option('enabled', 'no');
 
                 if (!wc_string_to_bool($enabled)) {

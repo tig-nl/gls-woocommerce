@@ -73,7 +73,7 @@ class GLS_Delivery_Options
      */
     public function __clone()
     {
-        wc_doing_it_wrong(__FUNCTION__, __('Cloning is forbidden.', 'woocommerce'), '2.1');
+        wc_doing_it_wrong(__FUNCTION__, __('Cloning is forbidden.', 'woocommerce'), '1.0');
     }
 
     /**
@@ -83,7 +83,7 @@ class GLS_Delivery_Options
      */
     public function __wakeup()
     {
-        wc_doing_it_wrong(__FUNCTION__, __('Unserializing instances of this class is forbidden.', 'woocommerce'), '2.1');
+        wc_doing_it_wrong(__FUNCTION__, __('Unserializing instances of this class is forbidden.', 'woocommerce'), '1.0');
     }
 
     /**

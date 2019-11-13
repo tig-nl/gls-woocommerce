@@ -76,7 +76,7 @@ final class GLS
      */
     public function __clone()
     {
-        wc_doing_it_wrong(__FUNCTION__, __('Cloning is forbidden.', 'woocommerce'), '2.1');
+        wc_doing_it_wrong(__FUNCTION__, __('Cloning is forbidden.', 'woocommerce'), '1.0');
     }
 
     /**
@@ -84,7 +84,7 @@ final class GLS
      */
     public function __wakeup()
     {
-        wc_doing_it_wrong(__FUNCTION__, __('Unserializing instances of this class is forbidden.', 'woocommerce'), '2.1');
+        wc_doing_it_wrong(__FUNCTION__, __('Unserializing instances of this class is forbidden.', 'woocommerce'), '1.0');
     }
 
     /**
@@ -134,6 +134,27 @@ final class GLS
     }
 
     /**
+     * Returns true if the request is a non-legacy REST API request.
+     *
+     * Legacy REST requests should still run some extra code for backwards compatibility.
+     *
+     * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
+     *
+     * @return bool
+     */
+    public function is_rest_api_request()
+    {
+        if (empty($_SERVER['REQUEST_URI'])) {
+            return false;
+        }
+
+        $rest_prefix         = trailingslashit(rest_get_url_prefix());
+        $is_rest_api_request = (false !== strpos($_SERVER['REQUEST_URI'], $rest_prefix)); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+        return apply_filters('tig_gls_is_rest_api_request', $is_rest_api_request);
+    }
+
+    /**
      * What type of request is this?
      *
      * @param string $type admin, ajax, cron or frontend.
@@ -180,6 +201,21 @@ final class GLS
         if ($this->is_request('admin')) {
             include_once GLS_ABSPATH . 'includes/admin/class-gls-admin.php';
         }
+
+        /**
+         * Frontend classes.
+         */
+        if ($this->is_request('frontend')) {
+            $this->frontend_includes();
+        }
+    }
+
+    /**
+     * Include required frontend files.
+     */
+    public function frontend_includes()
+    {
+        include_once GLS_ABSPATH . 'includes/class-gls-frontend-scripts.php';
     }
 
     /**
@@ -228,5 +264,23 @@ final class GLS
     public function delivery_options()
     {
         return GLS_Delivery_Options::instance();
+    }
+
+    /**
+     * Get available Delivery Options from API.
+     *
+     * @return GLS_Api
+     */
+    public function api_delivery_options()
+    {
+        // TODO: Get shippingDate dynamically.
+        $body = array(
+            'countryCode'  => $_POST['country'],
+            'langCode'     => 'nl',
+            'zipCode'      => $_POST['postcode'],
+            'shippingDate' => date('Y-m-d')
+        );
+
+        return GLS_Api::instance('DeliveryOptions/GetDeliveryOptions', $body);
     }
 }
