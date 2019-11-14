@@ -32,7 +32,9 @@
 ?>
 <h3 id="delivery_options_heading"><?php _e("Shipping Options", "gls-woocommerce"); ?></h3>
 <div id="delivery_options" class="gls-woocommerce-checkout-delivery-options">
-    <div class="gls-woocommerce-tabs">
+    <div class="gls-error error">
+    </div>
+    <div class="gls-tabs">
         <div class="gls-tab gls-tab-delivery active">
             <span><?php _e('Delivery', 'gls-woocommerce'); ?></span>
             <strong>%%fee%%</strong>

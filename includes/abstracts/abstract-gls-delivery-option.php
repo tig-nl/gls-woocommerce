@@ -36,6 +36,10 @@ if (!defined('ABSPATH')) {
 
 abstract class GLS_Delivery_Option extends WC_Settings_API
 {
+    const GLS_DELIVERY_OPTION_EXPRESS_LABEL  = 'ExpressService';
+
+    const GLS_DELIVERY_OPTION_SATURDAY_LABEL = 'SaturdayService';
+
     /**
      * Yes or no based on whether the option is enabled.
      *

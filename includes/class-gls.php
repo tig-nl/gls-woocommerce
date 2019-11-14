@@ -280,11 +280,37 @@ final class GLS
          * Compare currentTime to cutOff time
          * Add processingTime to currentDate.
          */
+        $timezone_string = get_option('timezone_string');
+        $gmt_offset      = get_option('gmt_offset');
+
+        if (empty($timezone_string) && 0 != $gmt_offset && floor($gmt_offset) == $gmt_offset) {
+            $offset_st       = $gmt_offset > 0 ? "-$gmt_offset" : '+' . absint($gmt_offset);
+            $timezone_string = 'Etc/GMT' . $offset_st;
+        }
+
+        if (empty($timezone_string)) {
+            $timezone_string = 'UTC';
+        }
+
+        $timezone      = new DateTimeZone($timezone_string);
+        $date_time     = new DateTime(null, $timezone);
+        $current_time  = $date_time->format('H:m:s');
+        $cutoff_time   = get_option('tig_gls_services')['cutoff_time'];
+        $shipping_date = $date_time;
+
+        if ($processingTime = get_option('tig_gls_services')['processing_time']) {
+            $shipping_date->modify("+ $processingTime days");
+        }
+
+        if ($current_time > $cutoff_time) {
+            $shipping_date->modify("+ 1 days");
+        }
+
         $body = array(
             'countryCode'  => wc_clean(wp_unslash($_POST['country'])),
             'langCode'     => 'nl',
             'zipCode'      => wc_clean(wp_unslash($_POST['postcode'])),
-            'shippingDate' => date('Y-m-d')
+            'shippingDate' => $shipping_date->format('Y-m-d')
         );
 
         return GLS_Api::instance('DeliveryOptions/GetDeliveryOptions', $body);

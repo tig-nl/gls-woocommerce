@@ -119,8 +119,9 @@ class GLS_AJAX extends WC_AJAX
 
         $response = GLS()->api_delivery_options()->call();
 
-        if ($response->error) {
-            wp_send_json_error($response->message, $response->status);
+        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
+            $code = $response->statusCode ?: 400;
+            wp_send_json_error($response->message, $code);
         }
 
         $available_delivery_options = $response->deliveryOptions;
@@ -130,25 +131,87 @@ class GLS_AJAX extends WC_AJAX
             // BusinessParcel (default)
             if (!isset($option->service)) {
                 $delivery_options[] = $option;
+
+                continue;
+            }
+
+            $saturdayServiceEnabled = false;
+            $expressServiceEnabled  = false;
+
+            // ExpressService
+            if (self::any_express_services_enabled($enabled_delivery_options)
+                && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL
+            ) {
+                $expressServiceEnabled = true;
             }
 
             // SaturdayService
-            if (isset($option->service) && !isset($option->subDeliveryOptions)) {
-                // TODO: Check if any SaturdayServices are enabled.
+            if (self::any_saturday_services_enabled($enabled_delivery_options)
+                && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL
+            ) {
                 $delivery_options[] = $option;
+                $saturdayServiceEnabled = true;
+            }
+
+            /**
+             * If no Express or Saturday Services are enabled, there's no need to render sub delivery options.
+             */
+            if ($option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL && !$expressServiceEnabled
+                || $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL && !$saturdayServiceEnabled
+            ) {
+                continue;
             }
 
             // (Saturday)ExpressServices
-            if (isset($option->service) && isset($option->subDeliveryOptions)) {
-                $option->subDeliveryOptions = self::filter_sub_delivery_options(
+            if (isset($option->subDeliveryOptions)) {
+                $option->subDeliveryOptions = array_values(self::filter_sub_delivery_options(
                     $option->subDeliveryOptions, $enabled_delivery_options
-                );
+                ));
 
-                $delivery_options[] = $option;
+                if (count($option->subDeliveryOptions) > 0) {
+                    $delivery_options[] = $option;
+                }
             }
         };
 
         wp_send_json_success($delivery_options, $response->status);
+    }
+
+    /**
+     * @param $enabled_options
+     * @param $options
+     *
+     * @return bool|void
+     */
+    private static function is_service_enabled($enabled_options, $options)
+    {
+        foreach ($enabled_options as $option) {
+            if (in_array($option->id, $options)) {
+                return true;
+            }
+        }
+    }
+
+    /**
+     * @param       $enabled_options
+     * @param array $options
+     *
+     * @return bool
+     */
+    private static function any_saturday_services_enabled($enabled_options, $options = ['gls_s9', 'gls_s12', 'gls_s17'])
+    {
+        return self::is_service_enabled($enabled_options, $options);
+    }
+
+    /**
+     * @param       $enabled_options
+     * @param array $options
+     *
+     * @return bool
+     */
+    private static function any_express_services_enabled($enabled_options, $options = ['gls_t9', 'gls_t12', 'gls_t17'])
+    {
+        return self::is_service_enabled($enabled_options, $options);
     }
 
     /**
@@ -165,11 +228,6 @@ class GLS_AJAX extends WC_AJAX
                 return self::is_express_service_enabled($enabled_options, $option);
             }
         );
-    }
-
-    private static function is_saturday_service_enabled($enabled_option, &$option)
-    {
-
     }
 
     /**
@@ -214,7 +272,7 @@ class GLS_AJAX extends WC_AJAX
                         $option->update_option('enabled', 'yes');
                     }
                 } else {
-                    // Disable the gateway.
+                    // Disable the option.
                     $option->update_option('enabled', 'no');
                 }
 

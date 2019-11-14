@@ -15,6 +15,7 @@ jQuery(
             $delivery_option: $('.gls-delivery-option'),
             $parcel_shops_container: $('.gls-parcel-shops'),
             $parcel_shop: $('.gls-parcel-shop'),
+            $error_container: $('.gls-error'),
 
             init: function () {
                 $(document.body).bind('update_delivery_options', this.update_delivery_options);
@@ -96,10 +97,11 @@ jQuery(
                             }
                         },
                         success: function (options) {
+                            gls_delivery_options_form.$error_container.hide();
                             options.data.forEach(gls_delivery_options_form.display_delivery_option);
                         },
                         error: function (message) {
-
+                            gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
                         }
                     }
                 );
