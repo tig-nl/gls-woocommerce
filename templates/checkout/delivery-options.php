@@ -29,30 +29,59 @@
  * @copyright   Copyright (c) Total Internet Group B.V. https://tig.nl/copyright
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-
-$deliveryOptions = GLS()->api_delivery_options()->call();
 ?>
 <h3 id="delivery_options_heading"><?php _e("Shipping Options", "gls-woocommerce"); ?></h3>
 <div id="delivery_options" class="gls-woocommerce-checkout-delivery-options">
-    <?php if (isset($deliveryOptions->deliveryOptions) && count($deliveryOptions->deliveryOptions) > 0): ?>
-        <?php $options = $deliveryOptions->deliveryOptions; ?>
-        <?php foreach ($options as $option): ?>
-            <div class="container gls-delivery-service">
-                <?php if (isset($option->subDeliveryOptions)): ?>
-                    <strong class="gls-sub-delivery-options-title"><?= $option->title; ?></strong>
-                <?php else: ?>
-                    <input type="radio" name="gls_delivery_option" class="radio" value="<?= $option->expectedDeliveryDate; ?>" id="default"/>
-                    <label for="default"><?= $option->title; ?></label>
-                <?php endif; ?>
-                <?php if (isset($option->subDeliveryOptions)): ?>
-                    <?php foreach ($option->subDeliveryOptions as $subOption): ?>
-                        <div class="gls-woocommerce-sub-delivery-options">
-                            <input type="radio" name="gls_delivery_option" class="radio" value="<?= $subOption->service; ?>" id="<?= $subOption->service; ?>"/>
-                            <label for=<?= $subOption->service; ?>><?= $subOption->title; ?></label>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+    <div class="gls-woocommerce-tabs">
+        <div class="gls-tab gls-tab-delivery active">
+            <span><?php _e('Delivery', 'gls-woocommerce'); ?></span>
+            <strong>%%fee%%</strong>
+        </div>
+        <div class="gls-tab gls-tab-pickup">
+            <span><?php _e('Pick up', 'gls-woocommerce'); ?></span>
+            <strong>%%fee%%</strong>
+        </div>
+    </div>
+    <div class="gls-services">
+        <div class="gls-delivery-options">
+            <div class="container gls-delivery-option" style="display: none;">
+                <strong class="gls-sub-delivery-options-title" style="display: none;">%%title%%</strong>
+
+                <input type="radio" name="gls_delivery_option" class="radio" value="%%serviceCode%%" id="default"/>
+                <label class="label" for="default">%%title%%</label>
+                <span class="delivery-fee">%%fee%%</span>
+
+                <div class="gls-sub-delivery-options">
+                    <div class="gls-sub-delivery-option" style="display: none;">
+                        <input type="radio" name="gls_delivery_option" class="radio" value="%%service%%" id="%%service%%" />
+                        <label class="sub-label" for="%%service%%">%%title%%</label>
+                        <span class="delivery-fee">%%fee%%</span>
+                    </div>
+                </div>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+        </div>
+        <div class="gls-parcel-shops">
+            <div class="container gls-parcel-shop" style="display: none;">
+                <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId" id="shop_%%parcelShopId%%" />
+                <label for="shop_%%parcelShopId%%"></label><br/>
+
+                <div class="address-information">
+                    <span class="street">%%street%% %%houseNo%%</span>
+                    <span class="city">%%zipcode %%city%%</span>
+                    <span class="distance-meters">%%distanceMeters%% m</span>
+                </div>
+
+                <a class="open-business-hours"><?php _e('Show business hours', 'gls-woocommerce'); ?></a>
+                <div class="table container">
+                    <a class="close" onclick="closeBusinessHours(this)"><?php _e('Close', 'gls-woocommerce'); ?></a>
+                    <div class="table" style="display: none;">
+                        <div class="row">
+                            <div class="cell">%%dayOfWeek%%</div>
+                            <div class="cell">%%openTime%% - %%closedTime%%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

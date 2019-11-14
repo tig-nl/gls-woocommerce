@@ -273,11 +273,17 @@ final class GLS
      */
     public function api_delivery_options()
     {
-        // TODO: Get shippingDate dynamically.
+        /**
+         * TODO: Get shippingDate dynamically.
+         *
+         * Create \DateTime object for current locale
+         * Compare currentTime to cutOff time
+         * Add processingTime to currentDate.
+         */
         $body = array(
-            'countryCode'  => $_POST['country'],
+            'countryCode'  => wc_clean(wp_unslash($_POST['country'])),
             'langCode'     => 'nl',
-            'zipCode'      => $_POST['postcode'],
+            'zipCode'      => wc_clean(wp_unslash($_POST['postcode'])),
             'shippingDate' => date('Y-m-d')
         );
 

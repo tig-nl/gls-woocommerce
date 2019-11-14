@@ -11,6 +11,11 @@ jQuery(
             xhr: false,
             $order_review: $('#order_review'),
             $checkout_form: $('form.checkout'),
+            $delivery_options_container: $('.gls-delivery-options'),
+            $delivery_option: $('.gls-delivery-option'),
+            $sub_delivery_option: $('.gls-sub-delivery-option'),
+            $parcel_shops_container: $('.gls-parcel-shops'),
+            $parcel_shop: $('.gls-parcel-shop'),
 
             init: function () {
                 $(document.body).bind('update_delivery_options', this.update_delivery_options);
@@ -80,11 +85,64 @@ jQuery(
                         url: gls_checkout_params.wc_ajax_url.toString().replace(
                             '%%endpoint%%', 'update_delivery_options'),
                         data: data,
-                        success: function (response) {
-                            return response;
+                        success: function (options) {
+                            options.data.forEach(gls_delivery_options_form.display_delivery_option);
+                        },
+                        error: function (message) {
+
                         }
                     }
                 );
+            },
+
+            display_delivery_option: function(option) {
+                gls_delivery_options_form.map_delivery_option_attributes(option);
+            },
+
+            map_delivery_option_attributes: function(option) {
+                template = this.$delivery_option.clone(true);
+
+                option_input = template.children('.gls-delivery-option > input');
+                option_title = template.children('.gls-delivery-option > label');
+                option_fee   = template.children('.gls-delivery-option > .delivery-fee');
+                service_code = option.service !== 'undefined' ? option.service : 'default';
+
+                option_input.val(service_code);
+                option_input.attr('id', service_code);
+                option_title.attr('for', service_code);
+                option_title.text(option.title);
+
+                if (option.subDeliveryOptions !== undefined) {
+                    sub_option_title = template.children('.gls-delivery-option > strong');
+                    sub_option_title.text(option.title).show();
+                    option_fee.remove();
+                    option_input.remove();
+                    option_title.remove();
+
+                    var i = 0;
+                    option.subDeliveryOptions.forEach(function(sub_option) {
+                        gls_delivery_options_form.map_sub_delivery_attributes(sub_option, template, template.find('.gls-sub-delivery-options > .gls-sub-delivery-option')[i]);
+                        i++;
+                    });
+                }
+
+                template.appendTo(this.$delivery_options_container).show();
+            },
+
+            map_sub_delivery_attributes: function(sub_option, parent_template, template) {
+                container    = jQuery(parent_template).find('.gls-sub-delivery-options');
+                sub_template = jQuery(template).clone(true);
+
+                option_input = sub_template.children('.gls-sub-delivery-option > input');
+                option_title = sub_template.children('.gls-sub-delivery-option > label');
+                option_fee   = sub_template.children('.gls-sub-delivery-option .delivery-fee');
+
+                jQuery(option_input).val(sub_option.service);
+                jQuery(option_input).attr('id', sub_option.service);
+                jQuery(option_title).attr('for', sub_option.service);
+                jQuery(option_title).text(sub_option.title);
+
+                sub_template.appendTo(container).show();
             }
         };
 

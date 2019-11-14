@@ -116,7 +116,11 @@ class GLS_AJAX extends WC_AJAX
 
         $response = GLS()->api_delivery_options()->call();
 
-        return $response;
+        if ($response->error) {
+            wp_send_json_error($response->message, $response->status);
+        }
+
+        wp_send_json_success($response->deliveryOptions, $response->status);
     }
 
     /**
