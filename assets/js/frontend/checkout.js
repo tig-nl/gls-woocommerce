@@ -7,13 +7,12 @@ jQuery(
         }
 
         var gls_delivery_options_form = {
-            selectedDeliveryOption: false,
+            selected_delivery_option: false,
             xhr: false,
             $order_review: $('#order_review'),
             $checkout_form: $('form.checkout'),
             $delivery_options_container: $('.gls-delivery-options'),
             $delivery_option: $('.gls-delivery-option'),
-            $sub_delivery_option: $('.gls-sub-delivery-option'),
             $parcel_shops_container: $('.gls-parcel-shops'),
             $parcel_shop: $('.gls-parcel-shop'),
 
@@ -34,11 +33,11 @@ jQuery(
                 var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked').attr('id');
 
                 if (selectedDeliveryOption !==
-                    gls_delivery_options_form.selectedDeliveryOption) {
+                    gls_delivery_options_form.selected_delivery_option) {
                     $(document.body).trigger('delivery_option_selected');
                 }
 
-                gls_delivery_options_form.selectedDeliveryOption = selectedDeliveryOption;
+                gls_delivery_options_form.selected_delivery_option = selectedDeliveryOption;
             },
 
             trigger_update_delivery_options: function () {
@@ -56,7 +55,7 @@ jQuery(
                 gls_delivery_options_form.updateTimer = setTimeout(gls_delivery_options_form.update_delivery_options_action, '5', args);
             },
 
-            update_delivery_options_action: function (args) {
+            update_delivery_options_action: function () {
                 if (gls_delivery_options_form.xhr) {
                     gls_delivery_options_form.xhr.abort();
                 }
@@ -85,6 +84,17 @@ jQuery(
                         url: gls_checkout_params.wc_ajax_url.toString().replace(
                             '%%endpoint%%', 'update_delivery_options'),
                         data: data,
+                        beforeSend: function() {
+                            // Remove any options that we're retrieved in a previous call.
+                            currentOptions = gls_delivery_options_form.$delivery_options_container.children();
+
+                            if (currentOptions.length > 1) {
+                                var i;
+                                for (i = 1; i < currentOptions.length; i++) {
+                                    currentOptions[i].remove();
+                                }
+                            }
+                        },
                         success: function (options) {
                             options.data.forEach(gls_delivery_options_form.display_delivery_option);
                         },
@@ -129,7 +139,7 @@ jQuery(
                 template.appendTo(this.$delivery_options_container).show();
             },
 
-            map_sub_delivery_attributes: function(sub_option, parent_template, template) {
+            map_sub_delivery_attributes: function(option, parent_template, template) {
                 container    = jQuery(parent_template).find('.gls-sub-delivery-options');
                 sub_template = jQuery(template).clone(true);
 
@@ -137,10 +147,10 @@ jQuery(
                 option_title = sub_template.children('.gls-sub-delivery-option > label');
                 option_fee   = sub_template.children('.gls-sub-delivery-option .delivery-fee');
 
-                jQuery(option_input).val(sub_option.service);
-                jQuery(option_input).attr('id', sub_option.service);
-                jQuery(option_title).attr('for', sub_option.service);
-                jQuery(option_title).text(sub_option.title);
+                jQuery(option_input).val(option.service);
+                jQuery(option_input).attr('id', option.service);
+                jQuery(option_title).attr('for', option.service);
+                jQuery(option_title).text(option.title);
 
                 sub_template.appendTo(container).show();
             }
