@@ -110,6 +110,9 @@ class GLS_AJAX extends WC_AJAX
         }
     }
 
+    /**
+     *
+     */
     public static function update_delivery_options()
     {
         check_ajax_referer('update-delivery-options', 'security');
@@ -120,7 +123,64 @@ class GLS_AJAX extends WC_AJAX
             wp_send_json_error($response->message, $response->status);
         }
 
-        wp_send_json_success($response->deliveryOptions, $response->status);
+        $available_delivery_options = $response->deliveryOptions;
+        $enabled_delivery_options = GLS()->delivery_options()->enabled_delivery_options();
+
+        foreach ($available_delivery_options as &$option) {
+            // BusinessParcel (default)
+            if (!isset($option->service)) {
+                $delivery_options[] = $option;
+            }
+
+            // SaturdayService
+            if (isset($option->service) && !isset($option->subDeliveryOptions)) {
+                // TODO: Check if any SaturdayServices are enabled.
+                $delivery_options[] = $option;
+            }
+
+            // (Saturday)ExpressServices
+            if (isset($option->service) && isset($option->subDeliveryOptions)) {
+                $option->subDeliveryOptions = self::filter_sub_delivery_options(
+                    $option->subDeliveryOptions, $enabled_delivery_options
+                );
+
+                $delivery_options[] = $option;
+            }
+        };
+
+        wp_send_json_success($delivery_options, $response->status);
+    }
+
+    /**
+     * @param $options
+     * @param $enabled_options
+     *
+     * @return array
+     */
+    private static function filter_sub_delivery_options(&$options, $enabled_options)
+    {
+        return array_filter(
+            $options,
+            function (&$option) use ($enabled_options) {
+                return self::is_express_service_enabled($enabled_options, $option);
+            }
+        );
+    }
+
+    private static function is_saturday_service_enabled($enabled_option, &$option)
+    {
+
+    }
+
+    /**
+     * @param $enabled_options
+     * @param $option
+     *
+     * @return bool
+     */
+    private static function is_express_service_enabled($enabled_options, &$option)
+    {
+        return array_key_exists('gls_' . strtolower($option->service), $enabled_options);
     }
 
     /**

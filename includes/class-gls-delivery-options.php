@@ -144,4 +144,19 @@ class GLS_Delivery_Options
 
         return $_available_delivery_options;
     }
+
+    public function enabled_delivery_options()
+    {
+        $enabled_delivery_options = array();
+
+        if (count($this->delivery_options) > 0) {
+            foreach ($this->delivery_options as $option) {
+                if ($option->enabled === 'yes' && $option->id !== 'gls_shop_delivery') {
+                    $enabled_delivery_options[$option->id] = $option;
+                }
+            }
+        }
+
+        return $enabled_delivery_options;
+    }
 }
