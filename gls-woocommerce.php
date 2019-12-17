@@ -120,30 +120,28 @@ add_filter('woocommerce_shipping_methods', 'tig_gls_add_shipping_method');
 
 /**
  * We're wrapping the initialization in this function, which will be triggered
- * when all plugins are loaded. This way we are sure that this plugin is loaded
- * after WooCommerce.
+ * when all plugins (and WooCommerce) are loaded. This way we are sure that this
+ * plugin is loaded after WooCommerce.
  */
 function tig_gls_init_after_woocommerce()
 {
-    if (class_exists('WooCommerce')) {
-        if (!class_exists('GLS', false)) {
-            include_once dirname(__FILE__) . '/includes/class-gls.php';
-        }
-
-        /**
-         * Return the Main Instance of GLS
-         *
-         * @return GLS
-         */
-        function GLS()
-        { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-            return GLS::instance();
-        }
-
-        // Global for backwards compatibility.
-        $GLOBALS['tig_gls'] = GLS();
+    if (!class_exists('GLS', false)) {
+        include_once dirname(__FILE__) . '/includes/class-gls.php';
     }
+
+    /**
+     * Return the Main Instance of GLS
+     *
+     * @return GLS
+     */
+    function GLS()
+    { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+        return GLS::instance();
+    }
+
+    // Global for backwards compatibility.
+    $GLOBALS['tig_gls'] = GLS();
 }
 
-add_action('plugins_loaded', 'tig_gls_init_after_woocommerce');
+add_action('woocommerce_loaded', 'tig_gls_init_after_woocommerce');
 

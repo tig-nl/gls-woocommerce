@@ -49,18 +49,10 @@ class GLS_AJAX extends WC_AJAX
      */
     public static function init()
     {
-        add_action(
-            'init', array(
-            __CLASS__,
-            'define_ajax'
-        ), 0
-        );
-        add_action(
-            'template_redirect', array(
-            __CLASS__,
-            'do_wc_ajax'
-        ), 0
-        );
+        // @formatter:off
+        add_action('init', array(__CLASS__, 'define_ajax'), 0);
+        add_action('template_redirect', array(__CLASS__, 'do_wc_ajax'), 0);
+        // @formatter:on
         self::add_ajax_events();
     }
 
@@ -74,39 +66,18 @@ class GLS_AJAX extends WC_AJAX
         );
 
         foreach ($ajax_events_nopriv as $ajax_event) {
-            add_action(
-                'wp_ajax_woocommerce_' . $ajax_event, array(
-                    __CLASS__,
-                    $ajax_event
-                )
-            );
-            add_action(
-                'wp_ajax_nopriv_woocommerce_' . $ajax_event, array(
-                    __CLASS__,
-                    $ajax_event
-                )
-            );
-
+            // @formatter:off
+            add_action('wp_ajax_woocommerce_' . $ajax_event, array(__CLASS__, $ajax_event));
+            add_action('wp_ajax_nopriv_woocommerce_' . $ajax_event, array(__CLASS__, $ajax_event));
             // GLS AJAX can be used for frontend ajax requests.
-            add_action(
-                'wc_ajax_' . $ajax_event, array(
-                    __CLASS__,
-                    $ajax_event
-                )
-            );
+            add_action('wc_ajax_' . $ajax_event, array(__CLASS__, $ajax_event));
         }
 
-        $ajax_events = array(
-            'toggle_option_enabled',
-        );
+        $ajax_events = array('toggle_option_enabled');
 
         foreach ($ajax_events as $ajax_event) {
-            add_action(
-                'wp_ajax_woocommerce_' . $ajax_event, array(
-                    __CLASS__,
-                    $ajax_event
-                )
-            );
+            add_action('wp_ajax_woocommerce_' . $ajax_event, array(__CLASS__, $ajax_event));
+            // @formatter:on
         }
     }
 
