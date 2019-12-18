@@ -123,6 +123,8 @@ jQuery(
                 option_input.attr('id', service_code);
                 option_title.attr('for', service_code);
                 option_title.text(option.title);
+                option_input.attr('data-fee', option.fee);
+                option_fee.text(option.formatted_fee);
 
                 if (option.subDeliveryOptions !== undefined) {
                     sub_option_title = template.children('.gls-delivery-option > strong');
@@ -153,6 +155,8 @@ jQuery(
                 jQuery(option_input).attr('id', option.service);
                 jQuery(option_title).attr('for', option.service);
                 jQuery(option_title).text(option.title);
+                jQuery(option_input).attr('data-fee', option.fee);
+                jQuery(option_fee).text(option.formatted_fee);
 
                 sub_template.appendTo(container).show();
             }
