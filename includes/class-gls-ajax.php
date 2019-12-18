@@ -111,8 +111,6 @@ class GLS_AJAX extends WC_AJAX
         if (is_admin() && !defined('DOING_AJAX'))
             return;
 
-        $session  = WC()->session;
-
         WC()->session->set('gls_service_fee', $_POST['fee']);
 
         wp_die();
