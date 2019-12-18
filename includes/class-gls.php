@@ -223,7 +223,7 @@ final class GLS
      */
     private function init_hooks()
     {
-        // None necessary yet.
+        add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
     }
 
     /**
@@ -267,19 +267,13 @@ final class GLS
     }
 
     /**
-     * Get available Delivery Options from API.
+     * Get available delivery options from API.
      *
      * @return GLS_Api
+     * @throws Exception
      */
     public function api_delivery_options()
     {
-        /**
-         * TODO: Get shippingDate dynamically.
-         *
-         * Create \DateTime object for current locale
-         * Compare currentTime to cutOff time
-         * Add processingTime to currentDate.
-         */
         $timezone_string = get_option('timezone_string');
         $gmt_offset      = get_option('gmt_offset');
 

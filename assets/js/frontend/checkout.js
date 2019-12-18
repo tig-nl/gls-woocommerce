@@ -31,7 +31,7 @@ jQuery(
             delivery_option_selected: function (e) {
                 e.stopPropagation();
 
-                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked').attr('id');
+                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked');
 
                 if (selectedDeliveryOption !==
                     gls_delivery_options_form.selected_delivery_option) {
@@ -39,6 +39,23 @@ jQuery(
                 }
 
                 gls_delivery_options_form.selected_delivery_option = selectedDeliveryOption;
+
+                gls_delivery_options_form.xhr = $.ajax(
+                    {
+                        type: 'POST',
+                        url: gls_checkout_params.wc_ajax_url.toString().replace(
+                            '%%endpoint%%', 'delivery_option_selected'),
+                        data: {
+                            title: selectedDeliveryOption.data('title'),
+                            option: selectedDeliveryOption.val(),
+                            fee: selectedDeliveryOption.data('fee')
+                        },
+                        success: function() {
+                            gls_delivery_options_form.$error_container.hide();
+                            $(document.body).trigger( 'update_checkout');
+                        }
+                    }
+                );
             },
 
             trigger_update_delivery_options: function () {
@@ -124,7 +141,8 @@ jQuery(
                 option_title.attr('for', service_code);
                 option_title.text(option.title);
                 option_input.attr('data-fee', option.fee);
-                option_fee.text(option.formatted_fee);
+                option_input.attr('data-title', option.title);
+                option_fee.html(option.formatted_fee);
 
                 if (option.subDeliveryOptions !== undefined) {
                     sub_option_title = template.children('.gls-delivery-option > strong');
@@ -156,7 +174,8 @@ jQuery(
                 jQuery(option_title).attr('for', option.service);
                 jQuery(option_title).text(option.title);
                 jQuery(option_input).attr('data-fee', option.fee);
-                jQuery(option_fee).text(option.formatted_fee);
+                jQuery(option_input).attr('data-title', option.title);
+                jQuery(option_fee).html(option.formatted_fee);
 
                 sub_template.appendTo(container).show();
             }

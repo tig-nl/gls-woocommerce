@@ -62,7 +62,8 @@ class GLS_AJAX extends WC_AJAX
     public static function add_ajax_events()
     {
         $ajax_events_nopriv = array(
-            'update_delivery_options'
+            'update_delivery_options',
+            'delivery_option_selected'
         );
 
         foreach ($ajax_events_nopriv as $ajax_event) {
@@ -100,6 +101,21 @@ class GLS_AJAX extends WC_AJAX
         $delivery_options = GLS()->delivery_options()->delivery_options($available_delivery_options, $enabled_delivery_options);
 
         wp_send_json_success($delivery_options, $response->status);
+    }
+
+    /**
+     * Adds fee of selected delivery option to order review block.
+     */
+    public static function delivery_option_selected()
+    {
+        if (is_admin() && !defined('DOING_AJAX'))
+            return;
+
+        $session  = WC()->session;
+
+        WC()->session->set('gls_service_fee', $_POST['fee']);
+
+        wp_die();
     }
 
     /**

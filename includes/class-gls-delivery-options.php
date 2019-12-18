@@ -224,7 +224,7 @@ class GLS_Delivery_Options
             $options,
             function (&$option) use ($enabled_options) {
                 $option->fee = $this->additional_fee($option, $enabled_options);
-                $option->formatted_fee = money_format("%.2n", $option->fee);
+                $option->formatted_fee = wc_price($option->fee);
 
                 return $this->is_express_service_enabled($enabled_options, $option);
             }
@@ -292,5 +292,20 @@ class GLS_Delivery_Options
         }
 
         return $enabled_delivery_options;
+    }
+
+    /**
+     *
+     */
+    public static function update_shipping_rate()
+    {
+        global $woocommerce;
+
+        if ( is_admin() && ! defined( 'DOING_AJAX' ) )
+            return;
+
+        $fee = WC()->session->get('gls_service_fee');
+
+        $woocommerce->cart->add_fee('GLS ExpressService', $fee, true, '');
     }
 }
