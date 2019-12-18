@@ -145,6 +145,11 @@ class GLS_Delivery_Options
         return $_available_delivery_options;
     }
 
+    /**
+     * Get enabled delivery options.
+     *
+     * @return array
+     */
     public function enabled_delivery_options()
     {
         $enabled_delivery_options = array();

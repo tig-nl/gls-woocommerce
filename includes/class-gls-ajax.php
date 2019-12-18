@@ -108,6 +108,7 @@ class GLS_AJAX extends WC_AJAX
 
             $saturdayServiceEnabled = false;
             $expressServiceEnabled  = false;
+            $hasSubOptions          = isset($option->subDeliveryOptions);
 
             // ExpressService
             if (self::any_express_services_enabled($enabled_delivery_options)
@@ -127,14 +128,14 @@ class GLS_AJAX extends WC_AJAX
             /**
              * If no Express or Saturday Services are enabled, there's no need to render sub delivery options.
              */
-            if ($option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL && !$expressServiceEnabled
-                || $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL && !$saturdayServiceEnabled
+            if ((!$hasSubOptions && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL && !$expressServiceEnabled)
+                || (!$hasSubOptions && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL && !$saturdayServiceEnabled)
             ) {
                 continue;
             }
 
             // (Saturday)ExpressServices
-            if (isset($option->subDeliveryOptions)) {
+            if ($hasSubOptions) {
                 $option->subDeliveryOptions = array_values(self::filter_sub_delivery_options(
                     $option->subDeliveryOptions, $enabled_delivery_options
                 ));
