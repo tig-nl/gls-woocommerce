@@ -304,8 +304,8 @@ class GLS_Delivery_Options
         if ( is_admin() && ! defined( 'DOING_AJAX' ) )
             return;
 
-        $fee = WC()->session->get('gls_service_fee');
+        $service = WC()->session->get('gls_service');
 
-        $woocommerce->cart->add_fee('GLS ExpressService', $fee, true, '');
+        $woocommerce->cart->add_fee($service['title'], $service['fee'], true, '');
     }
 }
