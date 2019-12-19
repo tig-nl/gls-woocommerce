@@ -231,7 +231,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         global $current_section;
 
         // Load options so we can show any global options they may have.
-        $delivery_options = GLS()->delivery_options->delivery_options();
+        $delivery_options = GLS()->delivery_options->available_delivery_options();
 
         if ($current_section) {
             foreach ($delivery_options as $option) {
@@ -295,7 +295,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     </thead>
                     <tbody>
                     <?php
-                    foreach (GLS()->delivery_options->delivery_options() as $option) {
+                    foreach (GLS()->delivery_options->available_delivery_options() as $option) {
 
                         echo '<tr data-option_id="' . esc_attr($option->id) . '">';
 
@@ -359,7 +359,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
 
         // TODO: Fix bug where updated settings aren't show immediately after saving changes. They are updated in the database, however...
         if (current_user_can('manage_woocommerce') && isset($_POST['additional_fee'])) {
-            $delivery_options = GLS()->delivery_options->delivery_options();
+            $delivery_options = GLS()->delivery_options->available_delivery_options();
             $additional_fee   = wc_clean(wp_unslash($_POST['additional_fee']));
 
             foreach ($delivery_options as $option) {

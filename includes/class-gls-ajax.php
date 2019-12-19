@@ -137,7 +137,7 @@ class GLS_AJAX extends WC_AJAX
     public static function toggle_option_enabled()
     {
         if (current_user_can('manage_woocommerce') && check_ajax_referer('gls-toggle-delivery-option-enabled', 'security') && isset($_POST['option_id'])) {
-            $delivery_options = GLS()->delivery_options->delivery_options();
+            $delivery_options = GLS()->delivery_options->available_delivery_options();
             $option_id        = wc_clean(wp_unslash($_POST['option_id']));
 
             foreach ($delivery_options as $option) {
