@@ -128,23 +128,157 @@ class GLS_Delivery_Options
     }
 
     /**
+     * @param $available
+     * @param $enabled
+     *
+     * @return array
+     */
+    public function delivery_options($available, $enabled)
+    {
+        $delivery_options = [];
+
+        foreach ($available as &$option) {
+            // BusinessParcel (default)
+            if (!isset($option->service)) {
+                $option->fee = 0;
+                $option->formatted_fee = '';
+                $delivery_options[] = $option;
+
+                continue;
+            }
+
+            $saturdayServiceEnabled = $this->any_express_services_enabled($enabled, ['gls_s9', 'gls_s12', 'gls_s17'])
+                                      && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL;
+            $expressServiceEnabled  = $this->any_express_services_enabled($enabled)
+                                      && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL;
+            $hasSubOptions          = isset($option->subDeliveryOptions);
+
+            // SaturdayService
+            if ($saturdayServiceEnabled) {
+                $option->fee = 0;
+                $option->formatted_fee = '';
+                $delivery_options[] = $option;
+            }
+
+            /**
+             * If no Express or Saturday Services are enabled, there's no need to render sub delivery options.
+             */
+            if ((!$hasSubOptions && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL && !$expressServiceEnabled)
+                || (!$hasSubOptions && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL && !$saturdayServiceEnabled)
+            ) {
+                continue;
+            }
+
+            // (Saturday)ExpressServices
+            if ($hasSubOptions) {
+                $option->subDeliveryOptions = array_values(
+                    $this->filter_sub_delivery_options(
+                        $option->subDeliveryOptions, $enabled
+                    )
+                );
+
+                if (count($option->subDeliveryOptions) > 0) {
+                    $delivery_options[] = $option;
+                }
+            }
+        };
+
+        return $delivery_options;
+    }
+
+    /**
+     * @param       $enabled_options
+     * @param array $options
+     *
+     * @return bool
+     */
+    private function any_express_services_enabled($enabled_options, $options = ['gls_t9', 'gls_t12', 'gls_t17'])
+    {
+        return $this->is_service_enabled($enabled_options, $options);
+    }
+
+    /**
+     * @param $enabled_options
+     * @param $options
+     *
+     * @return bool|void
+     */
+    private function is_service_enabled($enabled_options, $options)
+    {
+        foreach ($enabled_options as $option) {
+            if (in_array($option->id, $options)) {
+                return true;
+            }
+        }
+    }
+
+    /**
+     * @param $options
+     * @param $enabled_options
+     *
+     * @return array
+     */
+    private function filter_sub_delivery_options(&$options, $enabled_options)
+    {
+        return array_filter(
+            $options,
+            function (&$option) use ($enabled_options) {
+                $option->fee = $this->additional_fee($option, $enabled_options);
+                $option->formatted_fee = wc_price($option->fee);
+
+                return $this->is_express_service_enabled($enabled_options, $option);
+            }
+        );
+    }
+
+    /**
+     * @param $option
+     * @param $enabled_options
+     *
+     * @return string
+     */
+    private function additional_fee($option, $enabled_options)
+    {
+        $code = 'gls_' . strtolower($option->service);
+        $fee  = isset($enabled_options[$code]) ? $enabled_options[$code]->additional_fee : '';
+
+        return $fee;
+    }
+
+    /**
+     * @param $enabled_options
+     * @param $option
+     *
+     * @return bool
+     */
+    private function is_express_service_enabled($enabled_options, &$option)
+    {
+        return array_key_exists('gls_' . strtolower($option->service), $enabled_options);
+    }
+
+    /**
      * Get delivery options.
      *
      * @return array
      */
-    public function delivery_options()
+    public function available_delivery_options()
     {
-        $_available_delivery_options = array();
+        $available_delivery_options = array();
 
         if (count($this->delivery_options) > 0) {
             foreach ($this->delivery_options as $option) {
-                $_available_delivery_options[$option->id] = $option;
+                $available_delivery_options[$option->id] = $option;
             }
         }
 
-        return $_available_delivery_options;
+        return $available_delivery_options;
     }
 
+    /**
+     * Get enabled delivery options.
+     *
+     * @return array
+     */
     public function enabled_delivery_options()
     {
         $enabled_delivery_options = array();
@@ -158,5 +292,45 @@ class GLS_Delivery_Options
         }
 
         return $enabled_delivery_options;
+    }
+
+    /**
+     *
+     */
+    public static function update_shipping_rate()
+    {
+        global $woocommerce;
+
+        if ( is_admin() && ! defined( 'DOING_AJAX' ) )
+            return;
+
+        $session         = WC()->session;
+        $shipping_method = $session->get('chosen_shipping_methods');
+
+        if (GLS()->is_gls_selected(reset($shipping_method))) {
+            return;
+        }
+
+        $service  = $session->get('gls_service');
+
+        $woocommerce->cart->add_fee($service['title'], $service['fee'], true, '');
+    }
+
+    /**
+     * @param $order
+     * @param $data
+     *
+     * @return mixed
+     */
+    public static function add_option_to_order($order, $data)
+    {
+        if (GLS()->is_gls_selected(reset($data['shipping_method']))) {
+            return $order;
+        }
+
+        $service = WC()->session->get('gls_service');
+        $order->update_meta_data('_gls_delivery_option', $service);
+
+        return $order;
     }
 }

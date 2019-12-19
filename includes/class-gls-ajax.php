@@ -62,7 +62,8 @@ class GLS_AJAX extends WC_AJAX
     public static function add_ajax_events()
     {
         $ajax_events_nopriv = array(
-            'update_delivery_options'
+            'update_delivery_options',
+            'delivery_option_selected'
         );
 
         foreach ($ajax_events_nopriv as $ajax_event) {
@@ -97,119 +98,35 @@ class GLS_AJAX extends WC_AJAX
 
         $available_delivery_options = $response->deliveryOptions;
         $enabled_delivery_options = GLS()->delivery_options()->enabled_delivery_options();
-
-        foreach ($available_delivery_options as &$option) {
-            // BusinessParcel (default)
-            if (!isset($option->service)) {
-                $delivery_options[] = $option;
-
-                continue;
-            }
-
-            $saturdayServiceEnabled = false;
-            $expressServiceEnabled  = false;
-
-            // ExpressService
-            if (self::any_express_services_enabled($enabled_delivery_options)
-                && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL
-            ) {
-                $expressServiceEnabled = true;
-            }
-
-            // SaturdayService
-            if (self::any_saturday_services_enabled($enabled_delivery_options)
-                && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL
-            ) {
-                $delivery_options[] = $option;
-                $saturdayServiceEnabled = true;
-            }
-
-            /**
-             * If no Express or Saturday Services are enabled, there's no need to render sub delivery options.
-             */
-            if ($option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL && !$expressServiceEnabled
-                || $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL && !$saturdayServiceEnabled
-            ) {
-                continue;
-            }
-
-            // (Saturday)ExpressServices
-            if (isset($option->subDeliveryOptions)) {
-                $option->subDeliveryOptions = array_values(self::filter_sub_delivery_options(
-                    $option->subDeliveryOptions, $enabled_delivery_options
-                ));
-
-                if (count($option->subDeliveryOptions) > 0) {
-                    $delivery_options[] = $option;
-                }
-            }
-        };
+        $delivery_options = GLS()->delivery_options()->delivery_options($available_delivery_options, $enabled_delivery_options);
 
         wp_send_json_success($delivery_options, $response->status);
     }
 
     /**
-     * @param $enabled_options
-     * @param $options
-     *
-     * @return bool|void
+     * Adds fee of selected delivery option to order review block.
      */
-    private static function is_service_enabled($enabled_options, $options)
+    public static function delivery_option_selected()
     {
-        foreach ($enabled_options as $option) {
-            if (in_array($option->id, $options)) {
-                return true;
-            }
+        if (is_admin() && !defined('DOING_AJAX'))
+            return;
+
+        $title = strtolower($_POST['title'] ?? '');
+
+        if (strpos($title, ' | ')) {
+            $title = explode(' | ', $title)[0];
         }
-    }
 
-    /**
-     * @param       $enabled_options
-     * @param array $options
-     *
-     * @return bool
-     */
-    private static function any_saturday_services_enabled($enabled_options, $options = ['gls_s9', 'gls_s12', 'gls_s17'])
-    {
-        return self::is_service_enabled($enabled_options, $options);
-    }
+        $session = WC()->session;
+        $service = [
+            'fee'    => $_POST['fee'] ?? '',
+            'title'  => __('Delivery') . ' ' . $title,
+            'option' => $_POST['option'] ?? ''
+        ];
 
-    /**
-     * @param       $enabled_options
-     * @param array $options
-     *
-     * @return bool
-     */
-    private static function any_express_services_enabled($enabled_options, $options = ['gls_t9', 'gls_t12', 'gls_t17'])
-    {
-        return self::is_service_enabled($enabled_options, $options);
-    }
+        $session->set('gls_service', $service);
 
-    /**
-     * @param $options
-     * @param $enabled_options
-     *
-     * @return array
-     */
-    private static function filter_sub_delivery_options(&$options, $enabled_options)
-    {
-        return array_filter(
-            $options,
-            function (&$option) use ($enabled_options) {
-                return self::is_express_service_enabled($enabled_options, $option);
-            }
-        );
-    }
-
-    /**
-     * @param $enabled_options
-     * @param $option
-     *
-     * @return bool
-     */
-    private static function is_express_service_enabled($enabled_options, &$option)
-    {
-        return array_key_exists('gls_' . strtolower($option->service), $enabled_options);
+        wp_die();
     }
 
     /**

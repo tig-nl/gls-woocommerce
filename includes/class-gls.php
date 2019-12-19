@@ -223,7 +223,8 @@ final class GLS
      */
     private function init_hooks()
     {
-        // None necessary yet.
+        add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
+        add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 100, 2);
     }
 
     /**
@@ -267,19 +268,27 @@ final class GLS
     }
 
     /**
-     * Get available Delivery Options from API.
+     * @param $shipping_method
+     *
+     * @return bool
+     */
+    public function is_gls_selected($shipping_method)
+    {
+        if (strpos($shipping_method, 'tig_gls')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get available delivery options from API.
      *
      * @return GLS_Api
+     * @throws Exception
      */
     public function api_delivery_options()
     {
-        /**
-         * TODO: Get shippingDate dynamically.
-         *
-         * Create \DateTime object for current locale
-         * Compare currentTime to cutOff time
-         * Add processingTime to currentDate.
-         */
         $timezone_string = get_option('timezone_string');
         $gmt_offset      = get_option('gmt_offset');
 

@@ -51,29 +51,11 @@ class GLS_Frontend_Scripts extends WC_Frontend_Scripts
      */
     public static function init()
     {
-        add_action(
-            'wp_enqueue_scripts',
-            array(
-                __CLASS__,
-                'load_scripts'
-            )
-        );
-        add_action(
-            'wp_print_scripts',
-            array(
-                __CLASS__,
-                'localize_printed_scripts'
-            ),
-            5
-        );
-        add_action(
-            'wp_print_footer_scripts',
-            array(
-                __CLASS__,
-                'localize_printed_scripts'
-            ),
-            5
-        );
+        // @formatter:off
+        add_action('wp_enqueue_scripts', array(__CLASS__, 'load_scripts'));
+        add_action('wp_print_scripts', array(__CLASS__, 'localize_printed_scripts'), 5);
+        add_action('wp_print_footer_scripts', array(__CLASS__, 'localize_printed_scripts'), 5);
+        // @formatter:on
     }
 
     /**

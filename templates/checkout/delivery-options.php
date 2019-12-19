@@ -37,11 +37,9 @@
     <div class="gls-tabs">
         <div class="gls-tab gls-tab-delivery active">
             <span><?php _e('Delivery', 'gls-woocommerce'); ?></span>
-            <strong>%%fee%%</strong>
         </div>
         <div class="gls-tab gls-tab-pickup">
             <span><?php _e('Pick up', 'gls-woocommerce'); ?></span>
-            <strong>%%fee%%</strong>
         </div>
     </div>
     <div class="gls-services">
@@ -49,13 +47,13 @@
             <div class="container gls-delivery-option" style="display: none;">
                 <strong class="gls-sub-delivery-options-title" style="display: none;">%%title%%</strong>
 
-                <input type="radio" name="gls_delivery_option" class="radio" value="%%serviceCode%%" id="default"/>
+                <input type="radio" name="gls_delivery_option" class="radio" id="default"/>
                 <label class="label" for="default">%%title%%</label>
                 <span class="delivery-fee">%%fee%%</span>
 
                 <div class="gls-sub-delivery-options">
                     <div class="gls-sub-delivery-option" style="display: none;">
-                        <input type="radio" name="gls_delivery_option" class="radio" value="%%service%%" id="%%service%%" />
+                        <input type="radio" name="gls_delivery_option" class="radio" />
                         <label class="sub-label" for="%%service%%">%%title%%</label>
                         <span class="delivery-fee">%%fee%%</span>
                     </div>
