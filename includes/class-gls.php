@@ -224,6 +224,7 @@ final class GLS
     private function init_hooks()
     {
         add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
+        add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 100, 2);
     }
 
     /**
@@ -264,6 +265,20 @@ final class GLS
     public function delivery_options()
     {
         return GLS_Delivery_Options::instance();
+    }
+
+    /**
+     * @param $shipping_method
+     *
+     * @return bool
+     */
+    public function is_gls_selected($shipping_method)
+    {
+        if (strpos($shipping_method, 'tig_gls')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

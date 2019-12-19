@@ -24,6 +24,9 @@ jQuery(
                 // Manual trigger
                 this.$checkout_form.on('update', this.trigger_update_delivery_options);
 
+                // Trigger on load
+                this.trigger_update_delivery_options();
+
                 // Inputs/selects which update delivery options
                 this.$checkout_form.on('change', '.address-field input.input-text, .address-field select.country_select', this.trigger_update_delivery_options);
             },

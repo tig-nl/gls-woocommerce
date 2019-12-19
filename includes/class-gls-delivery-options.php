@@ -307,12 +307,30 @@ class GLS_Delivery_Options
         $session         = WC()->session;
         $shipping_method = $session->get('chosen_shipping_methods');
 
-        if (strpos($shipping_method[0], 'tig_gls') === false) {
+        if (GLS()->is_gls_selected(reset($shipping_method))) {
             return;
         }
 
         $service  = $session->get('gls_service');
 
         $woocommerce->cart->add_fee($service['title'], $service['fee'], true, '');
+    }
+
+    /**
+     * @param $order
+     * @param $data
+     *
+     * @return mixed
+     */
+    public static function add_option_to_order($order, $data)
+    {
+        if (GLS()->is_gls_selected(reset($data['shipping_method']))) {
+            return $order;
+        }
+
+        $service = WC()->session->get('gls_service');
+        $order->update_meta_data('_gls_delivery_option', $service);
+
+        return $order;
     }
 }

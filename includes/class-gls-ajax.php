@@ -119,8 +119,9 @@ class GLS_AJAX extends WC_AJAX
 
         $session = WC()->session;
         $service = [
-            'fee' => $_POST['fee'] ?? '',
-            'title' => __('Delivery') . ' ' . $title
+            'fee'    => $_POST['fee'] ?? '',
+            'title'  => __('Delivery') . ' ' . $title,
+            'option' => $_POST['option'] ?? ''
         ];
 
         $session->set('gls_service', $service);
