@@ -1,4 +1,3 @@
-<?php
 /**
  *
  *          ..::..
@@ -30,31 +29,7 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+#poststuff #gls-order-label .inside {
+    margin: 0;
+    padding: 0;
 }
-
-/**
- * GLS_Admin class.
- */
-class GLS_Admin
-{
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        add_action('init', array($this, 'includes'));
-    }
-
-    /**
-     * Include any classes we need within admin.
-     */
-    public function includes()
-    {
-        include_once dirname(__FILE__) . '/class-gls-admin-assets.php';
-        include_once dirname(__FILE__) . '/class-gls-admin-meta-boxes.php';
-    }
-}
-
-return new GLS_Admin();

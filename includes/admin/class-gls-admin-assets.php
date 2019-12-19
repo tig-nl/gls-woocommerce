@@ -45,31 +45,38 @@ if (!class_exists('GLS_Admin_Assets', false)) {
          */
         public function __construct()
         {
-            add_action(
-                'admin_enqueue_scripts', array(
-                    $this,
-                    'admin_scripts'
-                )
-            );
+            // @formatter:off
+            add_action('admin_enqueue_scripts', array($this, 'admin_styles'));
+            add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
+            // @formatter:on
         }
 
         /**
-         * Enqueue scripts.
+         * Enqueue admin styles
+         */
+        public function admin_styles()
+        {
+            $screen    = get_current_screen();
+            $screen_id = $screen ? $screen->id : '';
+
+            // @formatter:off
+            wp_register_style('gls_admin_styles', GLS()->plugin_url() . '/assets/css/admin.css', array('woocommerce_admin_styles'), GLS_VERSION);
+            // @formatter:on
+
+            if (in_array($screen_id, wc_get_screen_ids())) {
+                wp_enqueue_style('gls_admin_styles');
+            }
+        }
+
+        /**
+         * Enqueue admin scripts.
          */
         public function admin_scripts()
         {
-            // Register scripts.
-            wp_register_script(
-                'gls_admin',
-                GLS()->plugin_url() . '/assets/js/admin/gls_admin.js',
-                array(
-                    'jquery',
-                    'woocommerce_admin'
-                ),
-                GLS_VERSION
-            );
-
+            // @formatter:off
+            wp_register_script('gls_admin', GLS()->plugin_url() . '/assets/js/admin/gls_admin.js', array('jquery', 'woocommerce_admin'), GLS_VERSION);
             wp_enqueue_script('gls_admin');
+            // @formatter:on
 
             $params = array(
                 'ajax_url' => admin_url('admin-ajax.php'),

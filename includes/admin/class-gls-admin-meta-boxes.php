@@ -30,31 +30,32 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
-/**
- * GLS_Admin class.
- */
-class GLS_Admin
+class GLS_Admin_Meta_Boxes
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
-        add_action('init', array($this, 'includes'));
+        // @formatter:off
+        add_action('add_meta_boxes', array($this, 'add_meta_boxes'), 40);
+        // @formatter:on
     }
 
     /**
-     * Include any classes we need within admin.
+     * Add GLS Meta boxes to all order types.
      */
-    public function includes()
-    {
-        include_once dirname(__FILE__) . '/class-gls-admin-assets.php';
-        include_once dirname(__FILE__) . '/class-gls-admin-meta-boxes.php';
+    public function add_meta_boxes() {
+        global $post;
+        $order = wc_get_order($post->ID);
+
+        if (!$order->get_meta('_gls_delivery_option')) {
+            return;
+        }
+
+        foreach (wc_get_order_types('order-meta-boxes') as $type) {
+            add_meta_box('gls-order-label', __('GLS Label', 'gls-woocommerce'), 'GLS_Admin_Meta_Box_Order_Label::output', $type, 'side', 'high');
+        }
     }
 }
 
-return new GLS_Admin();
+new GLS_Admin_Meta_Boxes();

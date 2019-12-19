@@ -301,7 +301,7 @@ class GLS_Delivery_Options
     {
         global $woocommerce;
 
-        if ( is_admin() && ! defined( 'DOING_AJAX' ) )
+        if (is_admin() && !defined('DOING_AJAX'))
             return;
 
         $session         = WC()->session;
