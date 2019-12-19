@@ -50,6 +50,9 @@ jQuery(
                             option: selectedDeliveryOption.val(),
                             fee: selectedDeliveryOption.data('fee')
                         },
+                        beforeSend: function() {
+                            $('[id*=tig_gls]').prop('checked', true);
+                        },
                         success: function() {
                             gls_delivery_options_form.$error_container.hide();
                             $(document.body).trigger( 'update_checkout');

@@ -304,7 +304,14 @@ class GLS_Delivery_Options
         if ( is_admin() && ! defined( 'DOING_AJAX' ) )
             return;
 
-        $service = WC()->session->get('gls_service');
+        $session         = WC()->session;
+        $shipping_method = $session->get('chosen_shipping_methods');
+
+        if (strpos($shipping_method[0], 'tig_gls') === false) {
+            return;
+        }
+
+        $service  = $session->get('gls_service');
 
         $woocommerce->cart->add_fee($service['title'], $service['fee'], true, '');
     }
