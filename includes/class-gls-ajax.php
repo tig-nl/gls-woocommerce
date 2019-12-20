@@ -30,18 +30,8 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-/**
- * WooCommerce GLS_AJAX. AJAX Event Handlers.
- *
- * @class   GLS_AJAX
- * @package GLS/Classes
- */
-
 defined('ABSPATH') || exit;
 
-/**
- * GLS_Ajax class.
- */
 class GLS_AJAX extends WC_AJAX
 {
     /**
@@ -74,7 +64,10 @@ class GLS_AJAX extends WC_AJAX
             add_action('wc_ajax_' . $ajax_event, array(__CLASS__, $ajax_event));
         }
 
-        $ajax_events = array('toggle_option_enabled');
+        $ajax_events = array(
+            'toggle_option_enabled',
+            'create_label'
+        );
 
         foreach ($ajax_events as $ajax_event) {
             add_action('wp_ajax_woocommerce_' . $ajax_event, array(__CLASS__, $ajax_event));
@@ -97,8 +90,8 @@ class GLS_AJAX extends WC_AJAX
         }
 
         $available_delivery_options = $response->deliveryOptions;
-        $enabled_delivery_options = GLS()->delivery_options()->enabled_delivery_options();
-        $delivery_options = GLS()->delivery_options()->delivery_options($available_delivery_options, $enabled_delivery_options);
+        $enabled_delivery_options   = GLS()->delivery_options()->enabled_delivery_options();
+        $delivery_options           = GLS()->delivery_options()->delivery_options($available_delivery_options, $enabled_delivery_options);
 
         wp_send_json_success($delivery_options, $response->status);
     }
@@ -108,8 +101,9 @@ class GLS_AJAX extends WC_AJAX
      */
     public static function delivery_option_selected()
     {
-        if (is_admin() && !defined('DOING_AJAX'))
+        if (is_admin() && !defined('DOING_AJAX')) {
             return;
+        }
 
         $title = strtolower($_POST['title'] ?? '');
 
@@ -132,7 +126,7 @@ class GLS_AJAX extends WC_AJAX
     /**
      * Toggle delivery option on or off via AJAX.
      *
-     * @since 3.4.0
+     * @since 1.0.0
      */
     public static function toggle_option_enabled()
     {
@@ -171,6 +165,27 @@ class GLS_AJAX extends WC_AJAX
 
         wp_send_json_error('invalid_option_id');
         wp_die();
+    }
+
+    /**
+     *
+     */
+    public static function create_label()
+    {
+        check_ajax_referer('create-label', 'security');
+
+        $order = wc_get_order($_POST['order_id']);
+        /** @var StdClass $response */
+        $response = GLS()->api_create_label()->call();
+
+        if ($response->status != 200) {
+            wp_send_json_error('Label could not be created', $response->status);
+        }
+
+        $order->update_meta_data('_gls_label', $response);
+        $order->save();
+
+        wp_send_json_success('Label created successfully', $response->status);
     }
 }
 

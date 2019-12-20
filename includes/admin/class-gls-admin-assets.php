@@ -82,6 +82,7 @@ if (!class_exists('GLS_Admin_Assets', false)) {
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'nonces'   => array(
                     'option_toggle' => wp_create_nonce('gls-toggle-delivery-option-enabled'),
+                    'create_label'  => wp_create_nonce('create-label')
                 )
             );
 

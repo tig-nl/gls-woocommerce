@@ -291,4 +291,25 @@ final class GLS
     {
         return new GLS_Api_Get_Delivery_Options();
     }
+
+    /**
+     * @return GLS_Api_Validate_Login
+     */
+    public function api_validate_login()
+    {
+        return new GLS_Api_Validate_Login();
+    }
+
+    /**
+     * @return GLS_Api_Label_Create
+     */
+    public function api_create_label()
+    {
+        return new GLS_Api_Label_Create();
+    }
+
+    public function api_delete_label()
+    {
+        return new GLS_Api_Label_Delete();
+    }
 }

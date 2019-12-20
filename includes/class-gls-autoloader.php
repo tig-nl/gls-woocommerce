@@ -120,6 +120,8 @@ class GLS_Autoloader extends WC_Autoloader
             $path = $this->include_path . 'admin/';
         } elseif (0 === strpos($class, 'gls_option_')) {
             $path = $this->include_path . 'options/';
+        } elseif (0 === strpos($class, 'gls_api_label_')) {
+            $path = $this->include_path . 'api/label/';
         } elseif (0 === strpos($class, 'gls_api_')) {
             $path = $this->include_path . 'api/';
         }
