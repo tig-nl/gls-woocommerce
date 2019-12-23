@@ -308,6 +308,9 @@ final class GLS
         return new GLS_Api_Label_Create();
     }
 
+    /**
+     * @return GLS_Api_Label_Delete
+     */
     public function api_delete_label()
     {
         return new GLS_Api_Label_Delete();

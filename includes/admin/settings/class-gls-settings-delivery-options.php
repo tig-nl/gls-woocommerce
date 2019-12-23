@@ -49,19 +49,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         $this->id    = 'tig_gls';
         $this->label = _x('GLS', 'Settings tab label', 'gls-woocommerce');
 
-        add_action(
-            'woocommerce_admin_field_services', array(
-                $this,
-                'services_settings'
-            )
-        );
-
-        add_action(
-            'woocommerce_admin_field_delivery_options', array(
-                $this,
-                'delivery_options_settings'
-            )
-        );
+        // @formatter:off
+        add_action('woocommerce_admin_field_services', array($this, 'services_settings'));
+        add_action('woocommerce_admin_field_delivery_options', array($this, 'delivery_options_settings'));
+        // @formatter:on
 
         parent::__construct();
     }
@@ -107,22 +98,22 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'type'    => 'checkbox',
                         'label'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
                         'default' => 'no',
-                        'id'      => 'tig_gls_api[test_mode]'
+                        'id'      => GLS_Admin::GLS_SETTINGS_API . '[test_mode]'
                     ),
                     array(
                         'title' => __('Username', 'gls-woocommerce'),
                         'type'  => 'text',
-                        'id'    => 'tig_gls_api[username]'
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[username]'
                     ),
                     array(
                         'title' => __('Password', 'gls-woocommerce'),
                         'type'  => 'password',
-                        'id'    => 'tig_gls_api[password]'
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[password]'
                     ),
                     array(
                         'title' => __('Subscription key', 'gls-woocommerce'),
                         'type'  => 'password',
-                        'id'    => 'tig_gls_api[subscription_key]'
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[subscription_key]'
                     ),
                     array(
                         'type' => 'sectionend',
@@ -146,7 +137,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Cut-off Time', 'gls-woocommerce'),
                         'desc'    => __('Deadline at which an order can be placed in order to be processed.', 'gls-woocommerce'),
                         'type'    => 'select',
-                        'id'      => 'tig_gls_services[cutoff_time]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[cutoff_time]',
                         'options' => $this->generateTimeIntervals(),
                         'default' => '17:00'
                     ),
@@ -154,7 +145,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Processing Time', 'gls-woocommerce'),
                         'desc'    => __('The time (in days) it takes to process and package an order before it\'s shipped.', 'gls-woocommerce'),
                         'type'    => 'number',
-                        'id'      => 'tig_gls_services[processing_time]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[processing_time]',
                         'min'     => '0',
                         'default' => '0'
                     ),
@@ -162,7 +153,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('No. of Shops to Display', 'gls-woocommerce'),
                         'desc'    => __('Number of ParcelShops to display in the ShopDelivery-tab in checkout.', 'gls-woocommerce'),
                         'type'    => 'number',
-                        'id'      => 'tig_gls_services[display_shops]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[display_shops]',
                         'min'     => '1',
                         'default' => '5'
                     ),
@@ -170,7 +161,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Enable ShopReturnService'),
                         'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label.'),
                         'type'    => 'checkbox',
-                        'id'      => 'tig_gls_services[shop_return]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[shop_return]',
                         'default' => 'yes'
                     ),
                     array(

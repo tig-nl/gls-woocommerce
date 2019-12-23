@@ -42,31 +42,34 @@ class GLS_Admin_Meta_Box_Order_Label
             $theorder = wc_get_order($post->ID);
         }
 
+        $label = $theorder->get_meta('_gls_label');
         ?>
         <ul class="order_actions order_label submitbox">
-
             <?php do_action( 'gls_order_label_start', $post->ID ); ?>
 
+            <?php if (isset($label->units[0])): ?>
             <li class="wide" id="label">
-
+                <ul>
+                    <li><?php _e('Tracking Code'); ?>: <a href="<?= $label->units[0]->unitTrackingLink; ?>" target="_blank"><?= $label->units[0]->unitNo; ?></a></li>
+                </ul>
             </li>
+            <?php endif; ?>
 
             <li class="wide">
                 <div id="delete-action">
                     <?php
-                    if (current_user_can('delete_post', $post->ID)) {
+                    if (current_user_can('delete_post', $post->ID) && $label) {
                         ?>
-                        <a class="submitdelete deletion" href="<?php echo esc_url(get_delete_post_link($post->ID)); ?>"><?php echo esc_html(__('Delete label', 'gls-woocommerce')); ?></a>
+                        <a class="submitdelete deletion" href="#"><?php echo esc_html(__('Delete label', 'gls-woocommerce')); ?></a>
                         <?php
                     }
                     ?>
                 </div>
 
-                <button type="submit" class="button save_order create_label button-primary" name="create" value="<?php // If label is created change this to 'View' or something. ?>"><?= esc_html__( 'Create', 'gls-woocommerce' ); ?></button>
+                <button type="submit" class="button <?= $label ? 'print_label' : 'create_label'; ?> button-primary" name="create" value="<?= $label ? 'Print' : 'Create'; ?>"><?= esc_html__($label ? 'Print' : 'Create', 'gls-woocommerce'); ?></button>
             </li>
 
             <?php do_action('gls_order_label_end', $post->ID); ?>
-
         </ul>
         <?php
     }

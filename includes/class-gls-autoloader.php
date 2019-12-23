@@ -116,7 +116,7 @@ class GLS_Autoloader extends WC_Autoloader
             $path = $this->include_path . 'shipping/' . substr(str_replace('_', '-', $class), 12) . '/';
         } elseif (0 === strpos($class, 'gls_admin_meta_box')) {
             $path = $this->include_path . 'admin/meta-boxes/';
-        } elseif (0 === strpos($class, 'wc_admin')) {
+        } elseif (0 === strpos($class, 'gls_admin')) {
             $path = $this->include_path . 'admin/';
         } elseif (0 === strpos($class, 'gls_option_')) {
             $path = $this->include_path . 'options/';

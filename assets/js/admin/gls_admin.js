@@ -53,12 +53,33 @@
                 data: data,
                 dataType: 'json',
                 type: 'POST',
-                success: function (response) {
-                    console.log(response);
+                complete: function () {
+                    location.reload();
                 }
             });
 
             return false;
         });
+
+        // Trigger delete label call
+        $('#delete-action a').on('click', function() {
+            var data = {
+                action: 'woocommerce_delete_label',
+                security: gls_admin.nonces.delete_label,
+                order_id: new URL(window.location.href).searchParams.get('post')
+            };
+
+            $.ajax({
+                url: gls_admin.ajax_url,
+                data: data,
+                dataType: 'json',
+                type: 'POST',
+                complete: function () {
+                    location.reload();
+                }
+            });
+
+            return false;
+        })
     });
 })(jQuery, gls_admin);

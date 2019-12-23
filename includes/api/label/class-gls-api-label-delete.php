@@ -1,3 +1,4 @@
+<?php
 /**
  *
  *          ..::..
@@ -29,17 +30,43 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-#poststuff #gls-order-label .inside {
-    margin: 0;
-    padding: 0;
-}
+class GLS_Api_Label_Delete
+{
+    /** @var string $endpoint */
+    public $endpoint = 'Label/Delete';
 
-.order_actions.order_label ul li {
-    border-bottom: 0;
-    text-align: left;
-    width: 100%;
-}
+    /** @var array $body */
+    public $body = [];
 
-.order_actions.order_label .print_label {
-    float: right;
+    /** @var GLS_Api $api */
+    private $api;
+
+    /**
+     * GLS_Api_Label_Delete constructor.
+     */
+    public function __construct()
+    {
+        $this->body           = GLS_Api::add_shipping_information();
+        $this->body['unitNo'] = $this->getUnitNo();
+        $this->api            = GLS_Api::instance($this->endpoint, $this->body);
+    }
+
+    /**
+     * Make the call!
+     */
+    public function call()
+    {
+        return $this->api->call();
+    }
+
+    /**
+     * @return string|null
+     */
+    private function getUnitNo()
+    {
+        $order = wc_get_order($_POST['order_id']);
+        $label = $order->get_meta('_gls_label');
+
+        return $label->units[0] ? $label->units[0]->unitNo : null;
+    }
 }

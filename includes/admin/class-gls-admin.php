@@ -39,6 +39,9 @@ if (!defined('ABSPATH')) {
  */
 class GLS_Admin
 {
+    const GLS_SETTINGS_SERVICES = 'tig_gls_services';
+    const GLS_SETTINGS_API      = 'tig_gls_api';
+
     /**
      * Constructor.
      */

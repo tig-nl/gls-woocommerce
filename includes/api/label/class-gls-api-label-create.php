@@ -32,9 +32,6 @@
 
 class GLS_Api_Label_Create
 {
-    const GLS_OPTION_SERVICES   = 'tig_gls_services';
-    const GLS_CONTROLLER_MODULE = 'WooCommerce';
-
     /** @var string $endpoint */
     public $endpoint = 'Label/Create';
 
@@ -44,13 +41,17 @@ class GLS_Api_Label_Create
     /** @var $options */
     private $options;
 
+    /** @var GLS_Api $api */
+    private $api;
+
     /**
      * GLS_Api_Label_Create constructor.
      */
     public function __construct()
     {
         $this->body    = $this->setBody();
-        $this->options = get_option(self::GLS_OPTION_SERVICES);
+        $this->options = get_option(GLS_Admin::GLS_SETTINGS_SERVICES);
+        $this->api     = GLS_Api::instance($this->endpoint, $this->body);
     }
 
     /**
@@ -60,9 +61,7 @@ class GLS_Api_Label_Create
      */
     public function call()
     {
-        $api = GLS_Api::instance($this->endpoint, $this->body);
-
-        return $api->call();
+        return $this->api->call();
     }
 
     /**
@@ -78,9 +77,8 @@ class GLS_Api_Label_Create
         //$labelType       = $this->getLabelType();
         $labelType                 = $this->get_label_type();
         $shipmentId                = 'TEST' . rand(1000, 9999);
-        $controllerModule          = 'WooCommerce';
 
-        $data                      = $this->add_shipping_information($controllerModule, GLS()->version);
+        $data                      = GLS_Api::add_shipping_information();
         $data["services"]          = $this->map_services($deliveryOption->details, $deliveryOption->type, $deliveryAddress->countryCode);
         $data["trackingLinkType"]  = 'u';
         $data['labelType']         = $labelType;
@@ -101,21 +99,6 @@ class GLS_Api_Label_Create
         }
 
         return $data;
-    }
-
-    /**
-     * @param $controllerModule
-     * @param $version
-     *
-     * @return array
-     */
-    private function add_shipping_information($controllerModule, $version)
-    {
-        return [
-            "shippingSystemName"    => $controllerModule,
-            "shippingSystemVersion" => $version,
-            "shiptype"              => "p"
-        ];
     }
 
     /**

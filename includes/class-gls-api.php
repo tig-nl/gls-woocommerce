@@ -32,36 +32,24 @@
 
 class GLS_Api
 {
-    const GLS_API_OPTIONS = 'tig_gls_api';
+    const GLS_API_CONTROLLER_MODULE = 'WooCommerce';
 
-    /**
-     * @var string $url
-     */
+    /** @var string $url */
     public $url = 'https://api.gls.nl/';
 
-    /**
-     * @var string $endpoint
-     */
+    /** @var string $endpoint */
     public $endpoint;
 
-    /**
-     * @var array $body
-     */
+    /** @var array $body */
     public $body;
 
-    /**
-     * @var string $http
-     */
+    /** @var string $http */
     public $http;
 
-    /**
-     * array $options;
-     */
+    /** @var array $options */
     public $options;
 
-    /**
-     * @var null $_instance
-     */
+    /** @var null $_instance */
     protected static $_instance = null;
 
     /**
@@ -93,12 +81,15 @@ class GLS_Api
     ) {
         $this->endpoint = $endpoint;
         $this->body     = $body;
-        $this->options  = get_option(self::GLS_API_OPTIONS);
+        $this->options  = get_option(GLS_Admin::GLS_SETTINGS_API);
         $this->http     = $this->options['test_mode'] == 'yes' ? $this->url . 'Test/V1/api/' : $this->url . 'V1/api/';
 
         $this->init();
     }
 
+    /**
+     * Add needed authentication to calls.
+     */
     public function init()
     {
         $this->body['username'] = $this->options['username'];
@@ -128,5 +119,20 @@ class GLS_Api
         $response = wp_safe_remote_post($this->http . $this->endpoint . '?api-version=1.0', $args);
 
         return json_decode(wp_remote_retrieve_body($response));
+    }
+
+    /**
+     * @param $controllerModule
+     * @param $version
+     *
+     * @return array
+     */
+    public static function add_shipping_information()
+    {
+        return [
+            "shippingSystemName"    => self::GLS_API_CONTROLLER_MODULE,
+            "shippingSystemVersion" => GLS_VERSION,
+            "shiptype"              => "p"
+        ];
     }
 }

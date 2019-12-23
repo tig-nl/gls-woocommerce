@@ -66,7 +66,8 @@ class GLS_AJAX extends WC_AJAX
 
         $ajax_events = array(
             'toggle_option_enabled',
-            'create_label'
+            'create_label',
+            'delete_label'
         );
 
         foreach ($ajax_events as $ajax_event) {
@@ -76,12 +77,12 @@ class GLS_AJAX extends WC_AJAX
     }
 
     /**
-     *
+     * @throws Exception
      */
     public static function update_delivery_options()
     {
         check_ajax_referer('update-delivery-options', 'security');
-
+        /** @var StdClass $response */
         $response = GLS()->api_delivery_options()->call();
 
         if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
@@ -168,7 +169,7 @@ class GLS_AJAX extends WC_AJAX
     }
 
     /**
-     *
+     * Trigger CreateLabel-call and save it as post meta data.
      */
     public static function create_label()
     {
@@ -186,6 +187,30 @@ class GLS_AJAX extends WC_AJAX
         $order->save();
 
         wp_send_json_success('Label created successfully', $response->status);
+    }
+
+    /**
+     * Trigger DeleteLabel-call and remove it from post meta data if successful.
+     */
+    public static function delete_label()
+    {
+        check_ajax_referer('delete-label', 'security');
+
+        /** @var StdClass $response */
+        $response = GLS()->api_delete_label()->call();
+
+        if ($response->status != 200) {
+            // TODO: Notices don't seem to work. Perhaps implement this? https://github.com/WPTRT/admin-notices
+            wc_add_notice('Label could not be deleted from the GLS API', 'error');
+            wp_send_json_error('Label could not be deleted from the GLS API', $response->status);
+        }
+
+        $order = wc_get_order($_POST['order_id']);
+        $order->delete_meta_data('_gls_label');
+        $order->save();
+
+        wc_add_notice('Label delete successfully');
+        wp_send_json_success('Label deleted successfully', $response->status);
     }
 }
 
