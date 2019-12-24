@@ -77,7 +77,8 @@ class GLS_Admin_Bulk_Actions
             if (!$gls_label[0]->labels && count($gls_option)) {
                 $order = wc_get_order($post_id);
                 /** @var StdClass $response */
-                $response = GLS()->api_create_label()->call();
+                $createLabel = new GLS_Api_Label_Create();
+                $response = $createLabel->call();
                 if ($response->status != 200) {
                     $error_ids[] = $post_id;
                     break;
@@ -87,7 +88,7 @@ class GLS_Admin_Bulk_Actions
             }
         }
         $processed_ids = GLS_Pdf::add_pdf_label_to_array($post_ids);
-        GLS_Pdf::merge_pdf();
+        GLS_Pdf::merge_pdf('attachment');
 
         return $redirect_to = add_query_arg( array(
             'gls_mass_create_label' => '1',

@@ -144,13 +144,14 @@ class GLS_Pdf
     }
 
     /**
+     * @param string $type
      * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
      * @throws \setasign\Fpdi\PdfParser\Filter\FilterException
      * @throws \setasign\Fpdi\PdfParser\PdfParserException
      * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
      * @throws \setasign\Fpdi\PdfReader\PdfReaderException
      */
-    public static function merge_pdf()
+    public static function merge_pdf($type = 'inline')
     {
         if (count(self::$pdf_label_array) < 1) {
             return;
@@ -171,6 +172,6 @@ class GLS_Pdf
         }
 
         $pdf_string = $pdf->Output('S');
-        self::view_pdf($pdf_string);
+        self::view_pdf($pdf_string, $type);
     }
 }
