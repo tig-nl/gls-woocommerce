@@ -46,6 +46,10 @@ class GLS_Option_S12 extends GLS_Delivery_Option
         // Define user set variables.
         $this->additional_fee = $this->get_option('additional_fee');
 
+        if ($this->get_additional_fee_from_postdata()) {
+            $this->additional_fee = $this->get_additional_fee_from_postdata();
+        }
+
         add_action(
             'gls_update_options_delivery_options_' . $this->id, array(
                 $this,

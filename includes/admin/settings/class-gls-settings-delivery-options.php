@@ -52,6 +52,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         // @formatter:off
         add_action('woocommerce_admin_field_services', array($this, 'services_settings'));
         add_action('woocommerce_admin_field_delivery_options', array($this, 'delivery_options_settings'));
+        add_action('woocommerce_admin_field_api_check', array($this,'api_check_settings'));
         // @formatter:on
 
         parent::__construct();
@@ -116,6 +117,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[subscription_key]'
                     ),
                     array(
+                        'title' => __('Test credentials', 'gls-woocommerce'),
+                        'type'  => 'api_check',
+                    ),
+                    array(
                         'type' => 'sectionend',
                         'id'   => 'api_configuration_options'
                     )
@@ -146,6 +151,30 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'desc'    => __('The time (in days) it takes to process and package an order before it\'s shipped.', 'gls-woocommerce'),
                         'type'    => 'number',
                         'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[processing_time]',
+                        'min'     => '0',
+                        'default' => '0'
+                    ),
+                    array(
+                        'title'   => __('Label format', 'gls-woocommerce'),
+                        'desc'    => __('Which label format do you need', 'gls-woocommerce'),
+                        'type'    => 'select',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_format]',
+                        'options' => $this->getLabelFormat(),
+                        'default' => 'pdfA6S'
+                    ),
+                    array(
+                        'title'   => __('Label Margin Top (only PDF A4)', 'gls-woocommerce'),
+                        'desc'    => __('distance in mm', 'gls-woocommerce'),
+                        'type'    => 'number',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_margin_top_a4]',
+                        'min'     => '0',
+                        'default' => '0'
+                    ),
+                    array(
+                        'title'   => __('Label Margin Left (only PDF A4)', 'gls-woocommerce'),
+                        'desc'    => __('distance in mm', 'gls-woocommerce'),
+                        'type'    => 'number',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_margin_left_a4]',
                         'min'     => '0',
                         'default' => '0'
                     ),
@@ -212,6 +241,43 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         }
 
         return $times;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLabelFormat()
+    {
+        return [   'pdfA6S' => __('PDF (A6)'),
+            'pdf2A4' => __('PDF (A4, 2 labels per pagina)'),
+            'pdf4A4' => __('PDF (A4, 4 labels per pagina)'),
+        ];
+    }
+
+    /**
+     * Output delivery options settings.
+     */
+    public function api_check_settings()
+    {
+        $validation = new GLS_Api_Validate_Login();
+        $response = $validation->call();
+        if ($response->status == 200 && $response->error == false):
+            ?>
+            <tr valign="top">
+                <td class="gls_api_check_wrapper" colspan="2">
+                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api gegevens zijn correct.');?></p></div>
+                </td>
+            </tr>
+        <?php
+        else:
+            ?>
+            <tr valign="top">
+                <td class="gls_api_check_wrapper" colspan="2">
+                    <div id="api_moderated_notok" class="error inline"><p><?php _e('Api gegevens zijn nog niet correct, voer de juiste informatie in.');?></p></div>
+                </td>
+            </tr>
+        <?php
+        endif;
     }
 
     /**
@@ -315,7 +381,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                                     echo wp_kses_post($option->get_method_description());
                                     break;
                                 case 'additional_fee':
-                                    echo "<input type='number' value='$additional_fee' name='additional_fee[$option->id]' />";
+                                    echo "<input type='short wc_input_price' value='$additional_fee' name='additional_fee[$option->id]' />";
                                     break;
                                 case 'status':
                                     echo '<a class="gls-delivery-option-method-toggle-enabled" href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=tig_gls&section=' . strtolower($option->id))) . '">';
@@ -365,8 +431,6 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         // TODO: Encrypt storage of passwords in database.
         $settings = $this->get_settings($current_section);
         WC_Admin_Settings::save_fields($settings);
-
-        parent::save();
     }
 }
 
