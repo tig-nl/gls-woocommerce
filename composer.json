@@ -1,0 +1,24 @@
+{
+  "name": "tig/gls-woocommerce",
+  "description": "GLS plugin for WooCommerce",
+  "require": {
+    "php": "~7.0|~7.1|~7.2|~7.3|~7.4",
+    "setasign/fpdi-fpdf": "^2.2"
+  },
+  "type": "woocommerce-plugin",
+  "license": "CC-BY-NC-ND-3.0",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "TIG",
+      "email": "support@tig.nl",
+      "homepage": "http://tig.nl"
+    }
+  ],
+  "support": {
+    "email": "support@tig.nl",
+    "issues": "https://portal.tig.nl/"
+  },
+  "homepage": "https://tig.nl/postnl",
+  "keywords": ["GLS", "Official GLS extension", "WooCommerce"]
+}
