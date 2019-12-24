@@ -265,7 +265,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             ?>
             <tr valign="top">
                 <td class="gls_api_check_wrapper" colspan="2">
-                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api gegevens zijn correct.');?></p></div>
+                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.');?></p></div>
                 </td>
             </tr>
         <?php
@@ -273,7 +273,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             ?>
             <tr valign="top">
                 <td class="gls_api_check_wrapper" colspan="2">
-                    <div id="api_moderated_notok" class="error inline"><p><?php _e('Api gegevens zijn nog niet correct, voer de juiste informatie in.');?></p></div>
+                    <div id="api_moderated_notok" class="error inline"><p><?php _e('Api credentials are not correct, please fill in the correct values.');?></p></div>
                 </td>
             </tr>
         <?php
@@ -381,7 +381,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                                     echo wp_kses_post($option->get_method_description());
                                     break;
                                 case 'additional_fee':
-                                    echo "<input type='short wc_input_price' value='$additional_fee' name='additional_fee[$option->id]' />";
+                                    echo "<input type='text' class='short wc_input_price' value='$additional_fee' name='additional_fee[$option->id]' />";
                                     break;
                                 case 'status':
                                     echo '<a class="gls-delivery-option-method-toggle-enabled" href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=tig_gls&section=' . strtolower($option->id))) . '">';
