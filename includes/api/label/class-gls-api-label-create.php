@@ -69,23 +69,21 @@ class GLS_Api_Label_Create
      */
     public function setBody()
     {
-        //$order           = $shipment->getOrder();
-        $jsonHardcoded   = '{"type":"ExpressService","details":{"service":"T12","title":"Voor 12:00 uur","fee":"2.20"},"deliveryAddress":{"name1":"Test Acceptatie","street":"Hoofdstraat","houseNo":"80","houseNoExt":"","countryCode":"NL","zipCode":"8441 ER","city":"Heerenveen","email":"robert@tig.nl","phone":"0612345678","addresseeType":"p"}}';
+        $order = wc_get_order($_POST['order_id']);
+        $delivery_option  = $order->get_meta('_gls_delivery_option');
 
-        $deliveryOption  = json_decode($jsonHardcoded);
-        $deliveryAddress = $deliveryOption->deliveryAddress;
-        //$labelType       = $this->getLabelType();
-        $labelType                 = $this->get_label_type();
-        $shipmentId                = 'TEST' . rand(1000, 9999);
+        $delivery_address = $delivery_option['delivery_address'];
+        $labelType        = $this->get_label_type();
+        $shipmentId       = $order->ID . '-1';
 
         $data                      = GLS_Api::add_shipping_information();
-        $data["services"]          = $this->map_services($deliveryOption->details, $deliveryOption->type, $deliveryAddress->countryCode);
+        $data["services"]          = $this->map_services($delivery_option['details'], $delivery_option['type'], $delivery_address['countryCode']);
         $data["trackingLinkType"]  = 'u';
         $data['labelType']         = $labelType;
         $data['notificationEmail'] = $this->prepare_notification_email();
         $data['returnRoutingData'] = false;
         $data['addresses']         = [
-            'deliveryAddress' => $deliveryAddress,
+            'deliveryAddress' => $delivery_address,
             'pickupAddress'   => $this->prepare_pickup_address()
         ];
         $data['shippingDate']      = date("Y-m-d");//$this->shippingDate->calculate("Y-m-d", false);
@@ -114,11 +112,11 @@ class GLS_Api_Label_Create
             "shopReturnService" => (bool) ($this->options['shop_return'] && $countryCode == 'NL')
         ];
         switch ($type) {
-            case 'ParcelShop'://Carrier::GLS_DELIVERY_OPTION_PARCEL_SHOP_LABEL:
-                return $service + ["shopDeliveryParcelShopId" => $details->parcelShopId];
-            case 'ExpressService': //Carrier::GLS_DELIVERY_OPTION_EXPRESS_LABEL:
-                return $service + [$type => $details->service];
-            case 'SaturdayService': //Carrier::GLS_DELIVERY_OPTION_SATURDAY_LABEL:
+            case 'ParcelShop':
+                return $service + ["shopDeliveryParcelShopId" => $details['parcelShopId']];
+            case 'ExpressService':
+                return $service + [$type => $details['service']];
+            case 'SaturdayService':
                 return $service + [$type => true];
             default:
                 return $service;

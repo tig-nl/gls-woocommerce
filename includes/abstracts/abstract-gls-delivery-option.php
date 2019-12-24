@@ -140,7 +140,7 @@ abstract class GLS_Delivery_Option extends WC_Settings_API
      */
     public function get_additional_fee_from_postdata()
     {
-        if ($_POST && $_POST['additional_fee'] && $_POST['additional_fee'][$this->id]) {
+        if ($_POST && isset($_POST['additional_fee']) && isset($_POST['additional_fee'][$this->id])) {
             return $_POST['additional_fee'][$this->id];
         }
         return false;

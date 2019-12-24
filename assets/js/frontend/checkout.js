@@ -34,7 +34,10 @@ jQuery(
             delivery_option_selected: function (e) {
                 e.stopPropagation();
 
-                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked');
+                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked'),
+                    shippingAddress        = $('#ship-to-different-address-checkbox:checked').length > 0
+                        ? $('.woocommerce-shipping-fields input, .woocommerce-shipping-fields select, #billing_phone_field input, #billing_email_field input')
+                        : $('.woocommerce-billing-fields input, .woocommerce-billing-fields select');
 
                 if (selectedDeliveryOption !==
                     gls_delivery_options_form.selected_delivery_option) {
@@ -49,9 +52,13 @@ jQuery(
                         url: gls_checkout_params.wc_ajax_url.toString().replace(
                             '%%endpoint%%', 'delivery_option_selected'),
                         data: {
-                            title: selectedDeliveryOption.data('title'),
-                            option: selectedDeliveryOption.val(),
-                            fee: selectedDeliveryOption.data('fee')
+                            type: selectedDeliveryOption.data('service'),
+                            details: {
+                                service: selectedDeliveryOption.val(),
+                                title: selectedDeliveryOption.data('title'),
+                                fee: selectedDeliveryOption.data('fee')
+                            },
+                            delivery_address: shippingAddress.serialize()
                         },
                         beforeSend: function() {
                             $('[id*=tig_gls]').prop('checked', true);
@@ -148,6 +155,7 @@ jQuery(
                 option_title.text(option.title);
                 option_input.attr('data-fee', option.fee);
                 option_input.attr('data-title', option.title);
+                option_input.attr('data-service', option.service !== undefined ? option.service  : 'DeliveryService');
                 option_fee.html(option.formatted_fee);
 
                 if (option.subDeliveryOptions !== undefined) {
@@ -159,7 +167,7 @@ jQuery(
 
                     var i = 0;
                     option.subDeliveryOptions.forEach(function(sub_option) {
-                        gls_delivery_options_form.map_sub_delivery_attributes(sub_option, template, template.find('.gls-sub-delivery-options > .gls-sub-delivery-option')[i]);
+                        gls_delivery_options_form.map_sub_delivery_attributes(sub_option, option.service, template, template.find('.gls-sub-delivery-options > .gls-sub-delivery-option')[i]);
                         i++;
                     });
                 }
@@ -167,7 +175,7 @@ jQuery(
                 template.appendTo(this.$delivery_options_container).show();
             },
 
-            map_sub_delivery_attributes: function(option, parent_template, template) {
+            map_sub_delivery_attributes: function(option, service, parent_template, template) {
                 container    = jQuery(parent_template).find('.gls-sub-delivery-options');
                 sub_template = jQuery(template).clone(true);
 
@@ -181,6 +189,7 @@ jQuery(
                 jQuery(option_title).text(option.title);
                 jQuery(option_input).attr('data-fee', option.fee);
                 jQuery(option_input).attr('data-title', option.title);
+                jQuery(option_input).attr('data-service', service);
                 jQuery(option_fee).html(option.formatted_fee);
 
                 sub_template.appendTo(container).show();
