@@ -116,21 +116,8 @@ final class GLS
      */
     private function define_constants()
     {
-        $this->define('GLS_ABSPATH', dirname(GLS_PLUGIN_FILE) . '/');
-        $this->define('GLS_VERSION', $this->version);
-    }
-
-    /**
-     * Define constant if not already set.
-     *
-     * @param string      $name  Constant name.
-     * @param string|bool $value Constant value.
-     */
-    private function define($name, $value)
-    {
-        if (!defined($name)) {
-            define($name, $value);
-        }
+        define('GLS_ABSPATH', dirname(GLS_PLUGIN_FILE) . '/');
+        define('GLS_VERSION', $this->version);
     }
 
     /**
@@ -181,6 +168,13 @@ final class GLS
     public function includes()
     {
         /**
+         * Composer autoloader.
+         */
+        if (file_exists(GLS_ABSPATH . '/vendor/autoload.php')) {
+            require_once GLS_ABSPATH . '/vendor/autoload.php';
+        }
+
+        /**
          * Class autoloader.
          */
         include_once GLS_ABSPATH . 'includes/class-gls-autoloader.php';
@@ -225,6 +219,7 @@ final class GLS
     {
         add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
         add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 100, 2);
+        add_action('woocommerce_init', array('GLS_Pdf', 'gls_pdf_callback'));
     }
 
     /**

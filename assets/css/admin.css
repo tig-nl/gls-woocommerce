@@ -40,6 +40,7 @@
     width: 100%;
 }
 
-.order_actions.order_label .print_label {
+.order_actions.order_label .print_label,
+.order_actions.order_label .create_label {
     float: right;
 }

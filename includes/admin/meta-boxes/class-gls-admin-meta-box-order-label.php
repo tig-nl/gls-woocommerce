@@ -30,29 +30,33 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 class GLS_Admin_Meta_Box_Order_Label
 {
-    public static function output($post) {
-        global $theorder;
+    public static function output($post)
+    {
+        global $theorder, $pagenow;
 
         // This is used by some callbacks attached to hooks such as woocommerce_order_actions which rely on the global to determine if actions should be displayed for certain orders.
         if (!is_object($theorder)) {
             $theorder = wc_get_order($post->ID);
         }
 
-        $label = $theorder->get_meta('_gls_label');
+        $label    = $theorder->get_meta('_gls_label');
+        $pdf_link = $label ? "onclick=\"window.open('" . add_query_arg(array('gls_pdf_action' => 'view', 'post' => $post->ID), admin_url($pagenow)) . '\', \'_blank\');"' : null;
         ?>
         <ul class="order_actions order_label submitbox">
-            <?php do_action( 'gls_order_label_start', $post->ID ); ?>
+            <?php do_action('gls_order_label_start', $post->ID); ?>
 
             <?php if (isset($label->units[0])): ?>
-            <li class="wide" id="label">
-                <ul>
-                    <li><?php _e('Tracking Code'); ?>: <a href="<?= $label->units[0]->unitTrackingLink; ?>" target="_blank"><?= $label->units[0]->unitNo; ?></a></li>
-                </ul>
-            </li>
+                <li class="wide" id="label">
+                    <ul>
+                        <li><?php _e('Tracking Code'); ?>:
+                            <a href="<?= $label->units[0]->unitTrackingLink; ?>" target="_blank"><?= $label->units[0]->unitNo; ?></a>
+                        </li>
+                    </ul>
+                </li>
             <?php endif; ?>
 
             <li class="wide">
@@ -66,7 +70,9 @@ class GLS_Admin_Meta_Box_Order_Label
                     ?>
                 </div>
 
-                <button type="submit" class="button <?= $label ? 'print_label' : 'create_label'; ?> button-primary" name="create" value="<?= $label ? 'Print' : 'Create'; ?>"><?= esc_html__($label ? 'Print' : 'Create', 'gls-woocommerce'); ?></button>
+                <button type="button"
+                        class="button <?= $label ? 'print_label' : 'create_label'; ?> button-primary" name="create"
+                        value="<?= $label ? 'Print' : 'Create'; ?>" <?= $pdf_link; ?>><?= esc_html__($label ? 'Print' : 'Create', 'gls-woocommerce'); ?></button>
             </li>
 
             <?php do_action('gls_order_label_end', $post->ID); ?>
