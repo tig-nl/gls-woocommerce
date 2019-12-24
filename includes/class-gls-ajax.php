@@ -209,7 +209,7 @@ class GLS_AJAX extends WC_AJAX
 
         $order = wc_get_order($_POST['order_id']);
         /** @var StdClass $response */
-        $response = GLS()->api_create_label()->call();
+        $response = GLS()->api_create_label($_POST['order_id'])->call();
 
         if ($response->status != 200) {
             wp_send_json_error($response->message, $response->status);

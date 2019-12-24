@@ -69,8 +69,8 @@ class GLS_Admin_Order_Columns
         if ( 'gls_shipping_information' === $column ) {
             $delivery_option    = get_post_meta( $post->ID, $key = '_gls_delivery_option');
             $label              = get_post_meta( $post->ID, $key = '_gls_label');
-            if ($delivery_option && $delivery_option[0] && $delivery_option[0]['title']) {
-                echo $delivery_option[0]['title']. '<br />';
+            if ($delivery_option && $delivery_option[0] && $delivery_option[0]['details']) {
+                echo $delivery_option[0]['details']['title']. '<br />';
             }
             if ($label && $label[0] && $label[0]->units && $label[0]->units[0]) {
                 $current_label = $label[0]->units[0];

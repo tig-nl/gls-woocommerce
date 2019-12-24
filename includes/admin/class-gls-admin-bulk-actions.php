@@ -77,11 +77,11 @@ class GLS_Admin_Bulk_Actions
             if (!$gls_label[0]->labels && count($gls_option)) {
                 $order = wc_get_order($post_id);
                 /** @var StdClass $response */
-                $createLabel = new GLS_Api_Label_Create();
+                $createLabel = new GLS_Api_Label_Create($post_id);
                 $response = $createLabel->call();
                 if ($response->status != 200) {
                     $error_ids[] = $post_id;
-                    break;
+                    continue;
                 }
                 $order->update_meta_data('_gls_label', $response);
                 $order->save();

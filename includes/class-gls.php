@@ -296,11 +296,12 @@ final class GLS
     }
 
     /**
+     * @param $order_id
      * @return GLS_Api_Label_Create
      */
-    public function api_create_label()
+    public function api_create_label($order_id)
     {
-        return new GLS_Api_Label_Create();
+        return new GLS_Api_Label_Create($order_id);
     }
 
     /**
