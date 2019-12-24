@@ -29,16 +29,26 @@
  * @copyright   Copyright (c) Total Internet Group B.V. https://tig.nl/copyright
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
+
 defined( 'ABSPATH' ) || exit;
 
 class GLS_Admin_Order_Columns
 {
+    /**
+     * GLS_Admin_Order_Columns constructor.
+     */
     public function __construct()
     {
-        add_filter( 'manage_edit-shop_order_columns', array($this, 'gls_shipment_information_order_column'), 20 );
-        add_action( 'manage_shop_order_posts_custom_column', array($this, 'gls_add_order_shipping_information_column_content'));
+        add_filter('manage_edit-shop_order_columns', array($this, 'order_column'), 20);
+        add_action('manage_shop_order_posts_custom_column', array($this, 'column_content'));
     }
-    public function gls_shipment_information_order_column($columns)
+
+    /**
+     * @param $columns
+     *
+     * @return array
+     */
+    public function order_column($columns)
     {
         $new_columns = array();
         foreach ($columns as $column_name => $column_info) {
@@ -54,7 +64,7 @@ class GLS_Admin_Order_Columns
      *
      * @param string[] $column name of column being displayed
      */
-    function gls_add_order_shipping_information_column_content($column) {
+    function column_content($column) {
         global $post, $pagenow;
         if ( 'gls_shipping_information' === $column ) {
             $delivery_option    = get_post_meta( $post->ID, $key = '_gls_delivery_option');
@@ -71,4 +81,5 @@ class GLS_Admin_Order_Columns
         }
     }
 }
+
 new GLS_Admin_Order_Columns();
