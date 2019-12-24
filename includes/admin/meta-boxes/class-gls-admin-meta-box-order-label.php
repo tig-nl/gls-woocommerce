@@ -44,7 +44,7 @@ class GLS_Admin_Meta_Box_Order_Label
         }
 
         $label    = $theorder->get_meta('_gls_label');
-        $pdf_link = $label ? "onclick=\"window.open('" . add_query_arg(array('gls_pdf_action' => 'view', 'post' => $post->ID), admin_url($pagenow)) . '\', \'_blank\');"' : null;
+        $pdf_link = $label ? "onclick=\"window.open('" . add_query_arg(array('gls_pdf_action' => 'view', 'post' => $post->ID, '_wpnonce' => wp_create_nonce('view')), admin_url($pagenow)) . '\', \'_blank\');"' : null;
         ?>
         <ul class="order_actions order_label submitbox">
             <?php do_action('gls_order_label_start', $post->ID); ?>

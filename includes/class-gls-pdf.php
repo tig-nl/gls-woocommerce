@@ -65,23 +65,16 @@ class GLS_Pdf
             return;
         }
 
-        // sanitize data and verify nonce.
+        // Verify Nonce
         $action = sanitize_key($_GET['gls_pdf_action']);
-        //$nonce  = sanitize_key( $_GET['nonce'] );
-        //if ( ! wp_verify_nonce( $nonce, $action ) ) {
-        //    wp_die( 'Invalid request.' );
-        //}
+        $nonce  = sanitize_key($_GET['_wpnonce']);
+        if (!wp_verify_nonce($nonce, $action)) {
+            wp_die('Invalid request.');
+        }
 
-        // validate allowed user roles.
-        //$user          = wp_get_current_user();
-        //$allowed_roles = apply_filters( 'bewpi_allowed_roles_to_download_invoice', array(
-        //    'administrator',
-        //    'shop_manager',
-        ///) );
-
-        //if ( ! array_intersect( $allowed_roles, $user->roles ) && ! user_can( $user, 'manage_network_snippets' ) ) {
-        //    wp_die( 'Access denied' );
-        //}
+        if(!current_user_can('manage_woocommerce')) {
+            wp_die('Access denied');
+        }
 
         $order_id  = intval($_GET['post']);
         $order_ids = intval($_GET['post_ids']);
