@@ -134,4 +134,15 @@ abstract class GLS_Delivery_Option extends WC_Settings_API
     {
         return apply_filters('tig_gls_option_additional_fee', $this->additional_fee, $this->id);
     }
+
+    /**
+     * @return bool
+     */
+    public function get_additional_fee_from_postdata()
+    {
+        if ($_POST && $_POST['additional_fee'] && $_POST['additional_fee'][$this->id]) {
+            return $_POST['additional_fee'][$this->id];
+        }
+        return false;
+    }
 }
