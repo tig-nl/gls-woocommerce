@@ -74,7 +74,7 @@ class GLS_Admin_Order_Columns
             }
             if ($label && $label[0] && $label[0]->units && $label[0]->units[0]) {
                 $current_label = $label[0]->units[0];
-                $pdf_link = add_query_arg(array('gls_pdf_action' => 'download', 'post' => $post->ID, '_wpnonce' => wp_create_nonce('view')), admin_url($pagenow));
+                $pdf_link = add_query_arg(array('gls_pdf_action' => 'download', 'post' => $post->ID, '_wpnonce' => wp_create_nonce('download')), admin_url($pagenow));
                 echo '<a href="' . $pdf_link . '">PDF Label</a><br/>';
                 echo 'Track and trace: <a href="' . $current_label->unitTrackingLink . '" target="_blank">' .$current_label->unitNo. '</a><br/>';
             }
