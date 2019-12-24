@@ -311,9 +311,10 @@ class GLS_Delivery_Options
             return;
         }
 
-        $service  = $session->get('gls_service');
+        $service = $session->get('gls_service');
+        $details = $service['details'];
 
-        $woocommerce->cart->add_fee($service['title'], $service['fee'], true, '');
+        $woocommerce->cart->add_fee(__('Delivery', 'gls-woocommerce') . ' ' . $details['title'], $details['fee'], true, '');
     }
 
     /**

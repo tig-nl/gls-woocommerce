@@ -105,22 +105,55 @@ class GLS_AJAX extends WC_AJAX
             return;
         }
 
-        $title = strtolower($_POST['title'] ?? '');
+        $title = strtolower($_POST['details']['title'] ?? '');
 
         if (strpos($title, ' | ')) {
-            $title = explode(' | ', $title)[0];
+            $_POST['details']['title'] = explode(' | ', $title)[0];
         }
 
-        $session = WC()->session;
-        $service = [
-            'fee'    => $_POST['fee'] ?? '',
-            'title'  => __('Delivery') . ' ' . $title,
-            'option' => $_POST['option'] ?? ''
-        ];
+        parse_str($_POST['delivery_address'], $delivery_address);
 
-        $session->set('gls_service', $service);
+        $type                      = isset($delivery_address['ship_to_different_address']) ? 'shipping_' : 'billing_';
+        $_POST['delivery_address'] = self::map_delivery_address($delivery_address, $type);
+
+        $session = WC()->session;
+        $session->set('gls_service', $_POST);
 
         wp_die();
+    }
+
+    /**
+     * Map delivery address in the format required by GLS, so we can always deliver it in the right format.
+     *
+     * @param        $delivery_address
+     * @param string $type
+     *
+     * @return array
+     */
+    private static function map_delivery_address($delivery_address, $type = 'billing_')
+    {
+        $first_name = $type . 'first_name';
+        $last_name  = $type . 'last_name';
+        $street     = $type . 'address_1';
+        $houseNo    = $type . 'address_2';
+        $country    = $type . 'country';
+        $zipcode    = $type . 'postcode';
+        $city       = $type . 'city';
+        $company    = $type . 'company';
+
+        return [
+            'name1'         => $delivery_address[$first_name] . ' ' . $delivery_address[$last_name],
+            'street'        => $delivery_address[$street],
+            'houseNo'       => substr($delivery_address[$houseNo], 0, 10),
+            'name2'         => $delivery_address[$houseNo],
+            'countryCode'   => $delivery_address[$country],
+            'zipCode'       => $delivery_address[$zipcode],
+            'city'          => $delivery_address[$city],
+            // Email and Phone are always retrieved from billing, since they don't exist in shipping.
+            'email'         => $delivery_address['billing_email'],
+            'phone'         => $delivery_address['billing_phone'] ?: '+00000000000',
+            'addresseeType' => empty($delivery_address[$company]) ? 'p' : 'b'
+        ];
     }
 
     /**
@@ -179,7 +212,7 @@ class GLS_AJAX extends WC_AJAX
         $response = GLS()->api_create_label()->call();
 
         if ($response->status != 200) {
-            wp_send_json_error('Label could not be created', $response->status);
+            wp_send_json_error($response->message, $response->status);
         }
 
         $order->update_meta_data('_gls_label', $response);
