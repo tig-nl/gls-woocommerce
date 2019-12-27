@@ -59,6 +59,7 @@ class GLS_Admin_Order_Columns
         }
         return $new_columns;
     }
+
     /**
      * Adds 'Profit' column content to 'Orders' page immediately after 'Total' column.
      *

@@ -49,8 +49,7 @@ jQuery(
                 gls_delivery_options_form.xhr = $.ajax(
                     {
                         type: 'POST',
-                        url: gls_checkout_params.wc_ajax_url.toString().replace(
-                            '%%endpoint%%', 'delivery_option_selected'),
+                        url: gls_checkout_params.wc_ajax_url.toString().replace('%%endpoint%%', 'delivery_option_selected'),
                         data: {
                             type: selectedDeliveryOption.data('service'),
                             details: {
@@ -65,7 +64,7 @@ jQuery(
                         },
                         success: function() {
                             gls_delivery_options_form.$error_container.hide();
-                            $(document.body).trigger( 'update_checkout');
+                            $(document.body).trigger('update_checkout');
                         }
                     }
                 );

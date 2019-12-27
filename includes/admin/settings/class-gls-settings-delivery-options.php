@@ -417,7 +417,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         // TODO: Fix bug where updated settings aren't show immediately after saving changes. They are updated in the database, however...
         if (current_user_can('manage_woocommerce') && isset($_POST['additional_fee'])) {
             $delivery_options = GLS()->delivery_options->available_delivery_options();
-            $additional_fee   = wc_clean(wp_unslash($_POST['additional_fee']));
+            $additional_fee   = GLS()->post('additional_fee');
 
             foreach ($delivery_options as $option) {
                 if (!array_search($additional_fee[$option->id], $additional_fee, true)) {

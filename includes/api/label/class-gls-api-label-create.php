@@ -69,7 +69,7 @@ class GLS_Api_Label_Create
      */
     public function setBody()
     {
-        $order = wc_get_order($_POST['order_id']);
+        $order = wc_get_order(GLS()->post('order_id'));
         $delivery_option  = $order->get_meta('_gls_delivery_option');
 
         $delivery_address = $delivery_option['delivery_address'];

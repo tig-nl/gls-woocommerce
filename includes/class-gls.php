@@ -243,6 +243,22 @@ final class GLS
     }
 
     /**
+     * Cleans and returns any POST-data.
+     *
+     * @param null $key
+     *
+     * @return array|string
+     */
+    public function post($key = null)
+    {
+        if (!$key) {
+            return wc_clean(wp_unslash($_POST));
+        }
+
+        return wc_clean(wp_unslash($_POST[$key]));
+    }
+
+    /**
      * Get Ajax URL.
      *
      * @return string

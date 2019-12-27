@@ -91,9 +91,9 @@ class GLS_Api_Get_Delivery_Options
         }
 
         return array(
-            'countryCode'  => wc_clean(wp_unslash($_POST['country'])),
+            'countryCode'  => GLS()->post('country'),
             'langCode'     => 'nl',
-            'zipCode'      => wc_clean(wp_unslash($_POST['postcode'])),
+            'zipCode'      => GLS()->post('postcode'),
             'shippingDate' => $shipping_date->format('Y-m-d')
         );
     }
