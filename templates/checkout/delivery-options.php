@@ -62,7 +62,7 @@
         </div>
         <div class="gls-parcel-shops">
             <div class="container gls-parcel-shop" style="display: none;">
-                <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId" id="shop_%%parcelShopId%%" />
+                <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId%%" id="shop_%%parcelShopId%%" />
                 <label for="shop_%%parcelShopId%%"></label><br/>
 
                 <div class="address-information">

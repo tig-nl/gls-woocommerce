@@ -53,6 +53,7 @@ class GLS_AJAX extends WC_AJAX
     {
         $ajax_events_nopriv = array(
             'update_delivery_options',
+            'update_parcel_shops',
             'delivery_option_selected'
         );
 
@@ -94,6 +95,25 @@ class GLS_AJAX extends WC_AJAX
         $delivery_options           = GLS()->delivery_options()->delivery_options($available_delivery_options, $enabled_delivery_options);
 
         wp_send_json_success($delivery_options, $response->status);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function update_parcel_shops()
+    {
+        check_ajax_referer('update-parcel-shops', 'security');
+        /** @var StdClass $response */
+        $response = GLS()->api_pickup_locations()->call();
+
+        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
+            $code = $response->statusCode ?: 400;
+            wp_send_json_error($response->message, $code);
+        }
+
+        $available_parcel_shops = $response->parcelShops;
+
+        wp_send_json_success($available_parcel_shops, $response->status);
     }
 
     /**

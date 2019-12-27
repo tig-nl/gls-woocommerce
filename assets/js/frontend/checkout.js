@@ -17,8 +17,13 @@ jQuery(
             $parcel_shop: $('.gls-parcel-shop'),
             $error_container: $('.gls-error'),
 
+            /**
+             * Initializes all events where methods should be triggered.
+             */
             init: function () {
                 $(document.body).bind('update_delivery_options', this.update_delivery_options);
+
+                // Selected delivery option is saved to the session immediately.
                 this.$checkout_form.on('click', 'input[name="gls_delivery_option"]', this.delivery_option_selected);
 
                 // Manual trigger
@@ -31,6 +36,30 @@ jQuery(
                 this.$checkout_form.on('change', '.address-field input.input-text, .address-field select.country_select', this.trigger_update_delivery_options);
             },
 
+            /**
+             * The main event.
+             *
+             * Triggers both calls to update delivery options and parcel shops.
+             *
+             * @param event
+             * @param args
+             */
+            update_delivery_options: function (event, args) {
+                gls_delivery_options_form.reset_update_checkout_timer();
+                gls_delivery_options_form.updateTimer = setTimeout(gls_delivery_options_form.update_delivery_options_action, '5', args);
+                gls_delivery_options_form.updateTimer = setTimeout(gls_delivery_options_form.update_parcel_shops_action, '5', args);
+            },
+
+            /**
+             * Small timeout to prevent multiple requests when several fields update at the same time
+             */
+            reset_update_checkout_timer: function () {
+                clearTimeout(gls_delivery_options_form.updateTimer);
+            },
+
+            /**
+             * @param e
+             */
             delivery_option_selected: function (e) {
                 e.stopPropagation();
 
@@ -70,21 +99,69 @@ jQuery(
                 );
             },
 
+            /**
+             *
+             */
             trigger_update_delivery_options: function () {
                 gls_delivery_options_form.reset_update_checkout_timer();
                 $(document.body).trigger('update_delivery_options');
             },
 
-            reset_update_checkout_timer: function () {
-                clearTimeout(gls_delivery_options_form.updateTimer);
+            /**
+             *
+             */
+            update_parcel_shops_action: function () {
+                // if (gls_delivery_options_form.xhr) {
+                //     gls_delivery_options_form.xhr.abort();
+                // }
+
+                if (gls_delivery_options_form.$checkout_form.length === 0) {
+                    return;
+                }
+
+                var country = $('#billing_country').val(),
+                    postcode = $(':input#billing_postcode').val();
+
+                if ($('#ship-to-different-address').find('input').is(':checked')) {
+                    country = $('#shipping_country').val();
+                    postcode = $(':input#shipping_postcode').val();
+                }
+
+                var data = {
+                    security: gls_checkout_params.update_parcel_shops_nonce,
+                    postcode: postcode,
+                    country: country
+                };
+
+                gls_delivery_options_form.xhr = $.ajax({
+                    type: 'POST',
+                    url: gls_checkout_params.wc_ajax_url.toString().replace(
+                        '%%endpoint%%', 'update_parcel_shops'),
+                    data: data,
+                    beforeSend: function() {
+                        // Remove any options that we're retrieved in a previous call.
+                        currentOptions = gls_delivery_options_form.$parcel_shops_container.children();
+
+                        if (currentOptions.length > 1) {
+                            var i;
+                            for (i = 1; i < currentOptions.length; i++) {
+                                currentOptions[i].remove();
+                            }
+                        }
+                    },
+                    success: function (options) {
+                        gls_delivery_options_form.$error_container.hide();
+                        options.data.forEach(gls_delivery_options_form.display_parcel_shop);
+                    },
+                    error: function (message) {
+                        gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
+                    }
+                });
             },
 
-            update_delivery_options: function (event, args) {
-                // Small timeout to prevent multiple requests when several fields update at the same time
-                gls_delivery_options_form.reset_update_checkout_timer();
-                gls_delivery_options_form.updateTimer = setTimeout(gls_delivery_options_form.update_delivery_options_action, '5', args);
-            },
-
+            /**
+             *
+             */
             update_delivery_options_action: function () {
                 if (gls_delivery_options_form.xhr) {
                     gls_delivery_options_form.xhr.abort();
@@ -108,38 +185,42 @@ jQuery(
                     country: country
                 };
 
-                gls_delivery_options_form.xhr = $.ajax(
-                    {
-                        type: 'POST',
-                        url: gls_checkout_params.wc_ajax_url.toString().replace(
-                            '%%endpoint%%', 'update_delivery_options'),
-                        data: data,
-                        beforeSend: function() {
-                            // Remove any options that we're retrieved in a previous call.
-                            currentOptions = gls_delivery_options_form.$delivery_options_container.children();
+                gls_delivery_options_form.xhr = $.ajax({
+                    type: 'POST',
+                    url: gls_checkout_params.wc_ajax_url.toString().replace(
+                        '%%endpoint%%', 'update_delivery_options'),
+                    data: data,
+                    beforeSend: function() {
+                        // Remove any options that we're retrieved in a previous call.
+                        currentOptions = gls_delivery_options_form.$delivery_options_container.children();
 
-                            if (currentOptions.length > 1) {
-                                var i;
-                                for (i = 1; i < currentOptions.length; i++) {
-                                    currentOptions[i].remove();
-                                }
+                        if (currentOptions.length > 1) {
+                            var i;
+                            for (i = 1; i < currentOptions.length; i++) {
+                                currentOptions[i].remove();
                             }
-                        },
-                        success: function (options) {
-                            gls_delivery_options_form.$error_container.hide();
-                            options.data.forEach(gls_delivery_options_form.display_delivery_option);
-                        },
-                        error: function (message) {
-                            gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
                         }
+                    },
+                    success: function (options) {
+                        gls_delivery_options_form.$error_container.hide();
+                        options.data.forEach(gls_delivery_options_form.display_delivery_option);
+                    },
+                    error: function (message) {
+                        gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
                     }
-                );
+                });
             },
 
+            /**
+             * @param option
+             */
             display_delivery_option: function(option) {
                 gls_delivery_options_form.map_delivery_option_attributes(option);
             },
 
+            /**
+             * @param option
+             */
             map_delivery_option_attributes: function(option) {
                 template = this.$delivery_option.clone(true);
 
@@ -174,6 +255,12 @@ jQuery(
                 template.appendTo(this.$delivery_options_container).show();
             },
 
+            /**
+             * @param option
+             * @param service
+             * @param parent_template
+             * @param template
+             */
             map_sub_delivery_attributes: function(option, service, parent_template, template) {
                 container    = jQuery(parent_template).find('.gls-sub-delivery-options');
                 sub_template = jQuery(template).clone(true);
@@ -192,6 +279,36 @@ jQuery(
                 jQuery(option_fee).html(option.formatted_fee);
 
                 sub_template.appendTo(container).show();
+            },
+
+            /**
+             * @param option
+             */
+            display_parcel_shop: function(option) {
+                gls_delivery_options_form.map_parcel_shop_attributes(option);
+            },
+
+            /**
+             * @param option
+             */
+            map_parcel_shop_attributes: function (option) {
+                template = this.$parcel_shop.clone(true);
+
+                option_input = template.children('.gls-parcel-shop > input');
+                option_title = template.children('.gls-parcel-shop > label');
+                option_fee   = template.children('.gls-parcel-shop > .delivery-fee');
+                service_code = option.service !== 'undefined' ? option.service : 'default';
+
+                option_input.val(service_code);
+                option_input.attr('id', service_code);
+                option_title.attr('for', service_code);
+                option_title.text(option.title);
+                option_input.attr('data-fee', option.fee);
+                option_input.attr('data-title', option.title);
+                option_input.attr('data-service', 'ParcelShop');
+                option_fee.html(option.formatted_fee);
+
+                template.appendTo(this.$parcel_shops_container).show();
             }
         };
 

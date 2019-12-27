@@ -161,7 +161,8 @@ class GLS_Frontend_Scripts extends WC_Frontend_Scripts
                 $params = array(
                     'ajax_url'                      => GLS()->ajax_url(),
                     'wc_ajax_url'                   => WC_AJAX::get_endpoint('%%endpoint%%'),
-                    'update_delivery_options_nonce' => wp_create_nonce('update-delivery-options')
+                    'update_delivery_options_nonce' => wp_create_nonce('update-delivery-options'),
+                    'update_parcel_shops_nonce'     => wp_create_nonce('update-parcel-shops')
                 );
                 break;
             default:

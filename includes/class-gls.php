@@ -304,6 +304,15 @@ final class GLS
     }
 
     /**
+     * @return GLS_Api_Get_Parcel_Shops
+     * @throws Exception
+     */
+    public function api_pickup_locations()
+    {
+        return new GLS_Api_Get_Parcel_Shops();
+    }
+
+    /**
      * @return GLS_Api_Validate_Login
      */
     public function api_validate_login()
