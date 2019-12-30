@@ -297,18 +297,50 @@ jQuery(
                 option_input = template.children('.gls-parcel-shop > input');
                 option_title = template.children('.gls-parcel-shop > label');
                 option_fee   = template.children('.gls-parcel-shop > .delivery-fee');
-                service_code = option.service !== 'undefined' ? option.service : 'default';
 
-                option_input.val(service_code);
-                option_input.attr('id', service_code);
-                option_title.attr('for', service_code);
-                option_title.text(option.title);
+                parcel_address = template.children('.gls-parcel-shop .address-information');
+                parcel_address_street   = parcel_address.children('span.street');
+                parcel_address_city   = parcel_address.children('span.city');
+                parcel_address_distance   = parcel_address.children('span.distance-meters');
+                parcel_shop_id = option.parcelShopId !== 'undefined' ? option.parcelShopId : 'default';
+
+                option_input.val(parcel_shop_id);
+                option_input.attr('id', parcel_shop_id);
+                option_title.attr('for', parcel_shop_id);
+                option_title.text(option.name);
                 option_input.attr('data-fee', option.fee);
-                option_input.attr('data-title', option.title);
+                option_input.attr('data-title', option.name);
                 option_input.attr('data-service', 'ParcelShop');
                 option_fee.html(option.formatted_fee);
 
+                parcel_address_street.html(option.street + ' ' + option.houseNo );
+                parcel_address_city.html(option.zipcode + ' ' + option.city);
+                parcel_address_distance.html(option.distanceMeters + 'm');
+
+                var i = 0;
+                option.businessHours.forEach(function(business_hours) {
+                    gls_delivery_options_form.map_parcel_shop_business_hours(business_hours, template, template.find('.parcel-business-hours > .row')[i]);
+                    i++;
+                });
+
                 template.appendTo(this.$parcel_shops_container).show();
+            },
+
+            /**
+             *
+             * @param option
+             */
+            map_parcel_shop_business_hours: function(business_hours, parent_template, template) {
+                container    = jQuery(parent_template).find('.parcel-business-hours');
+                sub_template = jQuery(template).clone(true);
+
+                option_day = sub_template.children('.day-of-the-week');
+                option_hours = sub_template.children('.opening-hours');
+
+                jQuery(option_day).text(business_hours.dayOfWeek);
+                jQuery(option_hours).text(business_hours.openTime + ' - ' + business_hours.closedTime);
+
+                sub_template.appendTo(container).show();
             }
         };
 
