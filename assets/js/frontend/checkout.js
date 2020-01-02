@@ -227,7 +227,7 @@ jQuery(
                 option_input = template.children('.gls-delivery-option > input');
                 option_title = template.children('.gls-delivery-option > label');
                 option_fee   = template.children('.gls-delivery-option > .delivery-fee');
-                service_code = option.service !== 'undefined' ? option.service : 'default';
+                service_code = typeof option.service !== 'undefined' ? option.service : 'default_delivery_option';
 
                 option_input.val(service_code);
                 option_input.attr('id', service_code);
