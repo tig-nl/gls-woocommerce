@@ -31,7 +31,7 @@
  */
 ?>
 <div class="gls-wrapper">
-    <h3 class="block-title" id="delivery_options_heading"><?php _e("Shipping Options", "gls-woocommerce"); ?></h3>
+    <h3 class="gls-block-title" id="delivery_options_heading"><?php _e("Shipping Options", "gls-woocommerce"); ?></h3>
     <div id="delivery_options" class="gls-woocommerce-checkout-delivery-options">
         <div class="gls-error error">
         </div>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="gls-parcel-shops">
+            <div class="gls-parcel-shops" style="display: none;">
                 <div class="container gls-parcel-shop" style="display: none;">
 
                     <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId%%" id="shop_%%parcelShopId%%" />
@@ -73,11 +73,11 @@
                         <span class="distance-meters">%%distanceMeters%% m</span>
                     </div>
 
-                    <a class="open-business-hours-link" onclick="jQuery(this).next('.table.container').toggle().toggleClass('active'); jQuery(this).addClass('active');">
+                    <a class="open-business-hours-link" onclick="jQuery(this).next('.table.container').toggleClass('active'); jQuery(this).addClass('active');">
                         <?php _e('Show business hours', 'gls-woocommerce'); ?>
                     </a>
-                    <div class="table container" style="display: none;">
-                        <a class="close" onclick="jQuery(this).parent('.table.container').hide().removeClass('active'); jQuery(this).parent('.table.container').prev('.open-business-hours-link').removeClass('active');">
+                    <div class="table container">
+                        <a class="close" onclick="jQuery(this).parent('.table.container').removeClass('active'); jQuery(this).parent('.table.container').prev('.open-business-hours-link').removeClass('active');">
                             <span><?php _e('Close', 'gls-woocommerce'); ?></span>
                             <svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

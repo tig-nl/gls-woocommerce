@@ -35,6 +35,11 @@ jQuery(
 
                 // Inputs/selects which update delivery options
                 this.$checkout_form.on('change', '.address-field input.input-text, .address-field select.country_select', this.trigger_update_delivery_options);
+
+                // Selected delivery option is saved to the session immediately.
+                this.$checkout_form.on('click', '.gls-tab-delivery', this.show_delivery);
+                this.$checkout_form.on('click', '.gls-tab-pickup', this.show_pickup);
+
             },
 
             /**
@@ -97,6 +102,42 @@ jQuery(
                         }
                     }
                 );
+
+                gls_delivery_options_form.set_background_color(selectedDeliveryOption);
+            },
+
+            /**
+             * Set background color on the current active radio button
+             * TODO: make this work for sub-delivert-option items.
+             */
+
+            set_background_color: function(selectedDeliveryOption) {
+
+                console.log(selectedDeliveryOption);
+                var notSelectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:not(:checked)');
+
+                $(selectedDeliveryOption).parent('.container').addClass('gls-highlight');
+                $(notSelectedDeliveryOption).parent('.container').removeClass('gls-highlight');
+            },
+
+            /**
+             * Show delivery options and hide pickup locations by default - Switch
+             */
+
+            show_delivery: function(){
+                $('.gls-tab-pickup').removeClass('active');
+                $('.gls-tab-delivery').addClass('active');
+
+                $('.gls-parcel-shops').fadeOut('fast');
+                $('.gls-delivery-options').fadeIn('slow');
+            },
+
+            show_pickup: function () {
+                $('.gls-tab-delivery').removeClass('active');
+                $('.gls-tab-pickup').addClass('active');
+
+                $('.gls-delivery-options').fadeOut('fast');
+                $('.gls-parcel-shops').fadeIn('slow');
             },
 
             /**
