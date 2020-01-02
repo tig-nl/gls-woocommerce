@@ -123,7 +123,7 @@ class GLS_Api_Label_Create
         ];
         switch ($type) {
             case 'ParcelShop':
-                return $service + ["shopDeliveryParcelShopId" => $details['parcelShopId']];
+                return $service + ["shopDeliveryParcelShopId" => $details['service']];
             case 'ExpressService':
                 return $service + [$type => $details['service']];
             case 'SaturdayService':
