@@ -15,7 +15,7 @@
 
 /* Title ============================================================================================================ */
 
-.gls-wrapper h3.block-title {
+.gls-wrapper h3.gls-block-title {
   margin: 4rem auto 3rem;
 }
 
@@ -60,6 +60,11 @@
   width: 100%;
   font-size: 14px;
   color: #172156;
+  margin-bottom: 20px;
+}
+
+.gls-highlight {
+  background: #F0F3FF;
 }
 
 .gls-services a {
@@ -80,14 +85,6 @@
 .delivery-fee .amount > span {
   margin-right: 2px;
 }
-
-
-
-/*.container.active {*/
-  /*background: #F0F3FF;*/
-/*}*/
-
-
 
 /* ================================================================================================================== */
 /* Delivery Options ================================================================================================= */
@@ -112,7 +109,13 @@
   cursor: pointer;
   font-weight :bold;
   display: table-cell;
-  width: 100%;
+  width: 80%;
+}
+
+.gls-delivery-options .gls-delivery-option .delivery-fee {
+  display: table-cell;
+  width: 20%;
+  text-align: right;
 }
 
 .gls-delivery-options .gls-delivery-option label:hover {
@@ -240,6 +243,7 @@
 }
 
 .gls-parcel-shops .gls-parcel-shop .table.container.active {
+  background: #fff;
   height: unset;
   display :table;
   padding: 15px;
@@ -341,7 +345,3 @@
 .gls-parcel-shops input[type=radio]:checked + label:after {
   top: 1px;
 }
-
-
-
-

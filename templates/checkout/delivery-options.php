@@ -31,7 +31,7 @@
  */
 ?>
 <div class="gls-wrapper">
-    <h3 class="block-title" id="delivery_options_heading"><?php _e("Shipping Options", "gls-woocommerce"); ?></h3>
+    <h3 class="gls-block-title" id="delivery_options_heading"><?php _e("Shipping Options", "gls-woocommerce"); ?></h3>
     <div id="delivery_options" class="gls-woocommerce-checkout-delivery-options">
         <div class="gls-error error">
         </div>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="gls-parcel-shops">
+            <div class="gls-parcel-shops" style="display: none;">
                 <div class="container gls-parcel-shop" style="display: none;">
 
                     <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId%%" id="shop_%%parcelShopId%%" />
