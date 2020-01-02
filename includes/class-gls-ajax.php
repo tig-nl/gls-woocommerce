@@ -133,7 +133,7 @@ class GLS_AJAX extends WC_AJAX
             $_POST['details']['title'] = explode(' | ', $title)[0];
         }
 
-        parse_str(GLS()->post('delivery_address'), $delivery_address);
+        parse_str(GLS()->post('delivery_address', false), $delivery_address);
 
         $type                      = isset($delivery_address['ship_to_different_address']) ? 'shipping_' : 'billing_';
         $_POST['delivery_address'] = self::map_delivery_address($delivery_address, $type);
@@ -189,6 +189,7 @@ class GLS_AJAX extends WC_AJAX
             $delivery_options = GLS()->delivery_options->available_delivery_options();
             $option_id        = GLS()->post('option_id');
 
+            /** @var stdClass $option */
             foreach ($delivery_options as $option) {
                 if (!in_array(
                     $option_id, array(

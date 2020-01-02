@@ -248,16 +248,21 @@ final class GLS
      * Cleans and returns any POST-data.
      *
      * @param null $key
+     * @param bool $clean
      *
      * @return array|string
      */
-    public function post($key = null)
+    public function post($key = null, $clean = true)
     {
         if (!$key) {
             return wc_clean(wp_unslash($_POST));
         }
 
-        return wc_clean(wp_unslash($_POST[$key]));
+        if ($clean) {
+            return wc_clean(wp_unslash($_POST[$key]));
+        }
+
+        return wp_unslash($_POST[$key]);
     }
 
     /**
