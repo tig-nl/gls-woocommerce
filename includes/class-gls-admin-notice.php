@@ -34,56 +34,47 @@ defined('ABSPATH') || exit;
 
 class GLS_Admin_Notice
 {
-
-    /**
-     * Namespace for transient
-     */
     const ADMIN_NOTICE_TRANSIENT = 'gls_admin_notice';
-
-    /**
-     * Time in seconds
-     */
     const ADMIN_NOTICE_EXPIRATION = 30;
-    /**
-     * @var array
-     */
+
+    /** @var $notice_array array */
     public static $notice_array = array();
 
     /**
-     * @param $message
+     * @param        $message
      * @param string $type (info|warning|error|success)
      * @param string $screen_id
      */
-    public static function admin_add_notice($message, $type = 'info', $screen_id = 'all') {
-        self::$notice_array = get_transient( self::ADMIN_NOTICE_TRANSIENT);
+    public static function admin_add_notice($message, $type = 'info', $screen_id = 'all')
+    {
+        self::$notice_array = get_transient(self::ADMIN_NOTICE_TRANSIENT);
 
         //extend notice
         self::$notice_array[$screen_id][$type] = $message;
 
-        set_transient( self::ADMIN_NOTICE_TRANSIENT, self::$notice_array, self::ADMIN_NOTICE_EXPIRATION );
+        set_transient(self::ADMIN_NOTICE_TRANSIENT, self::$notice_array, self::ADMIN_NOTICE_EXPIRATION);
     }
 
     /**
      *
      */
-    public static function print_notice() {
-        $temp_admin_notice = get_transient( self::ADMIN_NOTICE_TRANSIENT);
+    public static function print_notice()
+    {
+        $temp_admin_notice = get_transient(self::ADMIN_NOTICE_TRANSIENT);
 
         if (is_array($temp_admin_notice)) {
-
             $screen_current = get_current_screen();
 
             foreach ($temp_admin_notice as $screen => $admin_notice) {
-
                 if ($screen_current->id != $screen && $screen != 'all') {
                     continue;
                 }
 
                 foreach ($admin_notice as $type => $message) {
                     ?>
-                        <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
-                            <p><?php _e($message, 'gls-woocommerce'); ?></p>
-                        </div>
+                    <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
+                        <p><?php _e($message, 'gls-woocommerce'); ?></p>
+                    </div>
                     <?php
                 }
             }
