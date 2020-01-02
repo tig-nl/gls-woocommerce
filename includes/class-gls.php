@@ -285,7 +285,7 @@ final class GLS
      */
     public function is_gls_selected($shipping_method)
     {
-        if (strpos($shipping_method, 'tig_gls')) {
+        if (strpos($shipping_method, 'tig_gls') !== false) {
             return true;
         }
 
