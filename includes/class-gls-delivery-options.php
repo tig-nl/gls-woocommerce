@@ -350,7 +350,7 @@ class GLS_Delivery_Options
      */
     public static function add_option_to_order($order, $data)
     {
-        if (GLS()->is_gls_selected(reset($data['shipping_method']))) {
+        if (!GLS()->is_gls_selected(reset($data['shipping_method']))) {
             return $order;
         }
 
