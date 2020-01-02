@@ -80,10 +80,10 @@ class GLS_Admin_Notice
                 }
 
                 foreach ($admin_notice as $type => $message) {
-                        ?>
-                            <div id="message" class="notice notice-<?php _e($type, 'gls-woocommerce'); ?> is-dismissible">
-                                <p><?php _e($message, 'gls-woocommerce'); ?></p>
-                            </div>
+                    ?>
+                        <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
+                            <p><?php _e($message, 'gls-woocommerce'); ?></p>
+                        </div>
                     <?php
                 }
             }

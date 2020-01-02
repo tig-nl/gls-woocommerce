@@ -213,9 +213,7 @@ class GLS_AJAX extends WC_AJAX
         $response = GLS()->api_create_label($_POST['order_id'])->call();
 
         if ($response->status != 200) {
-            //set_transient( 'admin_response', $response->message, 30 );
             GLS_Admin_Notice::admin_add_notice($response->message,'error','shop_order');
-            //wc_add_notice('Label could not be deleted from the GLS API', 'error');
             wp_send_json_error($response->message, $response->status);
         }
 
