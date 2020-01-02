@@ -30,26 +30,51 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class GLS_Option_ShopDelivery extends GLS_Delivery_Option
+class GLS_Api_Get_Parcel_Shops
 {
+    /** @var string $endpoint */
+    public $endpoint = 'ParcelShop/GetParcelShops';
+
+    /** @var $body */
+    public $body;
+
+    /** @var $postcode string */
+    private $postcode;
+
     /**
-     * Constructor for the delivery option.
+     * GLS_Api_Get_Delivery_Options constructor.
+     * @throws Exception
      */
     public function __construct()
     {
-        $this->id                 = 'gls_shop_delivery';
-        $this->method_title       = _x('ShopDeliveryService', 'gls-woocommerce');
-        $this->method_description = __('Delivery to ParcelShops.', 'gls-woocommerce');
+        $this->postcode = GLS()->post('postcode');
+        $this->body     = $this->setBody();
+    }
 
-        $this->init_settings();
-
-        // Define user set variables.
-        $this->additional_fee = $this->get_option('additional_fee');
-
-        if ($this->get_additional_fee_from_postdata()) {
-            $this->additional_fee = $this->get_additional_fee_from_postdata();
+    /**
+     * Trigger call to API.
+     *
+     * @return string
+     */
+    public function call()
+    {
+        if (!$this->postcode) {
+            wp_send_json_error(__('No postcode specified.', 'gls-woocommerce'), 400);
         }
 
-        add_action('gls_update_options_delivery_options_' . $this->id, array($this, 'process_admin_options'));
+        $api = GLS_Api::instance($this->endpoint, $this->body);
+
+        return $api->call();
+    }
+
+    /**
+     * @return array
+     */
+    private function setBody()
+    {
+        return [
+            'zipcode'       => $this->postcode,
+            'amountOfShops' => get_option('tig_gls_services')['display_shops']
+        ];
     }
 }

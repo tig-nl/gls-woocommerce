@@ -53,9 +53,20 @@ class GLS_Frontend_Scripts extends WC_Frontend_Scripts
     {
         // @formatter:off
         add_action('wp_enqueue_scripts', array(__CLASS__, 'load_scripts'));
+        add_action('wp_enqueue_scripts', array(__CLASS__, 'frontend_styles'));
         add_action('wp_print_scripts', array(__CLASS__, 'localize_printed_scripts'), 5);
         add_action('wp_print_footer_scripts', array(__CLASS__, 'localize_printed_scripts'), 5);
         // @formatter:on
+
+    }
+
+    /**
+     * Enqueue Front-end styles
+     */
+    public function frontend_styles()
+    {
+        wp_register_style('tig_gls_frontend_styles', GLS()->plugin_url() . '/assets/css/frontend.css', plugins_url('style.css',GLS_PLUGIN_FILE ));
+        wp_enqueue_style('tig_gls_frontend_styles');
     }
 
     /**
@@ -161,7 +172,8 @@ class GLS_Frontend_Scripts extends WC_Frontend_Scripts
                 $params = array(
                     'ajax_url'                      => GLS()->ajax_url(),
                     'wc_ajax_url'                   => WC_AJAX::get_endpoint('%%endpoint%%'),
-                    'update_delivery_options_nonce' => wp_create_nonce('update-delivery-options')
+                    'update_delivery_options_nonce' => wp_create_nonce('update-delivery-options'),
+                    'update_parcel_shops_nonce'     => wp_create_nonce('update-parcel-shops')
                 );
                 break;
             default:

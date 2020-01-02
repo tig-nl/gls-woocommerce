@@ -5,6 +5,22 @@
             return;
         }
 
+        var is_blocked = function ($node) {
+            return $node.is('.processing') || $node.parents('.processing').length;
+        };
+
+        var block = function ($node) {
+            if (!is_blocked($node)) {
+                $node.addClass('processing').block({
+                    message: null,
+                    overlayCSS: {
+                        background: '#fff',
+                        opacity: 0.6
+                    }
+                });
+            }
+        };
+
         // Toggle gateway on/off.
         $('.gls_options').on('click', '.gls-delivery-option-method-toggle-enabled', function () {
             var $link = $(this), $row = $link.closest('tr'), $toggle = $link.find('.woocommerce-input-toggle');
@@ -53,6 +69,9 @@
                 data: data,
                 dataType: 'json',
                 type: 'POST',
+                beforeSend: function () {
+                    block($('#gls-order-label'));
+                },
                 complete: function () {
                     location.reload();
                 }
@@ -74,6 +93,9 @@
                 data: data,
                 dataType: 'json',
                 type: 'POST',
+                beforeSend: function () {
+                    block($('#gls-order-label'));
+                },
                 complete: function () {
                     location.reload();
                 }

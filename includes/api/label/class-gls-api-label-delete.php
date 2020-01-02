@@ -64,7 +64,7 @@ class GLS_Api_Label_Delete
      */
     private function getUnitNo()
     {
-        $order = wc_get_order($_POST['order_id']);
+        $order = wc_get_order(GLS()->post('order_id'));
         $label = $order->get_meta('_gls_label');
 
         return $label->units[0] ? $label->units[0]->unitNo : null;

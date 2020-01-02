@@ -220,6 +220,7 @@ final class GLS
         add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
         add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 100, 2);
         add_action('woocommerce_init', array('GLS_Pdf', 'gls_pdf_callback'));
+        add_action( 'admin_notices', array(__CLASS__, 'generic_action_admin_notice'));
     }
 
     /**
@@ -240,6 +241,22 @@ final class GLS
     public function plugin_path()
     {
         return untrailingslashit(plugin_dir_path(GLS_PLUGIN_FILE));
+    }
+
+    /**
+     * Cleans and returns any POST-data.
+     *
+     * @param null $key
+     *
+     * @return array|string
+     */
+    public function post($key = null)
+    {
+        if (!$key) {
+            return wc_clean(wp_unslash($_POST));
+        }
+
+        return wc_clean(wp_unslash($_POST[$key]));
     }
 
     /**
@@ -269,7 +286,7 @@ final class GLS
      */
     public function is_gls_selected($shipping_method)
     {
-        if (strpos($shipping_method, 'tig_gls')) {
+        if (strpos($shipping_method, 'tig_gls') !== false) {
             return true;
         }
 
@@ -285,6 +302,15 @@ final class GLS
     public function api_delivery_options()
     {
         return new GLS_Api_Get_Delivery_Options();
+    }
+
+    /**
+     * @return GLS_Api_Get_Parcel_Shops
+     * @throws Exception
+     */
+    public function api_pickup_locations()
+    {
+        return new GLS_Api_Get_Parcel_Shops();
     }
 
     /**
@@ -310,5 +336,12 @@ final class GLS
     public function api_delete_label()
     {
         return new GLS_Api_Label_Delete();
+    }
+
+    /**
+     *  Print GLS admin notices in wordpress
+     */
+    public function generic_action_admin_notice() {
+        GLS_Admin_Notice::print_notice();
     }
 }
