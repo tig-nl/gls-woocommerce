@@ -19,14 +19,7 @@ jQuery(
             $error_container: $('.gls-error'),
 
             /**
-             * Initializes
-             * all
-             * events
-             * where
-             * methods
-             * should
-             * be
-             * triggered.
+             * Initializes all events where methods should be triggered.
              */
             init: function () {
                 $(document.body).bind('update_delivery_options', this.update_delivery_options);
@@ -45,20 +38,9 @@ jQuery(
             },
 
             /**
-             * The
-             * main
-             * event.
+             * The main event.
              *
-             * Triggers
-             * both
-             * calls
-             * to
-             * update
-             * delivery
-             * options
-             * and
-             * parcel
-             * shops.
+             * Triggers both calls to update delivery options and parcel shops.
              *
              * @param event
              * @param args
@@ -70,17 +52,7 @@ jQuery(
             },
 
             /**
-             * Small
-             * timeout
-             * to
-             * prevent
-             * multiple
-             * requests
-             * when
-             * several
-             * fields
-             * update
-             * at the same time
+             * Small timeout to prevent multiple requests when several fields update at the same time
              */
             reset_update_checkout_timer: function () {
                 clearTimeout(gls_delivery_options_form.updateTimer);
