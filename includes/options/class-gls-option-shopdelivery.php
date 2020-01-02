@@ -50,11 +50,6 @@ class GLS_Option_ShopDelivery extends GLS_Delivery_Option
             $this->additional_fee = $this->get_additional_fee_from_postdata();
         }
 
-        add_action(
-            'gls_update_options_delivery_options_' . $this->id, array(
-                $this,
-                'process_admin_options'
-            )
-        );
+        add_action('gls_update_options_delivery_options_' . $this->id, array($this, 'process_admin_options'));
     }
 }

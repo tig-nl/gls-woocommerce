@@ -95,7 +95,7 @@ class GLS_Delivery_Options
     }
 
     /**
-     * Load gateways and hook in functions.
+     * Load options and hook in functions.
      */
     public function init()
     {
@@ -283,15 +283,40 @@ class GLS_Delivery_Options
     {
         $enabled_delivery_options = array();
 
-        if (count($this->delivery_options) > 0) {
-            foreach ($this->delivery_options as $option) {
-                if ($option->enabled === 'yes' && $option->id !== 'gls_shop_delivery') {
-                    $enabled_delivery_options[$option->id] = $option;
-                }
+        if (count($this->delivery_options) <= 0) {
+            return $enabled_delivery_options;
+        }
+
+        foreach ($this->delivery_options as $option) {
+            if ($option->enabled === 'yes' && $option->id !== 'gls_shop_delivery') {
+                $enabled_delivery_options[$option->id] = $option;
             }
         }
 
         return $enabled_delivery_options;
+    }
+
+    /**
+     * @param $available
+     *
+     * @return mixed
+     */
+    public function parcel_shops(&$available)
+    {
+        $parcel_shops = array();
+
+        if (count($this->delivery_options) == 0) {
+            return $parcel_shops;
+        }
+
+        $fee = $this->delivery_options['gls_shop_delivery']->additional_fee;
+
+        foreach ($available as &$shop) {
+            $shop->fee           = $fee;
+            $shop->formatted_fee = wc_price($fee);
+        }
+
+        return $available;
     }
 
     /**

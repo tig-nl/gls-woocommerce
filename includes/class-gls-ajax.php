@@ -112,8 +112,9 @@ class GLS_AJAX extends WC_AJAX
         }
 
         $available_parcel_shops = $response->parcelShops;
+        $parcel_shops           = GLS()->delivery_options()->parcel_shops($available_parcel_shops);
 
-        wp_send_json_success($available_parcel_shops, $response->status);
+        wp_send_json_success($parcel_shops, $response->status);
     }
 
     /**

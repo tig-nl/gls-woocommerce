@@ -38,13 +38,17 @@ class GLS_Api_Get_Parcel_Shops
     /** @var $body */
     public $body;
 
+    /** @var $postcode string */
+    private $postcode;
+
     /**
      * GLS_Api_Get_Delivery_Options constructor.
      * @throws Exception
      */
     public function __construct()
     {
-        $this->body = $this->setBody();
+        $this->postcode = GLS()->post('postcode');
+        $this->body     = $this->setBody();
     }
 
     /**
@@ -54,6 +58,10 @@ class GLS_Api_Get_Parcel_Shops
      */
     public function call()
     {
+        if (!$this->postcode) {
+            wp_send_json_error(__('No postcode specified.', 'gls-woocommerce'), 400);
+        }
+
         $api = GLS_Api::instance($this->endpoint, $this->body);
 
         return $api->call();
@@ -65,7 +73,7 @@ class GLS_Api_Get_Parcel_Shops
     private function setBody()
     {
         return [
-            'zipcode'       => GLS()->post('postcode'),
+            'zipcode'       => $this->postcode,
             'amountOfShops' => get_option('tig_gls_services')['display_shops']
         ];
     }
