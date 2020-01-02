@@ -54,8 +54,9 @@ class GLS_Api_Label_Create
     public function __construct($orderId)
     {
         $this->orderId = $orderId;
+        $string = GLS_Admin::GLS_SETTINGS_SERVICES;
+        $this->options = get_option($string);
         $this->body    = $this->setBody();
-        $this->options = get_option(GLS_Admin::GLS_SETTINGS_SERVICES);
         $this->api     = GLS_Api::instance($this->endpoint, $this->body);
     }
 
@@ -170,18 +171,6 @@ class GLS_Api_Label_Create
             "EmailSubject"       => 'Uw order is verzonden.'
         ];
 
-        /*
-        $missing = $this->isDataMissing($email);
-        if ($missing) {
-            $this->errors['missing'][] = [
-                'missingCode' => $missing,
-                'missingOption' => 'General Contact and a Customer Support Contact',
-                'configurationPath' => 'Stores > Configuration > General > Store Email Addresses'
-            ];
-            return [];
-        }
-        */
-
         return $email;
     }
 
@@ -199,18 +188,6 @@ class GLS_Api_Label_Create
             "countryCode" => substr(get_option('woocommerce_default_country'), 0, 2)
         ];
 
-        /*
-        $missing = $this->isDataMissing($address);
-        if ($missing) {
-            $this->errors['missing'][] = [
-                'missingCode' => $missing,
-                'missingOption' => 'Pickup Address',
-                'configurationPath' => 'Stores > Configuration > General > General > Store Information'
-            ];
-            return [];
-        }
-        */
-
         return $address;
     }
 
@@ -221,13 +198,6 @@ class GLS_Api_Label_Create
      */
     private function prepare_shipping_unit($shipment_id)
     {
-        //$totalWeight = $shipment->getTotalWeight();
-        //if ($totalWeight > self::GLS_PARCEL_MAX_WEIGHT) {
-        //    $this->errors['errors'][] = "Label could not be created, because the shipment is too heavy.";
-        //    return [];
-        //}
-        //$weight = $totalWeight != 0 ? $totalWeight : 1;
-
         $weight = 1;
 
         return [
