@@ -48,6 +48,7 @@ class GLS_Admin
     public function __construct()
     {
         add_action('init', array($this, 'includes'));
+        add_action('admin_notices', array($this, 'admin_notice_action'));
     }
 
     /**
@@ -59,6 +60,13 @@ class GLS_Admin
         include_once dirname(__FILE__) . '/class-gls-admin-meta-boxes.php';
         include_once dirname(__FILE__) . '/class-gls-admin-order-columns.php';
         include_once dirname(__FILE__) . '/class-gls-admin-bulk-actions.php';
+    }
+
+    /**
+     * Print GLS admin notices in wordpress
+     */
+    public function admin_notice_action() {
+        GLS_Admin_Notice::print_notice();
     }
 }
 

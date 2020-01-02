@@ -220,7 +220,6 @@ final class GLS
         add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
         add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 100, 2);
         add_action('woocommerce_init', array('GLS_Pdf', 'gls_pdf_callback'));
-        add_action('admin_notices', array($this, 'generic_action_admin_notice'));
     }
 
     /**
@@ -342,12 +341,5 @@ final class GLS
     public function api_delete_label()
     {
         return new GLS_Api_Label_Delete();
-    }
-
-    /**
-     *  Print GLS admin notices in wordpress
-     */
-    public function generic_action_admin_notice() {
-        GLS_Admin_Notice::print_notice();
     }
 }
