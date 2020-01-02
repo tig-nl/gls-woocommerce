@@ -71,13 +71,13 @@
                     <span class="distance-meters">%%distanceMeters%% m</span>
                 </div>
 
-                <a class="open-business-hours"><?php _e('Show business hours', 'gls-woocommerce'); ?></a>
+                <a class="open-business-hours-link" onclick="jQuery('.parcel-business-hours').toggle()"><?php _e('Show business hours', 'gls-woocommerce'); ?></a>
                 <div class="table container">
                     <a class="close" onclick="closeBusinessHours(this)"><?php _e('Close', 'gls-woocommerce'); ?></a>
-                    <div class="table" style="display: none;">
+                    <div class="table parcel-business-hours" style="display: none;">
                         <div class="row">
-                            <div class="cell">%%dayOfWeek%%</div>
-                            <div class="cell">%%openTime%% - %%closedTime%%</div>
+                            <div class="cell day-of-the-week">%%dayOfWeek%%</div>
+                            <div class="cell opening-hours">%%openTime%% - %%closedTime%%</div>
                         </div>
                     </div>
                 </div>
