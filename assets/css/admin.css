@@ -44,3 +44,7 @@
 .order_actions.order_label .create_label {
     float: right;
 }
+
+#gls-order-label img {
+    height: 18px;
+}

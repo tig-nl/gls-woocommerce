@@ -226,11 +226,12 @@ final class GLS
     /**
      * Get the plugin url.
      *
+     * @param string $path
      * @return string
      */
-    public function plugin_url()
+    public function plugin_url($path = '/')
     {
-        return untrailingslashit(plugins_url('/', GLS_PLUGIN_FILE));
+        return untrailingslashit(plugins_url($path, GLS_PLUGIN_FILE));
     }
 
     /**
