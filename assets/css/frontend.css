@@ -208,6 +208,14 @@
   text-align: right;
 }
 
+.gls-parcel-shops .gls-parcel-shop .address-information .distance-meters:before {
+  content: '';
+  background-image: url(../images/pin.svg);
+  padding: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 /* Business Hours */
 
 .gls-parcel-shops .gls-parcel-shop .open-business-hours-link {
@@ -223,21 +231,24 @@
 .gls-parcel-shops .gls-parcel-shop .table.container {
   border: 1px solid #D4D9E3;
   border-radius: 5px;
-  padding: 15px;
-  margin-top: 15px;
-  display: table;
   width: 100%;
+  height: 0;
 
-  /*opacity: 0;*/
-  /*transition: 0.2s opacity 0s ease-in-out, 0.3s transform ease-in-out;*/
-  /*transform: scale(0);*/
+  opacity: 0;
+  transition: 0.1s opacity 0.1s ease-in-out, 0.1s transform ease-in-out;
+  transform: scale(0);
 }
 
-/*.gls-parcel-shops .gls-parcel-shop .table.container.active {*/
-  /*opacity: 1;*/
-  /*transform: scale(1);*/
-  /*transition: 0.2s opacity 0.1s ease-in-out, 0.3s transform ease-in-out;*/
-/*}*/
+.gls-parcel-shops .gls-parcel-shop .table.container.active {
+  height: unset;
+  display :table;
+  padding: 15px;
+  margin-top: 15px;
+
+  opacity: 1;
+  transition: 0.2s opacity 0.1s ease-in-out, 0.3s transform ease-in-out;
+  transform: scale(1);
+}
 
 .gls-parcel-shops .gls-parcel-shop .table.container .row {
   display :table !important;
@@ -279,6 +290,56 @@
   vertical-align: middle;
   margin-left: 5px;
   margin-top: -4px;
+}
+
+/* ================================================================================================================== */
+/* Custom Radio Buttons ============================================================================================= */
+/* ================================================================================================================== */
+
+.gls-delivery-options label,
+.gls-parcel-shops label {
+  position: relative;
+}
+
+.gls-delivery-options input[type=radio],
+.gls-parcel-shops input[type=radio] {
+  display :none;
+}
+
+.gls-delivery-options input[type=radio] + label:before,
+.gls-parcel-shops input[type=radio] + label:before {
+  content: "";
+  border: 1px solid #cccccc;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  transition: .2s;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: white;
+}
+
+.gls-delivery-options input[type=radio]:checked + label:after,
+.gls-parcel-shops input[type=radio]:checked + label:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  background: #FBC000;
+  border: 3px solid #fff;
+  vertical-align: middle;
+  width: 18px;
+  height: 18px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.gls-parcel-shops input[type=radio]:checked + label:after {
+  top: 1px;
 }
 
 
