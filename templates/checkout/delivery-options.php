@@ -62,7 +62,7 @@
         </div>
         <div class="gls-parcel-shops">
             <div class="container gls-parcel-shop" style="display: none;">
-                <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId" id="shop_%%parcelShopId%%" />
+                <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId%%" id="shop_%%parcelShopId%%" />
                 <label for="shop_%%parcelShopId%%"></label><br/>
 
                 <div class="address-information">
@@ -71,13 +71,13 @@
                     <span class="distance-meters">%%distanceMeters%% m</span>
                 </div>
 
-                <a class="open-business-hours"><?php _e('Show business hours', 'gls-woocommerce'); ?></a>
+                <a class="open-business-hours-link" onclick="jQuery('.parcel-business-hours').toggle()"><?php _e('Show business hours', 'gls-woocommerce'); ?></a>
                 <div class="table container">
                     <a class="close" onclick="closeBusinessHours(this)"><?php _e('Close', 'gls-woocommerce'); ?></a>
-                    <div class="table" style="display: none;">
+                    <div class="table parcel-business-hours" style="display: none;">
                         <div class="row">
-                            <div class="cell">%%dayOfWeek%%</div>
-                            <div class="cell">%%openTime%% - %%closedTime%%</div>
+                            <div class="cell day-of-the-week">%%dayOfWeek%%</div>
+                            <div class="cell opening-hours">%%openTime%% - %%closedTime%%</div>
                         </div>
                     </div>
                 </div>

@@ -244,6 +244,22 @@ final class GLS
     }
 
     /**
+     * Cleans and returns any POST-data.
+     *
+     * @param null $key
+     *
+     * @return array|string
+     */
+    public function post($key = null)
+    {
+        if (!$key) {
+            return wc_clean(wp_unslash($_POST));
+        }
+
+        return wc_clean(wp_unslash($_POST[$key]));
+    }
+
+    /**
      * Get Ajax URL.
      *
      * @return string
@@ -270,7 +286,7 @@ final class GLS
      */
     public function is_gls_selected($shipping_method)
     {
-        if (strpos($shipping_method, 'tig_gls')) {
+        if (strpos($shipping_method, 'tig_gls') !== false) {
             return true;
         }
 
@@ -286,6 +302,15 @@ final class GLS
     public function api_delivery_options()
     {
         return new GLS_Api_Get_Delivery_Options();
+    }
+
+    /**
+     * @return GLS_Api_Get_Parcel_Shops
+     * @throws Exception
+     */
+    public function api_pickup_locations()
+    {
+        return new GLS_Api_Get_Parcel_Shops();
     }
 
     /**

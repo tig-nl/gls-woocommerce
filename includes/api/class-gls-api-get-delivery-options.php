@@ -38,12 +38,20 @@ class GLS_Api_Get_Delivery_Options
     /** @var $body */
     public $body;
 
+    /** @var $country string */
+    private $country;
+
+    /** @var $postcode string */
+    private $postcode;
+
     /**
      * GLS_Api_Get_Delivery_Options constructor.
      * @throws Exception
      */
     public function __construct() {
-        $this->body = $this->setBody();
+        $this->postcode = GLS()->post('postcode');
+        $this->country  = GLS()->post('country');
+        $this->body     = $this->setBody();
     }
 
     /**
@@ -53,6 +61,10 @@ class GLS_Api_Get_Delivery_Options
      */
     public function call()
     {
+        if (!$this->postcode || !$this->country) {
+            wp_send_json_error(__('Postcode and/or country not specified.', 'gls-woocommerce'), 400);
+        }
+
         $api = GLS_Api::instance($this->endpoint, $this->body);
 
         return $api->call();
@@ -91,9 +103,10 @@ class GLS_Api_Get_Delivery_Options
         }
 
         return array(
-            'countryCode'  => wc_clean(wp_unslash($_POST['country'])),
+            'countryCode'  => $this->country,
+            // TODO: Detect language code dynamically when the GLS API supports it.
             'langCode'     => 'nl',
-            'zipCode'      => wc_clean(wp_unslash($_POST['postcode'])),
+            'zipCode'      => $this->postcode,
             'shippingDate' => $shipping_date->format('Y-m-d')
         );
     }

@@ -54,6 +54,7 @@ class GLS_AJAX extends WC_AJAX
     {
         $ajax_events_nopriv = array(
             'update_delivery_options',
+            'update_parcel_shops',
             'delivery_option_selected'
         );
 
@@ -98,6 +99,26 @@ class GLS_AJAX extends WC_AJAX
     }
 
     /**
+     * @throws Exception
+     */
+    public static function update_parcel_shops()
+    {
+        check_ajax_referer('update-parcel-shops', 'security');
+        /** @var StdClass $response */
+        $response = GLS()->api_pickup_locations()->call();
+
+        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
+            $code = $response->statusCode ?: 400;
+            wp_send_json_error($response->message, $code);
+        }
+
+        $available_parcel_shops = $response->parcelShops;
+        $parcel_shops           = GLS()->delivery_options()->parcel_shops($available_parcel_shops);
+
+        wp_send_json_success($parcel_shops, $response->status);
+    }
+
+    /**
      * Adds fee of selected delivery option to order review block.
      */
     public static function delivery_option_selected()
@@ -106,13 +127,13 @@ class GLS_AJAX extends WC_AJAX
             return;
         }
 
-        $title = strtolower($_POST['details']['title'] ?? '');
+        $title = strtolower(GLS()->post('details')['title']) ?? '';
 
         if (strpos($title, ' | ')) {
             $_POST['details']['title'] = explode(' | ', $title)[0];
         }
 
-        parse_str($_POST['delivery_address'], $delivery_address);
+        parse_str(GLS()->post('delivery_address'), $delivery_address);
 
         $type                      = isset($delivery_address['ship_to_different_address']) ? 'shipping_' : 'billing_';
         $_POST['delivery_address'] = self::map_delivery_address($delivery_address, $type);
@@ -166,7 +187,7 @@ class GLS_AJAX extends WC_AJAX
     {
         if (current_user_can('manage_woocommerce') && check_ajax_referer('gls-toggle-delivery-option-enabled', 'security') && isset($_POST['option_id'])) {
             $delivery_options = GLS()->delivery_options->available_delivery_options();
-            $option_id        = wc_clean(wp_unslash($_POST['option_id']));
+            $option_id        = GLS()->post('option_id');
 
             foreach ($delivery_options as $option) {
                 if (!in_array(
@@ -208,7 +229,7 @@ class GLS_AJAX extends WC_AJAX
     {
         check_ajax_referer('create-label', 'security');
 
-        $order = wc_get_order($_POST['order_id']);
+        $order = wc_get_order(GLS()->post('order_id'));
         /** @var StdClass $response */
         $response = GLS()->api_create_label($_POST['order_id'])->call();
 
@@ -239,7 +260,7 @@ class GLS_AJAX extends WC_AJAX
             wp_send_json_error('Label could not be deleted from the GLS API', $response->status);
         }
 
-        $order = wc_get_order($_POST['order_id']);
+        $order = wc_get_order(GLS()->post('order_id'));
         $order->delete_meta_data('_gls_label');
         $order->save();
 
