@@ -41,14 +41,19 @@ class GLS_Api_Label_Create
     /** @var $options */
     private $options;
 
+    /** @var $orderId */
+    private $orderId;
+
     /** @var GLS_Api $api */
     private $api;
 
     /**
      * GLS_Api_Label_Create constructor.
+     * @param $orderId
      */
-    public function __construct()
+    public function __construct($orderId)
     {
+        $this->orderId = $orderId;
         $this->body    = $this->setBody();
         $this->options = get_option(GLS_Admin::GLS_SETTINGS_SERVICES);
         $this->api     = GLS_Api::instance($this->endpoint, $this->body);
@@ -69,7 +74,12 @@ class GLS_Api_Label_Create
      */
     public function setBody()
     {
-        $order = wc_get_order(GLS()->post('order_id'));
+        $order = wc_get_order($this->orderId);
+
+        if ($order == false) {
+            return;
+        }
+
         $delivery_option  = $order->get_meta('_gls_delivery_option');
 
         $delivery_address = $delivery_option['delivery_address'];
