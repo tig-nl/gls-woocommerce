@@ -42,6 +42,7 @@ class GLS_AJAX extends WC_AJAX
         // @formatter:off
         add_action('init', array(__CLASS__, 'define_ajax'), 0);
         add_action('template_redirect', array(__CLASS__, 'do_wc_ajax'), 0);
+
         // @formatter:on
         self::add_ajax_events();
     }
@@ -112,8 +113,9 @@ class GLS_AJAX extends WC_AJAX
         }
 
         $available_parcel_shops = $response->parcelShops;
+        $parcel_shops           = GLS()->delivery_options()->parcel_shops($available_parcel_shops);
 
-        wp_send_json_success($available_parcel_shops, $response->status);
+        wp_send_json_success($parcel_shops, $response->status);
     }
 
     /**
@@ -232,12 +234,14 @@ class GLS_AJAX extends WC_AJAX
         $response = GLS()->api_create_label($_POST['order_id'])->call();
 
         if ($response->status != 200) {
+            GLS_Admin_Notice::admin_add_notice($response->message,'error','shop_order');
             wp_send_json_error($response->message, $response->status);
         }
 
         $order->update_meta_data('_gls_label', $response);
         $order->save();
 
+        GLS_Admin_Notice::admin_add_notice('Label created successfully','success','shop_order');
         wp_send_json_success('Label created successfully', $response->status);
     }
 
@@ -252,8 +256,7 @@ class GLS_AJAX extends WC_AJAX
         $response = GLS()->api_delete_label()->call();
 
         if ($response->status != 200) {
-            // TODO: Notices don't seem to work. Perhaps implement this? https://github.com/WPTRT/admin-notices
-            wc_add_notice('Label could not be deleted from the GLS API', 'error');
+            GLS_Admin_Notice::admin_add_notice('Label could not be deleted from the GLS API','error','shop_order');
             wp_send_json_error('Label could not be deleted from the GLS API', $response->status);
         }
 
@@ -261,9 +264,10 @@ class GLS_AJAX extends WC_AJAX
         $order->delete_meta_data('_gls_label');
         $order->save();
 
-        wc_add_notice('Label delete successfully');
+        GLS_Admin_Notice::admin_add_notice('Label deleted successfully','success','shop_order');
         wp_send_json_success('Label deleted successfully', $response->status);
     }
+
 }
 
 GLS_AJAX::init();

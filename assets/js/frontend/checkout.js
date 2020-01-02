@@ -8,7 +8,8 @@ jQuery(
 
         var gls_delivery_options_form = {
             selected_delivery_option: false,
-            xhr: false,
+            delivery_options_xhr: false,
+            parcel_shops_xhr: false,
             $order_review: $('#order_review'),
             $checkout_form: $('form.checkout'),
             $delivery_options_container: $('.gls-delivery-options'),
@@ -68,14 +69,13 @@ jQuery(
                         ? $('.woocommerce-shipping-fields input, .woocommerce-shipping-fields select, #billing_phone_field input, #billing_email_field input')
                         : $('.woocommerce-billing-fields input, .woocommerce-billing-fields select');
 
-                if (selectedDeliveryOption !==
-                    gls_delivery_options_form.selected_delivery_option) {
+                if (selectedDeliveryOption !== gls_delivery_options_form.selected_delivery_option) {
                     $(document.body).trigger('delivery_option_selected');
                 }
 
                 gls_delivery_options_form.selected_delivery_option = selectedDeliveryOption;
 
-                gls_delivery_options_form.xhr = $.ajax(
+                gls_delivery_options_form.delivery_options_xhr = $.ajax(
                     {
                         type: 'POST',
                         url: gls_checkout_params.wc_ajax_url.toString().replace('%%endpoint%%', 'delivery_option_selected'),
@@ -110,61 +110,9 @@ jQuery(
             /**
              *
              */
-            update_parcel_shops_action: function () {
-                // if (gls_delivery_options_form.xhr) {
-                //     gls_delivery_options_form.xhr.abort();
-                // }
-
-                if (gls_delivery_options_form.$checkout_form.length === 0) {
-                    return;
-                }
-
-                var country = $('#billing_country').val(),
-                    postcode = $(':input#billing_postcode').val();
-
-                if ($('#ship-to-different-address').find('input').is(':checked')) {
-                    country = $('#shipping_country').val();
-                    postcode = $(':input#shipping_postcode').val();
-                }
-
-                var data = {
-                    security: gls_checkout_params.update_parcel_shops_nonce,
-                    postcode: postcode,
-                    country: country
-                };
-
-                gls_delivery_options_form.xhr = $.ajax({
-                    type: 'POST',
-                    url: gls_checkout_params.wc_ajax_url.toString().replace(
-                        '%%endpoint%%', 'update_parcel_shops'),
-                    data: data,
-                    beforeSend: function() {
-                        // Remove any options that we're retrieved in a previous call.
-                        currentOptions = gls_delivery_options_form.$parcel_shops_container.children();
-
-                        if (currentOptions.length > 1) {
-                            var i;
-                            for (i = 1; i < currentOptions.length; i++) {
-                                currentOptions[i].remove();
-                            }
-                        }
-                    },
-                    success: function (options) {
-                        gls_delivery_options_form.$error_container.hide();
-                        options.data.forEach(gls_delivery_options_form.display_parcel_shop);
-                    },
-                    error: function (message) {
-                        gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
-                    }
-                });
-            },
-
-            /**
-             *
-             */
             update_delivery_options_action: function () {
-                if (gls_delivery_options_form.xhr) {
-                    gls_delivery_options_form.xhr.abort();
+                if (gls_delivery_options_form.delivery_options_xhr) {
+                    gls_delivery_options_form.delivery_options_xhr.abort();
                 }
 
                 if (gls_delivery_options_form.$checkout_form.length === 0) {
@@ -185,7 +133,7 @@ jQuery(
                     country: country
                 };
 
-                gls_delivery_options_form.xhr = $.ajax({
+                gls_delivery_options_form.delivery_options_xhr = $.ajax({
                     type: 'POST',
                     url: gls_checkout_params.wc_ajax_url.toString().replace(
                         '%%endpoint%%', 'update_delivery_options'),
@@ -203,7 +151,65 @@ jQuery(
                     },
                     success: function (options) {
                         gls_delivery_options_form.$error_container.hide();
-                        options.data.forEach(gls_delivery_options_form.display_delivery_option);
+
+                        if (options.data.length > 0) {
+                            options.data.forEach(gls_delivery_options_form.display_delivery_option);
+                        }
+                    },
+                    error: function (message) {
+                        gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
+                    }
+                });
+            },
+
+            /**
+             *
+             */
+            update_parcel_shops_action: function () {
+                if (gls_delivery_options_form.parcel_shops_xhr) {
+                    gls_delivery_options_form.parcel_shops_xhr.abort();
+                }
+
+                if (gls_delivery_options_form.$checkout_form.length === 0) {
+                    return;
+                }
+
+                var country = $('#billing_country').val(),
+                    postcode = $(':input#billing_postcode').val();
+
+                if ($('#ship-to-different-address').find('input').is(':checked')) {
+                    country = $('#shipping_country').val();
+                    postcode = $(':input#shipping_postcode').val();
+                }
+
+                var data = {
+                    security: gls_checkout_params.update_parcel_shops_nonce,
+                    postcode: postcode,
+                    country: country
+                };
+
+                gls_delivery_options_form.parcel_shops_xhr = $.ajax({
+                    type: 'POST',
+                    url: gls_checkout_params.wc_ajax_url.toString().replace(
+                        '%%endpoint%%', 'update_parcel_shops'),
+                    data: data,
+                    beforeSend: function() {
+                        // Remove any options that we're retrieved in a previous call.
+                        currentOptions = gls_delivery_options_form.$parcel_shops_container.children();
+
+                        if (currentOptions.length > 1) {
+                            var i;
+                            for (i = 1; i < currentOptions.length; i++) {
+                                currentOptions[i].remove();
+                            }
+                        }
+                    },
+                    success: function (options) {
+                        gls_delivery_options_form.$error_container.hide();
+
+                        if (options.data.length > 0) {
+                            options.data.forEach(gls_delivery_options_form.display_parcel_shop);
+                        }
                     },
                     error: function (message) {
                         gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
@@ -299,9 +305,9 @@ jQuery(
                 option_fee   = template.children('.gls-parcel-shop > .delivery-fee');
 
                 parcel_address = template.children('.gls-parcel-shop .address-information');
-                parcel_address_street   = parcel_address.children('span.street');
-                parcel_address_city   = parcel_address.children('span.city');
-                parcel_address_distance   = parcel_address.children('span.distance-meters');
+                parcel_address_street = parcel_address.children('span.street');
+                parcel_address_city = parcel_address.children('span.city');
+                parcel_address_distance = parcel_address.children('span.distance-meters');
                 parcel_shop_id = option.parcelShopId !== 'undefined' ? option.parcelShopId : 'default';
 
                 option_input.val(parcel_shop_id);
@@ -328,7 +334,9 @@ jQuery(
 
             /**
              *
-             * @param option
+             * @param business_hours
+             * @param parent_template
+             * @param template
              */
             map_parcel_shop_business_hours: function(business_hours, parent_template, template) {
                 container    = jQuery(parent_template).find('.parcel-business-hours');
