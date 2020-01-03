@@ -57,13 +57,12 @@ class GLS_Frontend_Scripts extends WC_Frontend_Scripts
         add_action('wp_print_scripts', array(__CLASS__, 'localize_printed_scripts'), 5);
         add_action('wp_print_footer_scripts', array(__CLASS__, 'localize_printed_scripts'), 5);
         // @formatter:on
-
     }
 
     /**
      * Enqueue Front-end styles
      */
-    public function frontend_styles()
+    public static function frontend_styles()
     {
         wp_register_style('tig_gls_frontend_styles', GLS()->plugin_url() . '/assets/css/frontend.css', plugins_url('style.css',GLS_PLUGIN_FILE ));
         wp_enqueue_style('tig_gls_frontend_styles');

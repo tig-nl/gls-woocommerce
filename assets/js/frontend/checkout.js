@@ -36,10 +36,9 @@ jQuery(
                 // Inputs/selects which update delivery options
                 this.$checkout_form.on('change', '.address-field input.input-text, .address-field select.country_select', this.trigger_update_delivery_options);
 
-                // Selected delivery option is saved to the session immediately.
-                this.$checkout_form.on('click', '.gls-tab-delivery', this.show_delivery);
-                this.$checkout_form.on('click', '.gls-tab-pickup', this.show_pickup);
-
+                // Toggle tabs and
+                this.$checkout_form.on('click', '.gls-tab-delivery, .gls-tab-pickup', this.toggle_tabs);
+                this.$checkout_form.on('click', '.open-business-hours-link, .close', this.toggle_business_hours);
             },
 
             /**
@@ -110,34 +109,12 @@ jQuery(
              * Set background color on the current active radio button
              * TODO: make this work for sub-delivert-option items.
              */
-
             set_background_color: function(selectedDeliveryOption) {
-
                 console.log(selectedDeliveryOption);
                 var notSelectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:not(:checked)');
 
                 $(selectedDeliveryOption).parent('.container').addClass('gls-highlight');
                 $(notSelectedDeliveryOption).parent('.container').removeClass('gls-highlight');
-            },
-
-            /**
-             * Show delivery options and hide pickup locations by default - Switch
-             */
-
-            show_delivery: function(){
-                $('.gls-tab-pickup').removeClass('active');
-                $('.gls-tab-delivery').addClass('active');
-
-                $('.gls-parcel-shops').fadeOut('fast');
-                $('.gls-delivery-options').fadeIn('slow');
-            },
-
-            show_pickup: function () {
-                $('.gls-tab-delivery').removeClass('active');
-                $('.gls-tab-pickup').addClass('active');
-
-                $('.gls-delivery-options').fadeOut('fast');
-                $('.gls-parcel-shops').fadeIn('slow');
             },
 
             /**
@@ -390,7 +367,39 @@ jQuery(
                 jQuery(option_hours).text(business_hours.openTime + ' - ' + business_hours.closedTime);
 
                 sub_template.appendTo(container).show();
-            }
+            },
+
+            /**
+             * Shows and closes the business hours for the corresponding parcel shop.
+             */
+            toggle_business_hours: function () {
+                if (this.className === 'open-business-hours-link') {
+                    $(this).next('.table.container').toggleClass('active');
+                    $(this).addClass('active');
+                } else {
+                    $(this).parent('.table.container').removeClass('active');
+                    $(this).parent('.table.container').prev('.open-business-hours-link').removeClass('active');
+                }
+            },
+
+            /**
+             *
+             */
+            toggle_tabs: function () {
+                if (this.className.includes('gls-tab-delivery')) {
+                    $('.gls-tab-pickup').removeClass('active');
+                    $('.gls-tab-delivery').addClass('active');
+
+                    $('.gls-parcel-shops').fadeOut('fast');
+                    $('.gls-delivery-options').fadeIn('slow');
+                } else {
+                    $('.gls-tab-delivery').removeClass('active');
+                    $('.gls-tab-pickup').addClass('active');
+
+                    $('.gls-delivery-options').fadeOut('fast');
+                    $('.gls-parcel-shops').fadeIn('slow');
+                }
+            },
         };
 
         gls_delivery_options_form.init();
