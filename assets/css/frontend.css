@@ -2,8 +2,7 @@
 
 @media screen and (min-width: 769px) {
   .gls-wrapper {
-    display: inline-block;
-    width: 41.18%;
+    overflow: hidden;
   }
 }
 
