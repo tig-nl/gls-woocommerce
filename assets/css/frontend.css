@@ -95,7 +95,7 @@
 .gls-delivery-options .gls-delivery-option label {
   font-size: 14px;
   cursor: pointer;
-  font-weight :bold;
+  font-weight: 600;
   display: table-cell;
   width: 80%;
 }
@@ -164,7 +164,7 @@
 .gls-parcel-shops .gls-parcel-shop label {
   width: 100%;
   display: inline;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 14px;
   cursor: pointer;
 }
@@ -288,48 +288,7 @@
 /* Custom Radio Buttons ============================================================================================= */
 /* ================================================================================================================== */
 
-.gls-delivery-options label,
-.gls-parcel-shops label {
-  position: relative;
-}
-
-.gls-delivery-options input[type=radio],
-.gls-parcel-shops input[type=radio] {
-  display :none;
-}
-
-.gls-delivery-options input[type=radio] + label:before,
-.gls-parcel-shops input[type=radio] + label:before {
-  content: "";
-  border: 1px solid #cccccc;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-  transition: .2s;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  box-sizing: border-box;
-  background: white;
-}
-
-.gls-delivery-options input[type=radio]:checked + label:after,
-.gls-parcel-shops input[type=radio]:checked + label:after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 1px;
-  background: #FBC000;
-  border: 3px solid #fff;
-  vertical-align: middle;
-  width: 18px;
-  height: 18px;
-  background-repeat: no-repeat;
-  background-position: 50%;
-  border-radius: 50%;
-  box-sizing: border-box;
-}
-
-.gls-parcel-shops input[type=radio]:checked + label:after {
-  top: 1px;
+.gls-delivery-options input[type=radio]:focus,
+.gls-parcel-shops input[type=radio]:focus {
+  outline: 0;
 }

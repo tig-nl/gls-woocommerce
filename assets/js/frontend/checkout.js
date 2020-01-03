@@ -106,18 +106,6 @@ jQuery(
             },
 
             /**
-             * Set background color on the current active radio button
-             * TODO: make this work for sub-delivert-option items.
-             */
-            set_background_color: function(selectedDeliveryOption) {
-                console.log(selectedDeliveryOption);
-                var notSelectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:not(:checked)');
-
-                $(selectedDeliveryOption).parent('.container').addClass('gls-highlight');
-                $(notSelectedDeliveryOption).parent('.container').removeClass('gls-highlight');
-            },
-
-            /**
              *
              */
             trigger_update_delivery_options: function () {
@@ -367,6 +355,16 @@ jQuery(
                 jQuery(option_hours).text(business_hours.openTime + ' - ' + business_hours.closedTime);
 
                 sub_template.appendTo(container).show();
+            },
+
+            /**
+             * Set background color on the current active radio button
+             */
+            set_background_color: function(selectedDeliveryOption) {
+                var notSelectedDeliveryOptions = $('.woocommerce-checkout input[name="gls_delivery_option"]:not(:checked)');
+
+                notSelectedDeliveryOptions.parents('.container').removeClass('gls-highlight');
+                selectedDeliveryOption.parents('.container').addClass('gls-highlight');
             },
 
             /**
