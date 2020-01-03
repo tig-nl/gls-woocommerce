@@ -119,11 +119,9 @@ jQuery(
                             options.data.forEach(gls_delivery_options_form.display_delivery_option);
                         }
 
-                        if (options.data.length === 1) {
-                            // If only one option is available, we might as well select it.
-                            $('#default_delivery_option').trigger('click');
-                            gls_delivery_options_form.delivery_option_selected();
-                        }
+                        // Always select the default delivery option after load, to trigger a refresh of the fee.
+                        $('#default_delivery_option').trigger('click');
+                        gls_delivery_options_form.delivery_option_selected();
                     },
                     error: function (message) {
                         if (message.responseJSON !== undefined) {
