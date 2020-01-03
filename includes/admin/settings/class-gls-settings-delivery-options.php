@@ -134,7 +134,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                 array(
                     array(
                         'title' => __('Services', 'gls-woocommerce'),
-                        'desc'  => __('Configure the display of the available delivery options in checkout.'),
+                        'desc'  => __('Configure the display of the available delivery options in checkout.', 'gls-woocommerce'),
                         'type'  => 'title',
                         'id'    => 'services_options'
                     ),
@@ -187,8 +187,8 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'default' => '5'
                     ),
                     array(
-                        'title'   => __('Enable ShopReturnService'),
-                        'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label.'),
+                        'title'   => __('Enable ShopReturnService', 'gls-woocommerce'),
+                        'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label.', 'gls-woocommerce'),
                         'type'    => 'checkbox',
                         'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[shop_return]',
                         'default' => 'yes'
@@ -248,9 +248,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
      */
     public function getLabelFormat()
     {
-        return [   'pdfA6S' => __('PDF (A6)'),
-            'pdf2A4' => __('PDF (A4, 2 labels per pagina)'),
-            'pdf4A4' => __('PDF (A4, 4 labels per pagina)'),
+        return [
+            'pdfA6S' => __('PDF (A6)', 'gls-woocommerce'),
+            'pdf2A4' => __('PDF (A4, 2 labels/page)', 'gls-woocommerce'),
+            'pdf4A4' => __('PDF (A4, 4 labels/page)', 'gls-woocommerce'),
         ];
     }
 
@@ -265,7 +266,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             ?>
             <tr valign="top">
                 <td class="gls_api_check_wrapper" colspan="2">
-                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.');?></p></div>
+                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.', 'gls-woocommerce');?></p></div>
                 </td>
             </tr>
         <?php
@@ -273,7 +274,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             ?>
             <tr valign="top">
                 <td class="gls_api_check_wrapper" colspan="2">
-                    <div id="api_moderated_notok" class="error inline"><p><?php _e('Api credentials are not correct, please fill in the correct values.');?></p></div>
+                    <div id="api_moderated_notok" class="error inline"><p><?php _e('Api credentials are not correct, please fill in the correct values.', 'gls-woocommerce');?></p></div>
                 </td>
             </tr>
         <?php
