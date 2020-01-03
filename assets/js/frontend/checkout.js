@@ -384,15 +384,15 @@ jQuery(
              *
              */
             toggle_tabs: function () {
+                $(this).addClass('active');
+
                 if (this.className.includes('gls-tab-delivery')) {
                     $('.gls-tab-pickup').removeClass('active');
-                    $('.gls-tab-delivery').addClass('active');
 
                     $('.gls-parcel-shops').fadeOut('fast');
                     $('.gls-delivery-options').fadeIn('slow');
                 } else {
                     $('.gls-tab-delivery').removeClass('active');
-                    $('.gls-tab-pickup').addClass('active');
 
                     $('.gls-delivery-options').fadeOut('fast');
                     $('.gls-parcel-shops').fadeIn('slow');
