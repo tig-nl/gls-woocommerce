@@ -87,7 +87,7 @@ class GLS_AJAX extends WC_AJAX
         $response = GLS()->api_delivery_options()->call();
 
         if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
-            $code = $response->statusCode ?: 400;
+            $code = $response->statusCode ?: 412;
             wp_send_json_error($response->message, $code);
         }
 
@@ -104,11 +104,16 @@ class GLS_AJAX extends WC_AJAX
     public static function update_parcel_shops()
     {
         check_ajax_referer('update-parcel-shops', 'security');
+
+        if (GLS()->post('country') !== 'NL') {
+            wp_send_json_success([], 200);
+        }
+
         /** @var StdClass $response */
         $response = GLS()->api_pickup_locations()->call();
 
         if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
-            $code = $response->statusCode ?: 400;
+            $code = $response->statusCode ?: 412;
             wp_send_json_error($response->message, $code);
         }
 
@@ -127,7 +132,8 @@ class GLS_AJAX extends WC_AJAX
             return;
         }
 
-        $title = strtolower(GLS()->post('details')['title']) ?? '';
+        $details = GLS()->post('details');
+        $title   = isset($details['title']) ? strtolower($details['title']) : '';
 
         if (strpos($title, ' | ')) {
             $_POST['details']['title'] = explode(' | ', $title)[0];

@@ -62,7 +62,7 @@ class GLS_Api_Get_Delivery_Options
     public function call()
     {
         if (!$this->postcode || !$this->country) {
-            wp_send_json_error(__('Postcode and/or country not specified.', 'gls-woocommerce'), 400);
+            wp_send_json_error(__('Postcode and/or country not specified.', 'gls-woocommerce'), 412);
         }
 
         $api = GLS_Api::instance($this->endpoint, $this->body);

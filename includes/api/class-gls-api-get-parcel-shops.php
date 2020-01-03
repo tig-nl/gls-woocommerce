@@ -59,7 +59,7 @@ class GLS_Api_Get_Parcel_Shops
     public function call()
     {
         if (!$this->postcode) {
-            wp_send_json_error(__('No postcode specified.', 'gls-woocommerce'), 400);
+            wp_send_json_error(__('No postcode specified.', 'gls-woocommerce'), 412);
         }
 
         $api = GLS_Api::instance($this->endpoint, $this->body);

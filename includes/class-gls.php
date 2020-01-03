@@ -258,10 +258,10 @@ final class GLS
         }
 
         if ($clean) {
-            return wc_clean(wp_unslash($_POST[$key]));
+            return isset($_POST[$key]) ? wc_clean(wp_unslash($_POST[$key])) : '';
         }
 
-        return wp_unslash($_POST[$key]);
+        return isset($_POST[$key]) ? wp_unslash($_POST[$key]) : '';
     }
 
     /**

@@ -22,6 +22,8 @@
   color: #172156;
   border: 1px solid #D4D9E3;
   cursor: pointer;
+  transition: width .2s;
+  -webkit-transition: width .2s;
 }
 
 .gls-tabs .gls-tab.active {
@@ -32,11 +34,11 @@
   cursor: default;
 }
 
-.gls-tabs .gls-tab:nth-child(1){
+.gls-tabs .gls-tab:first-child{
   border-radius: 5px 0 0 5px;
 }
 
-.gls-tabs .gls-tab:nth-child(2){
+.gls-tabs .gls-tab:last-child{
   border-radius: 0 5px 5px 0;
 }
 
@@ -71,6 +73,22 @@
 
 .delivery-fee .amount > span {
   margin-right: 2px;
+}
+
+/* ================================================================================================================== */
+/* Error Messages =================================================================================================== */
+/* ================================================================================================================== */
+
+.gls-error {
+    margin-top: 10px;
+    padding: 3px 10px;
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    font-size: 13px;
+    color: red;
+    background: #ffdada;
+    border-radius: 3px;
 }
 
 /* ================================================================================================================== */

@@ -33,8 +33,6 @@
 <div class="gls-wrapper">
     <h3 class="gls-block-title" id="delivery_options_heading"><?php _e("Shipping Options", "gls-woocommerce"); ?></h3>
     <div id="delivery_options" class="gls-woocommerce-checkout-delivery-options">
-        <div class="gls-error error">
-        </div>
         <div class="gls-tabs">
             <div class="gls-tab gls-tab-delivery active">
                 <span><?php _e('Delivery', 'gls-woocommerce'); ?></span>
@@ -43,6 +41,7 @@
                 <span><?php _e('Pick up', 'gls-woocommerce'); ?></span>
             </div>
         </div>
+        <div class="gls-error error" style="display: none;"></div>
         <div class="gls-services">
             <div class="gls-delivery-options">
                 <div class="container gls-delivery-option" style="display: none;">

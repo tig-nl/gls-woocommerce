@@ -36,7 +36,7 @@ jQuery(
                 // Inputs/selects which update delivery options
                 this.$checkout_form.on('change', '.address-field input.input-text, .address-field select.country_select', this.trigger_update_delivery_options);
 
-                // Toggle tabs and
+                // Toggle tabs and tab content
                 this.$checkout_form.on('click', '.gls-tab-delivery, .gls-tab-pickup', this.toggle_tabs);
                 this.$checkout_form.on('click', '.open-business-hours-link, .close', this.toggle_business_hours);
             },
@@ -56,61 +56,18 @@ jQuery(
             },
 
             /**
-             * Small timeout to prevent multiple requests when several fields update at the same time
-             */
-            reset_update_checkout_timer: function () {
-                clearTimeout(gls_delivery_options_form.updateTimer);
-            },
-
-            /**
-             * @param e
-             */
-            delivery_option_selected: function (e) {
-                e.stopPropagation();
-
-                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked'),
-                    shippingAddress        = $('#ship-to-different-address-checkbox:checked').length > 0
-                        ? $('.woocommerce-shipping-fields input, .woocommerce-shipping-fields select, #billing_phone_field input, #billing_email_field input')
-                        : $('.woocommerce-billing-fields input, .woocommerce-billing-fields select');
-
-                if (selectedDeliveryOption !== gls_delivery_options_form.selected_delivery_option) {
-                    $(document.body).trigger('delivery_option_selected');
-                }
-
-                gls_delivery_options_form.selected_delivery_option = selectedDeliveryOption;
-
-                gls_delivery_options_form.delivery_options_xhr = $.ajax(
-                    {
-                        type: 'POST',
-                        url: gls_checkout_params.wc_ajax_url.toString().replace('%%endpoint%%', 'delivery_option_selected'),
-                        data: {
-                            type: selectedDeliveryOption.data('service'),
-                            details: {
-                                service: selectedDeliveryOption.val(),
-                                title: selectedDeliveryOption.data('title'),
-                                fee: selectedDeliveryOption.data('fee')
-                            },
-                            delivery_address: shippingAddress.serialize()
-                        },
-                        beforeSend: function() {
-                            $('[id*=tig_gls]').prop('checked', true);
-                        },
-                        success: function() {
-                            gls_delivery_options_form.$error_container.hide();
-                            $(document.body).trigger('update_checkout');
-                        }
-                    }
-                );
-
-                gls_delivery_options_form.set_background_color(selectedDeliveryOption);
-            },
-
-            /**
              *
              */
             trigger_update_delivery_options: function () {
                 gls_delivery_options_form.reset_update_checkout_timer();
                 $(document.body).trigger('update_delivery_options');
+            },
+
+            /**
+             * Small timeout to prevent multiple requests when several fields update at the same time
+             */
+            reset_update_checkout_timer: function () {
+                clearTimeout(gls_delivery_options_form.updateTimer);
             },
 
             /**
@@ -161,9 +118,17 @@ jQuery(
                         if (options.data.length > 0) {
                             options.data.forEach(gls_delivery_options_form.display_delivery_option);
                         }
+
+                        if (options.data.length === 1) {
+                            // If only one option is available, we might as well select it.
+                            $('#default_delivery_option').trigger('click');
+                            gls_delivery_options_form.delivery_option_selected();
+                        }
                     },
                     error: function (message) {
-                        gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
+                        if (message.responseJSON !== undefined) {
+                            gls_delivery_options_form.$error_container.html(message.responseJSON.data).fadeIn();
+                        }
                     }
                 });
             },
@@ -212,13 +177,25 @@ jQuery(
                     },
                     success: function (options) {
                         gls_delivery_options_form.$error_container.hide();
+                        let pickup_tab = $('.gls-tab-pickup');
+                        let delivery_tab = $('.gls-tab-delivery');
 
                         if (options.data.length > 0) {
                             options.data.forEach(gls_delivery_options_form.display_parcel_shop);
+                            // If there are Parcel Shops available, erase any inline styles.
+                            delivery_tab.css({'width': '', 'border-radius': ''});
+                            pickup_tab.fadeIn('slow');
+                        } else {
+                            // If there are no Parcel Shops available, open the Delivery-tab and hide the Pickup-tab.
+                            pickup_tab.fadeOut('fast');
+                            delivery_tab.css({'width': '100%', 'border-radius': '5px'});
+                            delivery_tab.click();
                         }
                     },
                     error: function (message) {
-                        gls_delivery_options_form.$error_container.html(message.responseJSON.data).show();
+                        if (message.responseJSON !== undefined) {
+                            gls_delivery_options_form.$error_container.html(message.responseJSON.data).fadeIn('fast');
+                        }
                     }
                 });
             },
@@ -264,7 +241,7 @@ jQuery(
                     });
                 }
 
-                template.appendTo(this.$delivery_options_container).show();
+                template.appendTo(this.$delivery_options_container).fadeIn('fast');
             },
 
             /**
@@ -310,11 +287,11 @@ jQuery(
                 option_title = template.children('.gls-parcel-shop > label');
                 option_fee   = template.children('.gls-parcel-shop > .delivery-fee');
 
-                parcel_address = template.children('.gls-parcel-shop .address-information');
-                parcel_address_street = parcel_address.children('span.street');
-                parcel_address_city = parcel_address.children('span.city');
+                parcel_address          = template.children('.gls-parcel-shop .address-information');
+                parcel_address_street   = parcel_address.children('span.street');
+                parcel_address_city     = parcel_address.children('span.city');
                 parcel_address_distance = parcel_address.children('span.distance-meters');
-                parcel_shop_id = option.parcelShopId !== 'undefined' ? option.parcelShopId : 'default';
+                parcel_shop_id          = option.parcelShopId !== 'undefined' ? option.parcelShopId : 'default';
 
                 option_input.val(parcel_shop_id);
                 option_input.attr('id', parcel_shop_id);
@@ -335,11 +312,10 @@ jQuery(
                     i++;
                 });
 
-                template.appendTo(this.$parcel_shops_container).show();
+                template.appendTo(this.$parcel_shops_container).fadeIn('fast');
             },
 
             /**
-             *
              * @param business_hours
              * @param parent_template
              * @param template
@@ -348,13 +324,54 @@ jQuery(
                 container    = jQuery(parent_template).find('.parcel-business-hours');
                 sub_template = jQuery(template).clone(true);
 
-                option_day = sub_template.children('.day-of-the-week');
+                option_day   = sub_template.children('.day-of-the-week');
                 option_hours = sub_template.children('.opening-hours');
 
                 jQuery(option_day).text(business_hours.dayOfWeek);
                 jQuery(option_hours).text(business_hours.openTime + ' - ' + business_hours.closedTime);
 
                 sub_template.appendTo(container).show();
+            },
+
+            /**
+             *
+             */
+            delivery_option_selected: function () {
+                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked'),
+                    shippingAddress        = $('#ship-to-different-address-checkbox:checked').length > 0
+                        ? $('.woocommerce-shipping-fields input, .woocommerce-shipping-fields select, #billing_phone_field input, #billing_email_field input')
+                        : $('.woocommerce-billing-fields input, .woocommerce-billing-fields select');
+
+                if (selectedDeliveryOption !== gls_delivery_options_form.selected_delivery_option) {
+                    $(document.body).trigger('delivery_option_selected');
+                }
+
+                gls_delivery_options_form.selected_delivery_option = selectedDeliveryOption;
+
+                gls_delivery_options_form.delivery_options_xhr = $.ajax(
+                    {
+                        type: 'POST',
+                        url: gls_checkout_params.wc_ajax_url.toString().replace('%%endpoint%%', 'delivery_option_selected'),
+                        data: {
+                            type: selectedDeliveryOption.data('service'),
+                            details: {
+                                service: selectedDeliveryOption.val(),
+                                title: selectedDeliveryOption.data('title'),
+                                fee: selectedDeliveryOption.data('fee')
+                            },
+                            delivery_address: shippingAddress.serialize()
+                        },
+                        beforeSend: function() {
+                            $('[id*=tig_gls]').prop('checked', true);
+                        },
+                        success: function() {
+                            gls_delivery_options_form.$error_container.hide();
+                            $(document.body).trigger('update_checkout');
+                        }
+                    }
+                );
+
+                gls_delivery_options_form.set_background_color(selectedDeliveryOption);
             },
 
             /**
@@ -368,20 +385,7 @@ jQuery(
             },
 
             /**
-             * Shows and closes the business hours for the corresponding parcel shop.
-             */
-            toggle_business_hours: function () {
-                if (this.className === 'open-business-hours-link') {
-                    $(this).next('.table.container').toggleClass('active');
-                    $(this).addClass('active');
-                } else {
-                    $(this).parent('.table.container').removeClass('active');
-                    $(this).parent('.table.container').prev('.open-business-hours-link').removeClass('active');
-                }
-            },
-
-            /**
-             *
+             * Toggle active tab and corresponding content.
              */
             toggle_tabs: function () {
                 $(this).addClass('active');
@@ -396,6 +400,19 @@ jQuery(
 
                     $('.gls-delivery-options').fadeOut('fast');
                     $('.gls-parcel-shops').fadeIn('slow');
+                }
+            },
+
+            /**
+             * Shows and closes the business hours for the corresponding parcel shop.
+             */
+            toggle_business_hours: function () {
+                if (this.className === 'open-business-hours-link') {
+                    $(this).next('.table.container').toggleClass('active');
+                    $(this).addClass('active');
+                } else {
+                    $(this).parent('.table.container').removeClass('active');
+                    $(this).parent('.table.container').prev('.open-business-hours-link').removeClass('active');
                 }
             },
         };
