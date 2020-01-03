@@ -392,12 +392,18 @@ jQuery(
                     $('.gls-tab-pickup').removeClass('active');
 
                     $('.gls-parcel-shops').fadeOut('fast');
-                    $('.gls-delivery-options').fadeIn('slow');
+                    // Small timeout, to make the transition between the two blocks smoother.
+                    setTimeout(function() {
+                        $('.gls-delivery-options').fadeIn('slow');
+                    }, 200)
                 } else {
                     $('.gls-tab-delivery').removeClass('active');
 
                     $('.gls-delivery-options').fadeOut('fast');
-                    $('.gls-parcel-shops').fadeIn('slow');
+                    // Small timeout, to make the transition between the two blocks smoother.
+                    setTimeout(function() {
+                        $('.gls-parcel-shops').fadeIn('slow');
+                    }, 200);
                 }
             },
 
