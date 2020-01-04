@@ -37,7 +37,12 @@ jQuery(
                 this.$checkout_form.on('change', '.address-field input.input-text, .address-field select.country_select', this.trigger_update_delivery_options);
 
                 // Toggle tabs and tab content
-                this.$checkout_form.on('click', '.gls-tab-delivery, .gls-tab-pickup', this.toggle_tabs);
+                this.$checkout_form.on('click', '.gls-tab-delivery',
+                    function() { gls_delivery_options_form.toggle_tabs.call(this, '.gls-tab-pickup', '.gls-parcel-shops', '.gls-delivery-options')}
+                );
+                this.$checkout_form.on('click', '.gls-tab-pickup',
+                    function() { gls_delivery_options_form.toggle_tabs.call(this, '.gls-tab-delivery', '.gls-delivery-options', '.gls-parcel-shops')}
+                );
                 this.$checkout_form.on('click', '.open-business-hours-link, .close', this.toggle_business_hours);
             },
 
@@ -222,7 +227,7 @@ jQuery(
                 option_title.text(option.title);
                 option_input.attr('data-fee', option.fee);
                 option_input.attr('data-title', option.title);
-                option_input.attr('data-service', option.service !== undefined ? option.service  : 'DeliveryService');
+                option_input.attr('data-service', option.service !== undefined ? option.service : 'DeliveryService');
                 option_fee.html(option.formatted_fee);
 
                 if (option.subDeliveryOptions !== undefined) {
@@ -385,26 +390,14 @@ jQuery(
             /**
              * Toggle active tab and corresponding content.
              */
-            toggle_tabs: function () {
+            toggle_tabs: function (oldTab, oldContent, newContent) {
+                $(oldTab).removeClass('active');
                 $(this).addClass('active');
 
-                if (this.className.includes('gls-tab-delivery')) {
-                    $('.gls-tab-pickup').removeClass('active');
-
-                    $('.gls-parcel-shops').fadeOut('fast');
-                    // Small timeout, to make the transition between the two blocks smoother.
-                    setTimeout(function() {
-                        $('.gls-delivery-options').fadeIn('slow');
-                    }, 200)
-                } else {
-                    $('.gls-tab-delivery').removeClass('active');
-
-                    $('.gls-delivery-options').fadeOut('fast');
-                    // Small timeout, to make the transition between the two blocks smoother.
-                    setTimeout(function() {
-                        $('.gls-parcel-shops').fadeIn('slow');
-                    }, 200);
-                }
+                $(oldContent).fadeOut('fast');
+                setTimeout(function() {
+                    $(newContent).fadeIn('slow');
+                }, 200);
             },
 
             /**
