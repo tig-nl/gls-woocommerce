@@ -48,3 +48,7 @@
 #gls-order-label img {
     height: 18px;
 }
+
+.gls-email-sender {
+    font-weight: bold;
+}

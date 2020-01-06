@@ -62,6 +62,7 @@ class GLS_Admin
         include_once dirname(__FILE__) . '/class-gls-admin-meta-boxes.php';
         include_once dirname(__FILE__) . '/class-gls-admin-order-columns.php';
         include_once dirname(__FILE__) . '/class-gls-admin-bulk-actions.php';
+        include_once dirname(__FILE__) . '/class-gls-admin-api-notice.php';
     }
 
     /**
