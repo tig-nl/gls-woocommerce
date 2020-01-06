@@ -53,6 +53,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         add_action('woocommerce_admin_field_services', array($this, 'services_settings'));
         add_action('woocommerce_admin_field_delivery_options', array($this, 'delivery_options_settings'));
         add_action('woocommerce_admin_field_api_check', array($this,'api_check_settings'));
+        add_action('woocommerce_admin_field_gls_external_fields', array($this,'gls_external_fields'));
         // @formatter:on
 
         parent::__construct();
@@ -194,6 +195,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'default' => 'yes'
                     ),
                     array(
+                        'title' => __('Used fields form other parts of woocommerce', 'gls-woocommerce'),
+                        'type'  => 'gls_external_fields',
+                    ),
+                    array(
                         'type' => 'services'
                     ),
                     array(
@@ -253,6 +258,70 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             'pdf2A4' => __('PDF (A4, 2 labels/page)', 'gls-woocommerce'),
             'pdf4A4' => __('PDF (A4, 4 labels/page)', 'gls-woocommerce'),
         ];
+    }
+
+    public function gls_external_fields()
+    {
+        $error_address = '';
+        $error_email = '';
+
+        $woocommerce_store_address = get_option('woocommerce_store_address');
+        $woocommerce_store_address2 = get_option('woocommerce_store_address2');
+
+        $woocommerce_store_address .= ($woocommerce_store_address2) ? $woocommerce_store_address2 : '';
+        $woocommerce_store_city = get_option('woocommerce_store_city');
+        $woocommerce_store_postcode = get_option('woocommerce_store_postcode');
+        $woocommerce_default_country = get_option('woocommerce_default_country');
+
+        if ($woocommerce_store_address == false ||
+            $woocommerce_store_city == false ||
+            $woocommerce_store_postcode == false ||
+            $woocommerce_default_country == false) {
+            $error_address = __('In order for the GLS plugin to work correctly, the store address has to be filled in.');
+        }
+
+        $woocommerce_email_from_name = get_option('woocommerce_email_from_name');
+        $woocommerce_email_from_address = get_option('woocommerce_email_from_address');
+
+        if ($woocommerce_email_from_name == false ||
+            $woocommerce_email_from_address == false) {
+            $error_email = __('In order for the GLS plugin to work correctly, the email sender options has to be filled in.');
+        }
+
+        ?>
+
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for=""><?php _e('Store Address:'); ?> </label>
+            </th>
+            <td class="forminp forminp-number">
+                <?php if ($error_address) : ?>
+                    <p class="description"><?php echo $error_address; ?></p>
+                <?php else: ?>
+                    <?php echo $woocommerce_store_address;?> <br/>
+                    <?php echo $woocommerce_store_postcode . ', ' . $woocommerce_store_city . ' (' . $woocommerce_default_country  . ')';?>
+                    <p class="description"><?php _e('This address will be printed on the ShopReturnService labels.');?></p>
+                <?php endif;?>
+                <p class="description"><?php _e('The store address can be changed under the WooCommerce "General" tab');?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for=""><?php _e('Email Sender Options:'); ?> </label>
+            </th>
+            <td class="forminp forminp-number">
+                <?php if ($error_email) : ?>
+                    <p class="description"><?php echo $error_email; ?></p>
+                 <?php else: ?>
+                    <span class="gls-email-sender"><?php echo $woocommerce_email_from_name;?></span>&nbsp;&lt;<?php echo $woocommerce_email_from_address;?>&gt;<br/>
+                    <p class="description"><?php _e('Track and trace emails will be send from GLS from this email address.');?></p>
+                <?php endif;?>
+                <p class="description"><?php _e('The email sender options can be changed under the WooCommerce "Emails" tab');?></p>
+            </td>
+        </tr>
+
+        <?php
     }
 
     /**
@@ -336,10 +405,12 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     <thead>
                     <tr>
                         <?php
+                        $woocommerce_currency = get_option('woocommerce_currency');
+
                         $default_columns = array(
                             'name'           => __('Delivery Option', 'gls-woocommerce'),
                             'description'    => __('Description', 'gls-woocommerce'),
-                            'additional_fee' => __('Additional Fee', 'gls-woocommerce'),
+                            'additional_fee' => __('Additional Fee', 'gls-woocommerce') . '&nbsp;(' . $woocommerce_currency . ')',
                             'status'         => __('Enabled', 'gls-woocommerce')
                         );
 

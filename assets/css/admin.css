@@ -55,4 +55,7 @@
 
 .gls_options th.status {
     padding-right: 10px !important;
+
+.gls-email-sender {
+    font-weight: bold;
 }
