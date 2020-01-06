@@ -74,7 +74,7 @@ class GLS_Api_Get_Parcel_Shops
     {
         return [
             'zipcode'       => $this->postcode,
-            'amountOfShops' => get_option('tig_gls_services')['display_shops']
+            'amountOfShops' => get_option('tig_gls_services')['display_shops'] ?? 3
         ];
     }
 }
