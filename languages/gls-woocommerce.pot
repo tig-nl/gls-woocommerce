@@ -1,0 +1,303 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-01-06 13:34+0100\n"
+"PO-Revision-Date: 2020-01-06 13:34+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_n;_x;esc_html__\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: gls-woocommerce.php:66
+#: includes/admin/settings/class-gls-settings-delivery-options.php:50
+msgid "GLS"
+msgstr ""
+
+#: gls-woocommerce.php:67
+msgid "Connect WooCommerce to GLS to provide GLS delivery options in checkout."
+msgstr ""
+
+#: includes/admin/class-gls-admin-bulk-actions.php:51
+msgid "GLS - Create & Print Labels"
+msgstr ""
+
+#: includes/admin/class-gls-admin-bulk-actions.php:122
+#, php-format
+msgid "Failed Order id: #%s for GLS shipment information."
+msgstr ""
+
+#: includes/admin/class-gls-admin-bulk-actions.php:130
+#, php-format
+msgid "Processed %s Order for GLS shipment information."
+msgstr ""
+
+#: includes/admin/class-gls-admin-order-columns.php:57
+msgid "GLS Shipping Information"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:55
+msgid "Tracking Code"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:67
+msgid "Delete label"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:75
+msgid "Print"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:69
+#: includes/admin/settings/class-gls-settings-delivery-options.php:92
+msgid "API Configuration"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:70
+#: includes/admin/settings/class-gls-settings-delivery-options.php:204
+msgid "Delivery Options"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:93
+msgid "Add your API credentials to connect WooCommerce to the GLS API."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:98
+msgid "Test mode"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:100
+msgid "Use test mode in staging or development environments"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:105
+msgid "Username"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:110
+msgid "Password"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:115
+msgid "Subscription key"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:120
+msgid "Test credentials"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:136
+msgid "Services"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:137
+msgid "Configure the display of the available delivery options in checkout."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:142
+msgid "Cut-off Time"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:143
+msgid "Deadline at which an order can be placed in order to be processed."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:150
+msgid "Processing Time"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:151
+msgid ""
+"The time (in days) it takes to process and package an order before it's "
+"shipped."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:158
+msgid "Label format"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:159
+msgid "Which label format do you need"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:166
+msgid "Label Margin Top (only PDF A4)"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:167
+#: includes/admin/settings/class-gls-settings-delivery-options.php:175
+msgid "distance in mm"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:174
+msgid "Label Margin Left (only PDF A4)"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:182
+msgid "No. of Shops to Display"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:183
+msgid "Number of ParcelShops to display in the ShopDelivery-tab in checkout."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:190
+msgid "Enable ShopReturnService"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:191
+msgid ""
+"Enable this to offer easy returns to your customers. A return label is "
+"generated along with every delivery label."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:205
+msgid ""
+"Available delivery options are listed below and can be enabled/disabled to "
+"control their visibility on the frontend."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:252
+msgid "PDF (A6)"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:253
+msgid "PDF (A4, 2 labels/page)"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:254
+msgid "PDF (A4, 4 labels/page)"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:269
+msgid "Api credentials are correct."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:277
+msgid "Api credentials are not correct, please fill in the correct values."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:340
+msgid "Delivery Option"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:341
+msgid "Description"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:342
+msgid "Additional Fee"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:343
+msgid "Enabled"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:391
+#, php-format
+msgid "The \"%s\" delivery option is currently enabled"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:394
+#, php-format
+msgid "The \"%s\" delivery option is currently disabled"
+msgstr ""
+
+#: includes/api/class-gls-api-get-delivery-options.php:65
+msgid "Postcode and/or country not specified."
+msgstr ""
+
+#: includes/api/class-gls-api-get-parcel-shops.php:62
+msgid "No postcode specified."
+msgstr ""
+
+#: includes/class-gls-delivery-options.php:76 includes/class-gls.php:79
+msgid "Cloning is forbidden."
+msgstr ""
+
+#: includes/class-gls-delivery-options.php:86 includes/class-gls.php:87
+msgid "Unserializing instances of this class is forbidden."
+msgstr ""
+
+#: includes/class-gls-delivery-options.php:344
+#: templates/checkout/delivery-options.php:38
+msgid "Delivery"
+msgstr ""
+
+#: includes/options/class-gls-option-s12.php:41
+msgid "TimeDefiniteService (Saturday before 12.00 AM)"
+msgstr ""
+
+#: includes/options/class-gls-option-s12.php:42
+msgid "Delivery on Saturday before 12.00 AM."
+msgstr ""
+
+#: includes/options/class-gls-option-s17.php:41
+msgid "TimeDefiniteService (Saturday before 17.00 AM)"
+msgstr ""
+
+#: includes/options/class-gls-option-s17.php:42
+msgid "Delivery on Saturday before 17.00 AM."
+msgstr ""
+
+#: includes/options/class-gls-option-s9.php:41
+msgid "TimeDefiniteService (Saturday before 9.00 AM)"
+msgstr ""
+
+#: includes/options/class-gls-option-s9.php:42
+msgid "Delivery on Saturday before 9.00 AM."
+msgstr ""
+
+#: includes/options/class-gls-option-shopdelivery.php:41
+msgid "ShopDeliveryService"
+msgstr ""
+
+#: includes/options/class-gls-option-shopdelivery.php:42
+msgid "Delivery to ParcelShops."
+msgstr ""
+
+#: includes/options/class-gls-option-t12.php:41
+msgid "TimeDefiniteService (Before 12.00 AM)"
+msgstr ""
+
+#: includes/options/class-gls-option-t12.php:42
+msgid "Next business day delivery before 12.00 AM."
+msgstr ""
+
+#: includes/options/class-gls-option-t17.php:41
+msgid "TimeDefiniteService (Before 17.00 AM)"
+msgstr ""
+
+#: includes/options/class-gls-option-t17.php:42
+msgid "Next business day delivery before 17.00 AM."
+msgstr ""
+
+#: includes/options/class-gls-option-t9.php:41
+msgid "TimeDefiniteService (Before 9.00 AM)"
+msgstr ""
+
+#: includes/options/class-gls-option-t9.php:42
+msgid "Next business day delivery before 9.00 AM."
+msgstr ""
+
+#: templates/checkout/delivery-options.php:34
+msgid "Shipping Options"
+msgstr ""
+
+#: templates/checkout/delivery-options.php:41
+msgid "Pick up"
+msgstr ""
+
+#: templates/checkout/delivery-options.php:75
+msgid "Show business hours"
+msgstr ""
+
+#: templates/checkout/delivery-options.php:80
+msgid "Close"
+msgstr ""
