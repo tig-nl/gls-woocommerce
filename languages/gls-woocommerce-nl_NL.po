@@ -22,8 +22,7 @@ msgstr "GLS"
 
 #: gls-woocommerce.php:67
 msgid "Connect WooCommerce to GLS to provide GLS delivery options in checkout."
-msgstr ""
-"Connect GLS WooCommerce om GLS verzendmethode opties te bieden in de kassa."
+msgstr "Connect GLS WooCommerce om GLS verzendmethode opties te bieden in de kassa."
 
 #: includes/admin/class-gls-admin-bulk-actions.php:51
 msgid "GLS - Create & Print Labels"
@@ -107,20 +106,15 @@ msgstr "Cut-off Time"
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:143
 msgid "Deadline at which an order can be placed in order to be processed."
-msgstr ""
-"Deadline, tot deze tijd kan een order geplaatst worden en verwerkt worden."
+msgstr "Deadline, tot deze tijd kan een order geplaatst worden en verwerkt worden."
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:150
 msgid "Processing Time"
 msgstr "Verwerkingstijd"
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:151
-msgid ""
-"The time (in days) it takes to process and package an order before it's "
-"shipped."
-msgstr ""
-"De tijd (in dagen) die nodig is voor het verwerken en verpakken van een "
-"bestelling voordat het wordt verscheept."
+msgid "The time (in days) it takes to process and package an order before it's shipped."
+msgstr "De tijd (in dagen) die nodig is voor het verwerken en verpakken van een bestelling voordat het wordt verscheept."
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:158
 msgid "Label format"
@@ -156,20 +150,12 @@ msgid "Enable ShopReturnService"
 msgstr "Inschakelen ShopReturnService"
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:191
-msgid ""
-"Enable this to offer easy returns to your customers. A return label is "
-"generated along with every delivery label."
-msgstr ""
-"Schakel dit in om gemakkelijk terugzenden aan uw klanten aan te bieden. Een "
-"return label wordt gegenereerd samen met elke leveringsetiket."
+msgid "Enable this to offer easy returns to your customers. A return label is generated along with every delivery label."
+msgstr "Schakel dit in om gemakkelijk terugzenden aan uw klanten aan te bieden. Een return label wordt gegenereerd samen met elke leveringsetiket."
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:205
-msgid ""
-"Available delivery options are listed below and can be enabled/disabled to "
-"control their visibility on the frontend."
-msgstr ""
-"Verzendopties worden hieronder vermeld en de zichtbaarheid op de kassa kan "
-"worden ingeschakeld."
+msgid "Available delivery options are listed below and can be enabled/disabled to control their visibility on the frontend."
+msgstr "Verzendopties worden hieronder vermeld en de zichtbaarheid op de kassa kan worden ingeschakeld."
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:252
 msgid "PDF (A6)"
