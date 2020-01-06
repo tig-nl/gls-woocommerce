@@ -104,7 +104,9 @@ class GLS_AJAX extends WC_AJAX
     {
         check_ajax_referer('update-parcel-shops', 'security');
 
-        if (GLS()->post('country') !== 'NL') {
+        $is_parcel_shops_enabled = GLS()->delivery_options()->delivery_options['gls_shop_delivery']->enabled;
+
+        if (GLS()->post('country') !== 'NL' || $is_parcel_shops_enabled == 'no') {
             wp_send_json_success([], 200);
         }
 
