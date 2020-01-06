@@ -48,3 +48,11 @@
 #gls-order-label img {
     height: 18px;
 }
+
+.gls_options th {
+    padding-left: 10px;
+}
+
+.gls_options th.status {
+    padding-right: 10px !important;
+}
