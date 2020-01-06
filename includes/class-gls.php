@@ -121,48 +121,6 @@ final class GLS
     }
 
     /**
-     * Returns true if the request is a non-legacy REST API request.
-     *
-     * Legacy REST requests should still run some extra code for backwards compatibility.
-     *
-     * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
-     *
-     * @return bool
-     */
-    public function is_rest_api_request()
-    {
-        if (empty($_SERVER['REQUEST_URI'])) {
-            return false;
-        }
-
-        $rest_prefix         = trailingslashit(rest_get_url_prefix());
-        $is_rest_api_request = (false !== strpos($_SERVER['REQUEST_URI'], $rest_prefix)); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
-        return apply_filters('tig_gls_is_rest_api_request', $is_rest_api_request);
-    }
-
-    /**
-     * What type of request is this?
-     *
-     * @param string $type admin, ajax, cron or frontend.
-     *
-     * @return bool
-     */
-    private function is_request($type)
-    {
-        switch ($type) {
-            case 'admin':
-                return is_admin();
-            case 'ajax':
-                return defined('DOING_AJAX');
-            case 'cron':
-                return defined('DOING_CRON');
-            case 'frontend':
-                return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON') && !$this->is_rest_api_request();
-        }
-    }
-
-    /**
      * Include required core files used in admin and on the frontend.
      */
     public function includes()
@@ -205,6 +163,53 @@ final class GLS
     }
 
     /**
+     * Initialize hooks.
+     */
+    private function init_hooks()
+    {
+        add_action('init', array($this, 'init'), 0);
+        add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
+        add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 100, 2);
+        add_action('woocommerce_init', array('GLS_Pdf', 'gls_pdf_callback'));
+    }
+
+    /**
+     * Initialize base functions.
+     */
+    public function init()
+    {
+        // Before init action.
+        do_action('before_gls_init');
+
+        // Set up localisation.
+        $this->load_plugin_textdomain();
+
+        // Init action.
+        do_action('gls_init');
+    }
+
+    /**
+     * What type of request is this?
+     *
+     * @param string $type admin, ajax, cron or frontend.
+     *
+     * @return bool|void
+     */
+    private function is_request($type = 'frontend')
+    {
+        switch ($type) {
+            case 'admin':
+                return is_admin();
+            case 'ajax':
+                return defined('DOING_AJAX');
+            case 'cron':
+                return defined('DOING_CRON');
+            case 'frontend':
+                return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON') && !$this->is_rest_api_request();
+        }
+    }
+
+    /**
      * Include required frontend files.
      */
     public function frontend_includes()
@@ -213,13 +218,48 @@ final class GLS
     }
 
     /**
+     * Load Localisation files.
      *
+     * Note: the first-loaded translation file overrides any following ones if the same translation is present.
+     *       load_plugin_textdomain() contains a fallback: if a language pack is already installed in
+     *       wp-content/languages it takes precedence over language files supplied by the plugin.
+     *
+     * Locales found in:
+     *      - WP_LANG_DIR/plugins/gls-woocommerce-LOCALE.mo
      */
-    private function init_hooks()
+    public function load_plugin_textdomain()
     {
-        add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
-        add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 100, 2);
-        add_action('woocommerce_init', array('GLS_Pdf', 'gls_pdf_callback'));
+        if (function_exists('determine_locale')) {
+            $locale = determine_locale();
+        } else {
+            // @todo Remove when start supporting WP 5.0 or later.
+            $locale = is_admin() ? get_user_locale() : get_locale();
+        }
+
+        $locale = apply_filters('plugin_locale', $locale, 'gls-woocommerce');
+
+        unload_textdomain('gls-woocommerce');
+        load_textdomain('gls-woocommerce', WP_LANG_DIR . '/plugins/gls-woocommerce-' . $locale . '.mo');
+        load_plugin_textdomain('gls-woocommerce', false, plugin_basename(dirname(GLS_PLUGIN_FILE)) . '/languages');
+    }
+
+    /**
+     * Returns true if the request is a non-legacy REST API request.
+     *
+     * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
+     *
+     * @return bool
+     */
+    public function is_rest_api_request()
+    {
+        if (empty($_SERVER['REQUEST_URI'])) {
+            return false;
+        }
+
+        $rest_prefix         = trailingslashit(rest_get_url_prefix());
+        $is_rest_api_request = (false !== strpos($_SERVER['REQUEST_URI'], $rest_prefix)); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+        return apply_filters('tig_gls_is_rest_api_request', $is_rest_api_request);
     }
 
     /**
@@ -244,6 +284,16 @@ final class GLS
     }
 
     /**
+     * Get Ajax URL.
+     *
+     * @return string
+     */
+    public function ajax_url()
+    {
+        return admin_url('admin-ajax.php', 'relative');
+    }
+
+    /**
      * Cleans and returns any POST-data.
      *
      * @param null $key
@@ -262,16 +312,6 @@ final class GLS
         }
 
         return isset($_POST[$key]) ? wp_unslash($_POST[$key]) : '';
-    }
-
-    /**
-     * Get Ajax URL.
-     *
-     * @return string
-     */
-    public function ajax_url()
-    {
-        return admin_url('admin-ajax.php', 'relative');
     }
 
     /**
