@@ -86,10 +86,7 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_delivery_options()->call();
 
-        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
-            $code = $response->statusCode ?: 412;
-            wp_send_json_error($response->message, $code);
-        }
+        self::capture_frontend_ajax_errors($response);
 
         $available_delivery_options = $response->deliveryOptions;
         $enabled_delivery_options   = GLS()->delivery_options()->enabled_delivery_options();
@@ -112,17 +109,9 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_pickup_locations()->call();
 
-        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
-            $code = $response->statusCode ?: 412;
-            wp_send_json_error($response->message, $code);
-        }
+        self::capture_frontend_ajax_errors($response);
 
-        // These elements only exist if some required settings aren't set.
-        if (isset($response->username) || isset($response->amountOfShops) || isset($response->passwordLength)) {
-            foreach ($response as $item => $message) {
-                wp_send_json_error(__('The GLS plugin is not configured properly' . ': ' . reset($message)), 401);
-            }
-        }
+        self::check_required_configuration($response);
 
         $available_parcel_shops = $response->parcelShops;
         $parcel_shops           = GLS()->delivery_options()->parcel_shops($available_parcel_shops);
@@ -247,18 +236,9 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_create_label($_POST['order_id'])->call();
 
-        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
-            GLS_Admin_Notice::admin_add_notice($response->message,'error','shop_order');
-            wp_send_json_error($response->message, $response->status);
-        }
+        self::capture_admin_ajax_errors($response);
 
-        // These elements only exist if some required settings aren't set.
-        if (isset($response->username) || isset($response->amountOfShops) || isset($response->passwordLength)) {
-            foreach ($response as $item => $message) {
-                GLS_Admin_Notice::admin_add_notice(__('The GLS plugin is not configured properly') . ': ' . reset($message),'error','shop_order');
-                wp_send_json_error(__('The GLS plugin is not configured properly') . ': ' . reset($message), 401);
-            }
-        }
+        self::check_required_configuration($response, true);
 
         $order->update_meta_data('_gls_label', $response);
         $order->save();
@@ -277,10 +257,7 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_delete_label()->call();
 
-        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
-            GLS_Admin_Notice::admin_add_notice('Label could not be deleted from the GLS API','error','shop_order');
-            wp_send_json_error('Label could not be deleted from the GLS API', $response->status);
-        }
+        self::capture_admin_ajax_errors($response, 'Label could not be deleted from the GLS API');
 
         $order = wc_get_order(GLS()->post('order_id'));
         $order->delete_meta_data('_gls_label');
@@ -288,6 +265,47 @@ class GLS_AJAX extends WC_AJAX
 
         GLS_Admin_Notice::admin_add_notice('Label deleted successfully','success','shop_order');
         wp_send_json_success('Label deleted successfully', $response->status);
+    }
+
+    /**
+     * @param        $response
+     * @param string $message
+     */
+    private static function capture_admin_ajax_errors($response, $message = '')
+    {
+        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
+            GLS_Admin_Notice::admin_add_notice($message ?? $response->message,'error','shop_order');
+            wp_send_json_error($message ?? $response->message, $response->status);
+        }
+    }
+
+    /**
+     * @param $response
+     */
+    private static function capture_frontend_ajax_errors($response)
+    {
+        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
+            $code = $response->statusCode ?: 412;
+            wp_send_json_error($response->message, $code);
+        }
+    }
+
+    /**
+     * These elements only exist if some required settings aren't set. We throw the error attached the first
+     * available element.
+     *
+     * @param $response
+     */
+    private static function check_required_configuration($response, $admin_add_notice = false)
+    {
+        if (isset($response->username) || isset($response->amountOfShops) || isset($response->passwordLength)) {
+            foreach ($response as $item => $message) {
+                if ($admin_add_notice) {
+                    GLS_Admin_Notice::admin_add_notice(__('The GLS plugin is not configured properly') . ': ' . reset($message),'error','shop_order');
+                }
+                wp_send_json_error(__('The GLS plugin is not configured properly') . ': ' . reset($message), 401);
+            }
+        }
     }
 
 }
