@@ -117,6 +117,13 @@ class GLS_AJAX extends WC_AJAX
             wp_send_json_error($response->message, $code);
         }
 
+        // These elements only exist if some required settings aren't set.
+        if (isset($response->username) || isset($response->amountOfShops) || isset($response->passwordLength)) {
+            foreach ($response as $item => $message) {
+                wp_send_json_error(__('The GLS plugin is not configured properly' . ': ' . reset($message)), 401);
+            }
+        }
+
         $available_parcel_shops = $response->parcelShops;
         $parcel_shops           = GLS()->delivery_options()->parcel_shops($available_parcel_shops);
 
@@ -240,9 +247,17 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_create_label($_POST['order_id'])->call();
 
-        if ($response->status != 200) {
+        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
             GLS_Admin_Notice::admin_add_notice($response->message,'error','shop_order');
             wp_send_json_error($response->message, $response->status);
+        }
+
+        // These elements only exist if some required settings aren't set.
+        if (isset($response->username) || isset($response->amountOfShops) || isset($response->passwordLength)) {
+            foreach ($response as $item => $message) {
+                GLS_Admin_Notice::admin_add_notice(__('The GLS plugin is not configured properly') . ': ' . reset($message),'error','shop_order');
+                wp_send_json_error(__('The GLS plugin is not configured properly') . ': ' . reset($message), 401);
+            }
         }
 
         $order->update_meta_data('_gls_label', $response);
@@ -262,7 +277,7 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_delete_label()->call();
 
-        if ($response->status != 200) {
+        if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
             GLS_Admin_Notice::admin_add_notice('Label could not be deleted from the GLS API','error','shop_order');
             wp_send_json_error('Label could not be deleted from the GLS API', $response->status);
         }
