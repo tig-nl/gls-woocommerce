@@ -88,6 +88,8 @@ class GLS_AJAX extends WC_AJAX
 
         self::capture_frontend_ajax_errors($response);
 
+        self::check_required_configuration($response);
+
         $available_delivery_options = $response->deliveryOptions;
         $enabled_delivery_options   = GLS()->delivery_options()->enabled_delivery_options();
         $delivery_options           = GLS()->delivery_options()->delivery_options($available_delivery_options, $enabled_delivery_options);
