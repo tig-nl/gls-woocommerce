@@ -47,7 +47,9 @@ class GLS_Admin
      */
     public function __construct()
     {
+        $settings_link = plugin_basename(GLS_PLUGIN_FILE);
         add_action('init', array($this, 'includes'));
+        add_filter("plugin_action_links_$settings_link", array($this, 'settings_link'));
         add_action('admin_notices', array($this, 'admin_notice_action'));
     }
 
@@ -60,6 +62,21 @@ class GLS_Admin
         include_once dirname(__FILE__) . '/class-gls-admin-meta-boxes.php';
         include_once dirname(__FILE__) . '/class-gls-admin-order-columns.php';
         include_once dirname(__FILE__) . '/class-gls-admin-bulk-actions.php';
+    }
+
+    /**
+     * Add settings link to plugin overview
+     *
+     * @param $links
+     *
+     * @return mixed
+     */
+    public function settings_link($links)
+    {
+        $admin_url     = admin_url() . 'admin.php?page=wc-settings&tab=tig_gls';
+        $settings_link = "<a href='$admin_url'>" . __('Settings', 'gls-woocommerce') . "</a>";
+
+        return ['settings' => $settings_link] + $links;
     }
 
     /**
