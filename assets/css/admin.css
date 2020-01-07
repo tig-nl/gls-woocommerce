@@ -49,12 +49,17 @@
     height: 18px;
 }
 
+#gls-label-amount {
+    width: 50px;
+}
+
 .gls_options th {
     padding-left: 10px;
 }
 
 .gls_options th.status {
     padding-right: 10px !important;
+}
 
 .gls-email-sender {
     font-weight: bold;

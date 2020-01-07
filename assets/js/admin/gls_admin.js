@@ -61,7 +61,8 @@
             var data = {
                 action: 'woocommerce_create_label',
                 security: gls_admin.nonces.create_label,
-                order_id: new URL(window.location.href).searchParams.get('post')
+                order_id: new URL(window.location.href).searchParams.get('post'),
+                label_amount: $('#gls-label-amount').val()
             };
 
             $.ajax({

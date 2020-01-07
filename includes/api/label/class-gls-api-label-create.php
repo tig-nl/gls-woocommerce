@@ -35,29 +35,33 @@ class GLS_Api_Label_Create
     /** @var string $endpoint */
     public $endpoint = 'Label/Create';
 
-    /** @var $body */
-    public $body = [];
+    /** @var $order_id */
+    private $order_id;
 
     /** @var $options */
     private $options;
 
-    /** @var $orderId */
-    private $orderId;
+    /** @var $label_amount */
+    private $label_amount;
+
+    /** @var $body */
+    public $body = [];
 
     /** @var GLS_Api $api */
     private $api;
 
     /**
      * GLS_Api_Label_Create constructor.
-     * @param $orderId
+     *
+     * @param $order_id
      */
-    public function __construct($orderId)
+    public function __construct($order_id)
     {
-        $this->orderId = $orderId;
-        $string = GLS_Admin::GLS_SETTINGS_SERVICES;
-        $this->options = get_option($string);
-        $this->body    = $this->setBody();
-        $this->api     = GLS_Api::instance($this->endpoint, $this->body);
+        $this->order_id     = $order_id;
+        $this->options      = get_option(GLS_Admin::GLS_SETTINGS_SERVICES);
+        $this->label_amount = GLS()->post('label_amount');
+        $this->body         = $this->setBody();
+        $this->api          = GLS_Api::instance($this->endpoint, $this->body);
     }
 
     /**
@@ -75,17 +79,16 @@ class GLS_Api_Label_Create
      */
     public function setBody()
     {
-        $order = wc_get_order($this->orderId);
+        $order = wc_get_order($this->order_id);
 
         if ($order == false) {
             return;
         }
 
         $delivery_option  = $order->get_meta('_gls_delivery_option');
-
         $delivery_address = $delivery_option['delivery_address'];
         $labelType        = $this->get_label_type();
-        $shipmentId       = $order->ID . '-1';
+        $shipmentId       = $order->ID;
 
         $data                      = GLS_Api::add_shipping_information();
         $data["services"]          = $this->map_services($delivery_option['details'], $delivery_option['type'], $delivery_address['countryCode']);
@@ -97,12 +100,15 @@ class GLS_Api_Label_Create
             'deliveryAddress' => $delivery_address,
             'pickupAddress'   => $this->prepare_pickup_address()
         ];
-        $data['shippingDate']      = date("Y-m-d");//$this->shippingDate->calculate("Y-m-d", false);
-        $data['units']             = [
-            $this->prepare_shipping_unit($shipmentId)
-        ];
+        $data['shippingDate']      = date("Y-m-d");
+        $data['units']             = $this->prepare_shipping_unit($shipmentId, $this->label_amount);
 
-        if (in_array($labelType, ['pdf2A4', 'pdf4A4'])) {
+        if (in_array(
+            $labelType, [
+                'pdf2A4',
+                'pdf4A4'
+            ]
+        )) {
             $data['labelA4MoveYMm'] = $this->get_label_margin_top();
             $data['labelA4MoveXMm'] = $this->get_label_margin_left();
         }
@@ -196,14 +202,19 @@ class GLS_Api_Label_Create
      *
      * @return array
      */
-    private function prepare_shipping_unit($shipment_id)
+    private function prepare_shipping_unit($shipment_id, $label_amount)
     {
         $weight = 1;
+        $labels = [];
 
-        return [
-            "unitId"   => $shipment_id,
-            "unitType" => "cO",
-            "weight"   => $weight
-        ];
+        for ($i = 0; $i < $label_amount; $i++) {
+            $labels[] = [
+                "unitId"   => $shipment_id . "-$i",
+                "unitType" => "cO",
+                "weight"   => $weight
+            ];
+        }
+
+        return $labels;
     }
 }

@@ -44,35 +44,43 @@ class GLS_Admin_Meta_Box_Order_Label
         }
 
         $label    = $theorder->get_meta('_gls_label');
+        $amount   = isset($label->units) ? count($label->units) : 1;
         $pdf_link = $label ? "onclick=\"window.open('" . add_query_arg(array('gls_pdf_action' => 'view', 'post' => $post->ID, '_wpnonce' => wp_create_nonce('view')), admin_url($pagenow)) . '\', \'_blank\');"' : null;
         ?>
         <ul class="order_actions order_label submitbox">
             <?php do_action('gls_order_label_start', $post->ID); ?>
 
-            <?php if (isset($label->units[0])): ?>
-                <li class="wide" id="label">
-                    <ul>
-                        <li><?php _e('Track ID', 'gls-woocommerce'); ?>:
-                            <a href="<?= $label->units[0]->unitTrackingLink; ?>" target="_blank"><?= $label->units[0]->unitNo; ?></a>
-                        </li>
-                    </ul>
-                </li>
+            <?php if (isset($label->units)): ?>
+                <?php foreach ($label->units as $id => $label): ?>
+                    <li class="wide" id="label">
+                        <ul>
+                            <li><?= __('Track ID', 'gls-woocommerce') . " #$id"; ?>:
+                                <a href="<?= $label->unitTrackingLink; ?>" target="_blank"><?= $label->unitNo; ?></a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php endforeach; ?>
             <?php endif; ?>
 
             <li class="wide">
                 <div id="delete-action">
-                    <?php
-                    if (current_user_can('delete_post', $post->ID) && $label) {
-                        ?>
-                        <a class="submitdelete deletion" href="#"><?php echo esc_html(__('Delete label', 'gls-woocommerce')); ?></a>
-                        <?php
-                    }
-                    ?>
+                    <?php if (current_user_can('delete_post', $post->ID) && $label): ?>
+                        <a class="submitdelete deletion" href="#"><?= sprintf(_n('Delete label', 'Delete %s labels', $amount, 'gls-woocommerce'), $amount); ?></a>
+                    <?php endif; ?>
                 </div>
+
+                <?php if (!$label): ?>
+                    <label for="gls-label-amount"><?= __('No. of labels', 'gls-woocommerce'); ?></label>
+                    <input id="gls-label-amount" value="1" type="number" name="amount" min="1" />
+                <?php endif; ?>
+
+                <?php
+                $button_label = _n($label ? 'Print' : 'Create', $label ? 'Print All' : 'Create', $amount, 'gls-woocommerce');
+                ?>
 
                 <button type="button"
                         class="button <?= $label ? 'print_label' : 'create_label'; ?> button-primary" name="create"
-                        value="<?= $label ? 'Print' : 'Create'; ?>" <?= $pdf_link; ?>><?= esc_html__($label ? 'Print' : 'Create', 'gls-woocommerce'); ?></button>
+                        value="<?= $label ? 'Print' : 'Create'; ?>" <?= $pdf_link; ?>><?= $button_label; ?></button>
             </li>
 
             <?php do_action('gls_order_label_end', $post->ID); ?>
