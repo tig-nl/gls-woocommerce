@@ -72,6 +72,10 @@ class GLS_Admin_Order_Columns
             $delivery_option = get_post_meta($post->ID, $key = '_gls_delivery_option');
             $label           = get_post_meta($post->ID, $key = '_gls_label');
 
+            if (empty($delivery_option)) {
+                echo '<span aria-hidden="true">—</span><span class="screen-reader-text">' . __('GLS shipping information not available.', 'gls-woocommerce') . '</span>';
+            }
+
             if ($delivery_option && isset($delivery_option[0]) && isset($delivery_option[0]['details'])) {
                 echo $delivery_option[0]['details']['title'];
             }
