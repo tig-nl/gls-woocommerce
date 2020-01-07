@@ -338,7 +338,7 @@ class GLS_Delivery_Options
 
         $service = $session->get('gls_service');
         $details = $service['details'] ?? [];
-        $title   = $details['title'] ?? '';
+        $title   = isset($details['is_parcel_shop']) ? __('ParcelShop', 'gls-woocommerce') : $details['title'] ?? '';
         $fee     = $details['fee'] ?? '';
 
         $woocommerce->cart->add_fee(__('Delivery', 'gls-woocommerce') . ' ' . $title, $fee, true, '');

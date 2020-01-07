@@ -358,6 +358,7 @@ jQuery(
                         data: {
                             type: selectedDeliveryOption.data('service'),
                             details: {
+                                is_parcel_shop: true,
                                 service: selectedDeliveryOption.val(),
                                 title: selectedDeliveryOption.data('title'),
                                 fee: selectedDeliveryOption.data('fee')
