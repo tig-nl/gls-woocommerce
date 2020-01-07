@@ -343,7 +343,12 @@ jQuery(
                 var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked'),
                     shippingAddress        = $('#ship-to-different-address-checkbox:checked').length > 0
                         ? $('.woocommerce-shipping-fields input, .woocommerce-shipping-fields select, #billing_phone_field input, #billing_email_field input')
-                        : $('.woocommerce-billing-fields input, .woocommerce-billing-fields select');
+                        : $('.woocommerce-billing-fields input, .woocommerce-billing-fields select'),
+                    isParcelShop           = 0;
+
+                if (selectedDeliveryOption.parent()[0] !== undefined && selectedDeliveryOption.parent()[0].className.includes('gls-parcel-shop')) {
+                    isParcelShop = 1;
+                }
 
                 if (selectedDeliveryOption !== gls_delivery_options_form.selected_delivery_option) {
                     $(document.body).trigger('delivery_option_selected');
@@ -358,7 +363,7 @@ jQuery(
                         data: {
                             type: selectedDeliveryOption.data('service'),
                             details: {
-                                is_parcel_shop: true,
+                                is_parcel_shop: isParcelShop,
                                 service: selectedDeliveryOption.val(),
                                 title: selectedDeliveryOption.data('title'),
                                 fee: selectedDeliveryOption.data('fee')
