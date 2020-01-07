@@ -52,7 +52,7 @@ class GLS_Admin_Meta_Box_Order_Label
             <?php if (isset($label->units[0])): ?>
                 <li class="wide" id="label">
                     <ul>
-                        <li><?php _e('Tracking Code', 'gls-woocommerce'); ?>:
+                        <li><?php _e('Track ID', 'gls-woocommerce'); ?>:
                             <a href="<?= $label->units[0]->unitTrackingLink; ?>" target="_blank"><?= $label->units[0]->unitNo; ?></a>
                         </li>
                     </ul>
