@@ -1,4 +1,4 @@
-/* global woocommerce_admin */
+/* global gls_admin */
 (function ($, gls_admin) {
     $(function () {
         if ('undefined' === typeof gls_admin) {
@@ -57,7 +57,7 @@
         });
 
         // Trigger create label call.
-        $('.create_label').on('click', function() {
+        $('.create_label').on('click', function () {
             var data = {
                 action: 'woocommerce_create_label',
                 security: gls_admin.nonces.create_label,
@@ -76,7 +76,7 @@
                 complete: function () {
                     location.reload();
                 },
-                success: function() {
+                success: function () {
                     window.open(gls_admin.admin_url + '&post=' + data.order_id, '_blank');
                 }
             });
@@ -85,7 +85,7 @@
         });
 
         // Trigger delete label call
-        $('#delete-action a').on('click', function() {
+        $('#delete-action a').on('click', function () {
             var data = {
                 action: 'woocommerce_delete_label',
                 security: gls_admin.nonces.delete_label,
