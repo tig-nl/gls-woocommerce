@@ -71,7 +71,7 @@ class GLS_Admin_Meta_Box_Order_Label
 
                 <?php if (!$label): ?>
                     <label for="gls-label-amount"><?= __('No. of labels', 'gls-woocommerce'); ?></label>
-                    <input id="gls-label-amount" value="1" type="number" name="amount" min="1" />
+                    <input id="gls-label-amount" value="1" type="number" name="amount" min="1" max="25" />
                 <?php endif; ?>
 
                 <?php
