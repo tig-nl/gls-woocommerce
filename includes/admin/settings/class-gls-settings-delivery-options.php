@@ -277,7 +277,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             $woocommerce_store_city == false ||
             $woocommerce_store_postcode == false ||
             $woocommerce_default_country == false) {
-            $error_address = __('In order for the GLS plugin to work correctly, the store address has to be filled in.');
+            $error_address = __('In order for the GLS plugin to work correctly, the store address has to be filled in.', 'gls-woocommerce');
         }
 
         $woocommerce_email_from_name = get_option('woocommerce_email_from_name');
@@ -285,14 +285,14 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
 
         if ($woocommerce_email_from_name == false ||
             $woocommerce_email_from_address == false) {
-            $error_email = __('In order for the GLS plugin to work correctly, the email sender options has to be filled in.');
+            $error_email = __('In order for the GLS plugin to work correctly, the email sender options has to be filled in.', 'gls-woocommerce');
         }
 
         ?>
 
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label for=""><?php _e('Store Address:'); ?> </label>
+                <label for=""><?php _e('Store Address', 'gls-woocommerce'); ?>: </label>
             </th>
             <td class="forminp forminp-number">
                 <?php if ($error_address) : ?>
@@ -300,24 +300,24 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                 <?php else: ?>
                     <?php echo $woocommerce_store_address;?> <br/>
                     <?php echo $woocommerce_store_postcode . ', ' . $woocommerce_store_city . ' (' . $woocommerce_default_country  . ')';?>
-                    <p class="description"><?php _e('This address will be printed on the ShopReturnService labels.');?></p>
+                    <p class="description"><?php _e('This address will be printed on the ShopReturnService labels.', 'gls-woocommerce');?></p>
                 <?php endif;?>
-                <p class="description"><?php _e('The store address can be changed under the WooCommerce "General" tab');?></p>
+                <p class="description"><?php _e('The store address can be changed under the WooCommerce "General" tab', 'gls-woocommerce');?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row" class="titledesc">
-                <label for=""><?php _e('Email Sender Options:'); ?> </label>
+                <label for=""><?php _e('Email Sender Options', 'gls-woocommerce'); ?>: </label>
             </th>
             <td class="forminp forminp-number">
                 <?php if ($error_email) : ?>
                     <p class="description"><?php echo $error_email; ?></p>
                  <?php else: ?>
                     <span class="gls-email-sender"><?php echo $woocommerce_email_from_name;?></span>&nbsp;&lt;<?php echo $woocommerce_email_from_address;?>&gt;<br/>
-                    <p class="description"><?php _e('Track and trace emails will be send from GLS from this email address.');?></p>
+                    <p class="description"><?php _e('Track and trace emails will be send from GLS from this email address.', 'gls-woocommerce');?></p>
                 <?php endif;?>
-                <p class="description"><?php _e('The email sender options can be changed under the WooCommerce "Emails" tab');?></p>
+                <p class="description"><?php _e('The email sender options can be changed under the WooCommerce "Emails" tab', 'gls-woocommerce');?></p>
             </td>
         </tr>
 
