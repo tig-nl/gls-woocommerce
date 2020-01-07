@@ -73,14 +73,17 @@ if (!class_exists('GLS_Admin_Assets', false)) {
          */
         public function admin_scripts()
         {
+            global $pagenow;
+
             // @formatter:off
             wp_register_script('gls_admin', GLS()->plugin_url() . '/assets/js/admin/gls_admin.js', array('jquery', 'woocommerce_admin'), GLS_VERSION);
             wp_enqueue_script('gls_admin');
             // @formatter:on
 
             $params = array(
-                'ajax_url' => admin_url('admin-ajax.php'),
-                'nonces'   => array(
+                'ajax_url'  => admin_url('admin-ajax.php'),
+                'admin_url' => add_query_arg(array('gls_pdf_action' => 'view', '_wpnonce' => wp_create_nonce('view')), admin_url($pagenow)),
+                'nonces'    => array(
                     'option_toggle' => wp_create_nonce('gls-toggle-delivery-option-enabled'),
                     'create_label'  => wp_create_nonce('create-label'),
                     'delete_label'  => wp_create_nonce('delete-label')

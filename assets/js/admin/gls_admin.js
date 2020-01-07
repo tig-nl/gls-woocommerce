@@ -75,6 +75,9 @@
                 },
                 complete: function () {
                     location.reload();
+                },
+                success: function() {
+                    window.open(gls_admin.admin_url + '&post=' + data.order_id, '_blank');
                 }
             });
 
