@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-01-06 11:39+0100\n"
-"PO-Revision-Date: 2020-01-06 12:40+0100\n"
+"PO-Revision-Date: 2020-01-07 09:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -226,27 +226,27 @@ msgstr "Levering"
 
 #: includes/options/class-gls-option-s12.php:41
 msgid "TimeDefiniteService (Saturday before 12.00 AM)"
-msgstr "TimeDefiniteService (zaterdag voor 12.00 uur)"
+msgstr "TimeDefiniteService (zaterdag vóór 12.00 uur)"
 
 #: includes/options/class-gls-option-s12.php:42
 msgid "Delivery on Saturday before 12.00 AM."
-msgstr "Levering op zaterdag voor 12.00 uur."
+msgstr "Levering op zaterdag vóór 12.00 uur."
 
 #: includes/options/class-gls-option-s17.php:41
 msgid "TimeDefiniteService (Saturday before 17.00 AM)"
-msgstr "TimeDefiniteService (zaterdag voor 17.00 uur)"
+msgstr "TimeDefiniteService (zaterdag vóór 17.00 uur)"
 
 #: includes/options/class-gls-option-s17.php:42
 msgid "Delivery on Saturday before 17.00 AM."
-msgstr "Levering op zaterdag voor 17.00 uur."
+msgstr "Levering op zaterdag vóór 17.00 uur."
 
 #: includes/options/class-gls-option-s9.php:41
 msgid "TimeDefiniteService (Saturday before 9.00 AM)"
-msgstr "TimeDefiniteService (zaterdag vóór 09:00)"
+msgstr "TimeDefiniteService (zaterdag vóór 09:00 uur)"
 
 #: includes/options/class-gls-option-s9.php:42
 msgid "Delivery on Saturday before 9.00 AM."
-msgstr "Levering op zaterdag voor 09:00."
+msgstr "Levering op zaterdag vóór 09:00 uur."
 
 #: includes/options/class-gls-option-shopdelivery.php:41
 msgid "ShopDeliveryService"
@@ -258,11 +258,11 @@ msgstr "Levering aan ParcelShops."
 
 #: includes/options/class-gls-option-t12.php:41
 msgid "TimeDefiniteService (Before 12.00 AM)"
-msgstr "TimeDefiniteService (voor 12.00 uur)"
+msgstr "TimeDefiniteService (vóór 12.00 uur)"
 
 #: includes/options/class-gls-option-t12.php:42
 msgid "Next business day delivery before 12.00 AM."
-msgstr "Volgende werkdag voor 12.00 uur."
+msgstr "Volgende werkdag vóór 12.00 uur."
 
 #: includes/options/class-gls-option-t17.php:41
 msgid "TimeDefiniteService (Before 17.00 AM)"
@@ -270,15 +270,15 @@ msgstr "TimeDefiniteService (vóór 17.00 uur)"
 
 #: includes/options/class-gls-option-t17.php:42
 msgid "Next business day delivery before 17.00 AM."
-msgstr "Volgende werkdag voor 17.00 uur."
+msgstr "Volgende werkdag vóór 17.00 uur."
 
 #: includes/options/class-gls-option-t9.php:41
 msgid "TimeDefiniteService (Before 9.00 AM)"
-msgstr "TimeDefiniteService (vóór 09:00)"
+msgstr "TimeDefiniteService (vóór 09:00 uur)"
 
 #: includes/options/class-gls-option-t9.php:42
 msgid "Next business day delivery before 9.00 AM."
-msgstr "Volgende werkdag vóór 09:00."
+msgstr "Volgende werkdag vóór 09:00 uur."
 
 #: templates/checkout/delivery-options.php:34
 msgid "Shipping Options"

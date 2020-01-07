@@ -38,7 +38,7 @@ class GLS_Option_ShopDelivery extends GLS_Delivery_Option
     public function __construct()
     {
         $this->id                 = 'gls_shop_delivery';
-        $this->method_title       = _x('ShopDeliveryService', 'gls-woocommerce');
+        $this->method_title       = __('ShopDeliveryService', 'gls-woocommerce');
         $this->method_description = __('Delivery to ParcelShops.', 'gls-woocommerce');
 
         $this->init_settings();
@@ -50,6 +50,8 @@ class GLS_Option_ShopDelivery extends GLS_Delivery_Option
             $this->additional_fee = $this->get_additional_fee_from_postdata();
         }
 
+        // @formatter:off
         add_action('gls_update_options_delivery_options_' . $this->id, array($this, 'process_admin_options'));
+        // @formatter:on
     }
 }
