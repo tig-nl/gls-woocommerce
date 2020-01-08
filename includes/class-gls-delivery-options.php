@@ -342,7 +342,65 @@ class GLS_Delivery_Options
         $title   = (bool) $details['is_parcel_shop'] ? __('ParcelShop', 'gls-woocommerce') : $details['title'] ?? '';
         $fee     = $details['fee'] ?? '';
 
-        $woocommerce->cart->add_fee(__('Delivery', 'gls-woocommerce') . ' ' . $title, $fee, true, '');
+        //$woocommerce->cart->add_fee(__('Delivery', 'gls-woocommerce') . ' ' . $title, $fee, true, '');
+    }
+
+    /**
+     * https://github.com/woocommerce/woocommerce/issues/22100
+     * disable cache on packages which always then trigger woocommerce_package_rates
+     * @param $packages
+     * @return array
+     */
+    public function disable_shipping_rates_cache($packages) {
+
+        if (is_admin() && !defined('DOING_AJAX'))
+            return $packages;
+
+        $session         = WC()->session;
+        $shipping_method = $session->get('chosen_shipping_methods');
+
+        if (!GLS()->is_gls_selected(reset($shipping_method))) {
+            return $packages;
+        }
+
+        if (is_array($packages) && $packages[0]) {
+            $packages[0]['rand'] = rand();
+        }
+
+        return $packages;
+    }
+
+    /**
+     * https://stackoverflow.com/questions/44065499/updating-shipping-rate-on-checkout-page-on-woocommerce-site
+     * custom update shipping price
+     * @param $rates
+     * @return mixed
+     */
+    public function adjust_shipping_rate($rates){
+
+        if (is_admin() && !defined('DOING_AJAX'))
+            return $rates;
+
+        $session         = WC()->session;
+        $shipping_method = $session->get('chosen_shipping_methods');
+
+        if (!GLS()->is_gls_selected(reset($shipping_method))) {
+            return $rates;
+        }
+
+        $service = $session->get('gls_service');
+        $details = $service['details'] ?? [];
+        //$title   = (bool) $details['is_parcel_shop'] ? __('ParcelShop', 'gls-woocommerce') : $details['title'] ?? '';
+        $fee     = $details['fee'] ?? '';
+
+        foreach ($rates as &$rate) {
+            if ($rate->get_method_id() == 'tig_gls') {
+                $rate->cost += $fee;
+                $tax_array = WC_Tax::calc_tax($rate->cost, WC_Tax::get_rates(), false );
+                $rate->set_taxes($tax_array);
+            }
+        }
+        return $rates;
     }
 
     /**
