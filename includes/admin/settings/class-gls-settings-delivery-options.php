@@ -195,6 +195,13 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'default' => 'yes'
                     ),
                     array(
+                        'title'   => __('Enable FlexDeliveryService', 'gls-woocommerce'),
+                        'desc'    => __('Enable this to send mail notification from GLS to customers. Within the FlexDeliveryService customers can adjust the delivery time.', 'gls-woocommerce'),
+                        'type'    => 'checkbox',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[flexdeliveryservice]',
+                        'default' => 'yes'
+                    ),
+                    array(
                         'title' => __('Used fields form other parts of woocommerce', 'gls-woocommerce'),
                         'type'  => 'gls_external_fields',
                     ),

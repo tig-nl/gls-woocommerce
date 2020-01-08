@@ -165,12 +165,20 @@ class GLS_Api_Label_Create
     }
 
     /**
+     * @return bool|mixed
+     */
+    private function get_flexdeliveryservice()
+    {
+        return $this->options['flexdeliveryservice'] ?? false;
+    }
+
+    /**
      * @return array
      */
     private function prepare_notification_email()
     {
         $email = [
-            "sendMail"           => true,
+            "sendMail"           => $this->get_flexdeliveryservice(),
             "senderName"         => get_option('woocommerce_email_from_name'),
             "senderReplyAddress" => get_option('woocommerce_email_from_address'),
             "senderContactName"  => get_option('woocommerce_email_from_name'),
