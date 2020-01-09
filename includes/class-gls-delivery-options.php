@@ -148,7 +148,7 @@ class GLS_Delivery_Options
                 continue;
             }
 
-            $saturdayServiceEnabled = $this->any_express_services_enabled($enabled, ['gls_s9', 'gls_s12', 'gls_s17', 'gls_saturdayservice'])
+            $saturdayServiceEnabled = $this->any_express_services_enabled($enabled, ['gls_s9', 'gls_s12', 'gls_s17', 'gls_saturday_service'])
                                       && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL;
             $expressServiceEnabled  = $this->any_express_services_enabled($enabled)
                                       && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL;
