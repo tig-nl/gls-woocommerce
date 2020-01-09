@@ -148,7 +148,7 @@ class GLS_Delivery_Options
                 continue;
             }
 
-            $saturdayServiceEnabled = $this->any_express_services_enabled($enabled, ['gls_s9', 'gls_s12', 'gls_s17', 'gls_saturday_service'])
+            $saturdayServiceEnabled = $this->any_express_services_enabled($enabled, ['gls_s9', 'gls_s12', 'gls_s17', 'gls_saturdayservice'])
                                       && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL;
             $expressServiceEnabled  = $this->any_express_services_enabled($enabled)
                                       && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL;
@@ -156,7 +156,7 @@ class GLS_Delivery_Options
 
             // SaturdayService
             if ($saturdayServiceEnabled) {
-                $option->fee = $this->additional_fee($option,$enabled) ?? 0;
+                $option->fee = $this->additional_fee($option, $enabled) ?? 0;
                 $option->formatted_fee = ($option->fee <> 0) ? wc_price($option->fee) : '';
                 $delivery_options[] = $option;
             }

@@ -37,7 +37,7 @@ class GLS_Option_SaturdayService extends GLS_Delivery_Option
      */
     public function __construct()
     {
-        $this->id                 = 'gls_saturday_service';
+        $this->id                 = 'gls_saturdayservice';
         $this->method_title       = __('SaturdayService', 'gls-woocommerce');
         $this->method_description = __('Delivery on Saturday.', 'gls-woocommerce');
 
