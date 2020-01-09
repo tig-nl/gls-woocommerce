@@ -53,7 +53,8 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         add_action('woocommerce_admin_field_services', array($this, 'services_settings'));
         add_action('woocommerce_admin_field_delivery_options', array($this, 'delivery_options_settings'));
         add_action('woocommerce_admin_field_api_check', array($this,'api_check_settings'));
-        add_action('woocommerce_admin_field_gls_external_fields', array($this,'gls_external_fields'));
+        add_action('woocommerce_admin_field_store_address', array($this,'store_address'));
+        add_action('woocommerce_admin_field_from_email', array($this,'from_email'));
         // @formatter:on
 
         parent::__construct();
@@ -202,8 +203,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'default' => 'yes'
                     ),
                     array(
-                        'title' => __('Used fields from other parts of woocommerce', 'gls-woocommerce'),
-                        'type'  => 'gls_external_fields',
+                        'type'  => 'store_address',
+                    ),
+                    array(
+                        'type'  => 'from_email',
                     ),
                     array(
                         'type' => 'services'
@@ -267,36 +270,27 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         ];
     }
 
-    public function gls_external_fields()
+    /**
+     * Render store address option.
+     */
+    public function store_address()
     {
         $error_address = '';
-        $error_email = '';
 
-        $woocommerce_store_address = get_option('woocommerce_store_address');
+        $woocommerce_store_address  = get_option('woocommerce_store_address');
         $woocommerce_store_address2 = get_option('woocommerce_store_address_2');
 
-        $woocommerce_store_address .= ($woocommerce_store_address2) ? ' ' . $woocommerce_store_address2 : '';
-        $woocommerce_store_city = get_option('woocommerce_store_city');
-        $woocommerce_store_postcode = get_option('woocommerce_store_postcode');
+        $woocommerce_store_address   .= ($woocommerce_store_address2) ? ' ' . $woocommerce_store_address2 : '';
+        $woocommerce_store_city      = get_option('woocommerce_store_city');
+        $woocommerce_store_postcode  = get_option('woocommerce_store_postcode');
         $woocommerce_default_country = get_option('woocommerce_default_country');
 
-        if ($woocommerce_store_address == false ||
-            $woocommerce_store_city == false ||
-            $woocommerce_store_postcode == false ||
-            $woocommerce_default_country == false) {
+        if ($woocommerce_store_address == false
+            || $woocommerce_store_city == false
+            || $woocommerce_store_postcode == false
+            || $woocommerce_default_country == false) {
             $error_address = __('In order for the GLS plugin to work correctly, the store address needs to be set.', 'gls-woocommerce');
-        }
-
-        $woocommerce_email_from_name = get_option('woocommerce_email_from_name');
-        $woocommerce_email_from_address = get_option('woocommerce_email_from_address');
-
-        if ($woocommerce_email_from_name == false ||
-            $woocommerce_email_from_address == false) {
-            $error_email = __('In order for the GLS plugin to work correctly, the email sender options needs to be set.', 'gls-woocommerce');
-        }
-
-        ?>
-
+        } ?>
         <tr valign="top">
             <th scope="row" class="titledesc">
                 <label for=""><?php _e('Store Address', 'gls-woocommerce'); ?>: </label>
@@ -312,6 +306,24 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                 <p class="description"><?php _e('The store address can be changed', 'gls-woocommerce');?> <?= sprintf(__('%shere%s', 'gls-woocommerce'), '<a href="' . admin_url('admin.php?page=wc-settings&tab=general') . '">', '</a>'); ?></p>
             </td>
         </tr>
+        <?php
+    }
+
+    /**
+     * Render From Email option.
+     */
+    public function from_email()
+    {
+        $error_email   = '';
+
+        $woocommerce_email_from_name    = get_option('woocommerce_email_from_name');
+        $woocommerce_email_from_address = get_option('woocommerce_email_from_address');
+
+        if ($woocommerce_email_from_name == false ||
+            $woocommerce_email_from_address == false) {
+            $error_email = __('In order for the GLS plugin to work correctly, the email sender options needs to be set.', 'gls-woocommerce');
+        }
+        ?>
 
         <tr valign="top">
             <th scope="row" class="titledesc">
