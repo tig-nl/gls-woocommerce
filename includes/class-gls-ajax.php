@@ -249,8 +249,8 @@ class GLS_AJAX extends WC_AJAX
         $order->update_meta_data('_gls_label', $response);
         $order->save();
 
-        GLS_Admin_Notice::admin_add_notice('Label created successfully','success','shop_order');
-        wp_send_json_success('Label created successfully', $response->status);
+        GLS_Admin_Notice::admin_add_notice(__('Label created successfully', 'gls-woocommerce'),'success','shop_order');
+        wp_send_json_success(__('Label created successfully', 'gls-woocommerce'), $response->status);
     }
 
     /**
@@ -269,7 +269,7 @@ class GLS_AJAX extends WC_AJAX
         $order->delete_meta_data('_gls_label');
         $order->save();
 
-        GLS_Admin_Notice::admin_add_notice('Label deleted successfully','success','shop_order');
+        GLS_Admin_Notice::admin_add_notice(__('Label deleted successfully'),'success','shop_order');
         wp_send_json_success('Label deleted successfully', $response->status);
     }
 

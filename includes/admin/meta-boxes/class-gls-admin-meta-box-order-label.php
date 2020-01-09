@@ -54,7 +54,7 @@ class GLS_Admin_Meta_Box_Order_Label
                 <?php foreach ($label->units as $id => $label): ?>
                     <li class="wide" id="label">
                         <ul>
-                            <li><?= __('Track ID', 'gls-woocommerce') . " #$id"; ?>:
+                            <li><?= __('Track ID', 'gls-woocommerce') . " #" . ($id + 1); ?>:
                                 <a href="<?= $label->unitTrackingLink; ?>" target="_blank"><?= $label->unitNo; ?></a>
                             </li>
                         </ul>
