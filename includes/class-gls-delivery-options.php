@@ -376,7 +376,7 @@ class GLS_Delivery_Options
      * @param $rates
      * @return mixed
      */
-    public function adjust_shipping_rate($rates){
+    public static function adjust_shipping_rate($rates){
 
         if (is_admin() && !defined('DOING_AJAX'))
             return $rates;
