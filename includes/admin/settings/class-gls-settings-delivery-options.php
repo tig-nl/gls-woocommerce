@@ -199,7 +199,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Enable FlexDeliveryService', 'gls-woocommerce'),
                         'desc'    => __("Enable this to send updates to your customers about their shipment and allow them to adjust delivery times while it's in transit.", 'gls-woocommerce'),
                         'type'    => 'checkbox',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[flexdeliveryservice]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[flex_delivery]',
                         'default' => 'yes'
                     ),
                     array(
