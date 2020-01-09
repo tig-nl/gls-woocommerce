@@ -188,9 +188,7 @@ msgid "Enable FlexDeliveryService"
 msgstr ""
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:203
-msgid ""
-"Enable this to send mail notification from GLS to customers. Within the "
-"FlexDeliveryService customers can adjust the delivery time."
+msgid "Enable this to send updates to your customers about their shipment and allow them to adjust delivery times while it's in transit."
 msgstr ""
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:217
