@@ -240,9 +240,11 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_create_label($_POST['order_id'])->call();
 
-        self::capture_admin_ajax_errors($response);
+        self::catch_admin_ajax_errors($response);
 
         self::check_required_configuration($response, true);
+
+        self::catch_other_errors($response);
 
         $order->update_meta_data('_gls_label', $response);
         $order->save();
@@ -261,7 +263,7 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_delete_label()->call();
 
-        self::capture_admin_ajax_errors($response, 'Label could not be deleted from the GLS API');
+        self::catch_admin_ajax_errors($response, 'Label could not be deleted from the GLS API');
 
         $order = wc_get_order(GLS()->post('order_id'));
         $order->delete_meta_data('_gls_label');
@@ -275,7 +277,7 @@ class GLS_AJAX extends WC_AJAX
      * @param        $response
      * @param string $message
      */
-    private static function capture_admin_ajax_errors($response, $message = '')
+    private static function catch_admin_ajax_errors($response, $message = null)
     {
         if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
             GLS_Admin_Notice::admin_add_notice($message ?? $response->message,'error','shop_order');
@@ -312,6 +314,18 @@ class GLS_AJAX extends WC_AJAX
         }
     }
 
+    /**
+     * @param $response
+     */
+    private static function catch_other_errors($response)
+    {
+        if (!isset($response->labels)) {
+            foreach ($response as $item => $message) {
+                GLS_Admin_Notice::admin_add_notice(__('Invalid request') . ': ' . reset($message),'error','shop_order');
+                wp_send_json_error(__('Invalid request') . ': ' . reset($message), 400);
+            }
+        }
+    }
 }
 
 GLS_AJAX::init();
