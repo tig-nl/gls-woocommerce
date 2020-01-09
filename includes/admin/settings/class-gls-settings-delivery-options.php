@@ -41,6 +41,12 @@ if (class_exists('GLS_Settings_Delivery_Options', false)) {
  */
 class GLS_Settings_Delivery_Options extends WC_Settings_Page
 {
+
+    /**
+     * @var GLS_Encryption
+     */
+    public $encryption;
+
     /**
      * Constructor.
      */
@@ -48,6 +54,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
     {
         $this->id    = 'tig_gls';
         $this->label = _x('GLS', 'Settings tab label', 'gls-woocommerce');
+        $this->encryption = GLS_Encryption::instance();
 
         // @formatter:off
         add_action('woocommerce_admin_field_services', array($this, 'services_settings'));
@@ -55,6 +62,8 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         add_action('woocommerce_admin_field_api_check', array($this,'api_check_settings'));
         add_action('woocommerce_admin_field_store_address', array($this,'store_address'));
         add_action('woocommerce_admin_field_from_email', array($this,'from_email'));
+        add_action('woocommerce_admin_field_encrypt_text', array($this,'encrypt_text_field'));
+        add_action('woocommerce_admin_field_encrypt_password', array($this,'encrypt_password_field'));
         // @formatter:on
 
         parent::__construct();
@@ -105,17 +114,17 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     ),
                     array(
                         'title' => __('Username', 'gls-woocommerce'),
-                        'type'  => 'text',
+                        'type'  => 'encrypt_text',
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[username]'
                     ),
                     array(
                         'title' => __('Password', 'gls-woocommerce'),
-                        'type'  => 'password',
+                        'type'  => 'encrypt_password',
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[password]'
                     ),
                     array(
                         'title' => __('Subscription key', 'gls-woocommerce'),
-                        'type'  => 'password',
+                        'type'  => 'encrypt_password',
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[subscription_key]'
                     ),
                     array(
@@ -269,6 +278,18 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             'pdf4A4' => __('PDF (A4, 4 labels/page)', 'gls-woocommerce'),
         ];
     }
+
+    public function encrypt_text_field($value)
+    {
+        $this->encryption->encrypt_field($value, 'text');
+    }
+
+    public function encrypt_password_field($value)
+    {
+        $this->encryption->encrypt_field($value, 'password');
+    }
+
+
 
     /**
      * Render store address option.
@@ -516,6 +537,15 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
 
                 $option->update_option('additional_fee', $additional_fee[$option->id]);
             }
+        }
+
+        if ($current_section == '' && current_user_can('manage_woocommerce')) {
+
+            //encrypt post values
+            $post_values = GLS()->post(GLS_Admin::GLS_SETTINGS_API);
+            $_POST[GLS_Admin::GLS_SETTINGS_API]['password'] = $this->encryption::encrypt($post_values['password']);
+            $_POST[GLS_Admin::GLS_SETTINGS_API]['username'] = $this->encryption::encrypt($post_values['username']);
+            $_POST[GLS_Admin::GLS_SETTINGS_API]['subscription_key'] = $this->encryption::encrypt($post_values['subscription_key']);
         }
 
         // TODO: Encrypt storage of passwords in database.
