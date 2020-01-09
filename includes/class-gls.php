@@ -168,7 +168,6 @@ final class GLS
     private function init_hooks()
     {
         add_action('init', array($this, 'init'), 0);
-        add_action('woocommerce_cart_calculate_fees', array('GLS_Delivery_Options', 'update_shipping_rate'));
         add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 1, 2);
         add_action('woocommerce_init', array('GLS_Pdf', 'gls_pdf_callback'));
         add_filter('woocommerce_cart_shipping_packages', array('GLS_Delivery_Options','disable_shipping_rates_cache'), 10, 2 );

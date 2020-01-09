@@ -321,34 +321,11 @@ class GLS_Delivery_Options
     }
 
     /**
+     * Disable cache on packages to always trigger woocommerce_package_rates,
+     * see: https://github.com/woocommerce/woocommerce/issues/22100
      *
-     */
-    public static function update_shipping_rate()
-    {
-        global $woocommerce;
-
-        if (is_admin() && !defined('DOING_AJAX'))
-            return;
-
-        $session         = WC()->session;
-        $shipping_method = $session->get('chosen_shipping_methods');
-
-        if (!GLS()->is_gls_selected(reset($shipping_method))) {
-            return;
-        }
-
-        $service = $session->get('gls_service');
-        $details = $service['details'] ?? [];
-        $title   = (bool) $details['is_parcel_shop'] ? __('ParcelShop', 'gls-woocommerce') : $details['title'] ?? '';
-        $fee     = $details['fee'] ?? '';
-
-        //$woocommerce->cart->add_fee(__('Delivery', 'gls-woocommerce') . ' ' . $title, $fee, true, '');
-    }
-
-    /**
-     * https://github.com/woocommerce/woocommerce/issues/22100
-     * disable cache on packages which always then trigger woocommerce_package_rates
      * @param $packages
+     *
      * @return array
      */
     public static function disable_shipping_rates_cache($packages) {
@@ -371,8 +348,8 @@ class GLS_Delivery_Options
     }
 
     /**
-     * https://stackoverflow.com/questions/44065499/updating-shipping-rate-on-checkout-page-on-woocommerce-site
-     * custom update shipping price
+     * Update shipping price when GLS Delivery Option or ParcelShop is selected.
+     *
      * @param $rates
      * @return mixed
      */
@@ -395,7 +372,7 @@ class GLS_Delivery_Options
 
         foreach ($rates as &$rate) {
             if ($rate->get_method_id() == 'tig_gls') {
-                $rate->cost += $fee;
+                $rate->cost += (float) $fee;
                 $tax_array = WC_Tax::calc_tax($rate->cost, WC_Tax::get_rates(), false );
                 $rate->set_taxes($tax_array);
             }
