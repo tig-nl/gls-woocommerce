@@ -166,7 +166,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     ),
                     array(
                         'title'   => __('Label Margin Top (only PDF A4)', 'gls-woocommerce'),
-                        'desc'    => __('distance in mm', 'gls-woocommerce'),
+                        'desc'    => __('Distance in mm', 'gls-woocommerce'),
                         'type'    => 'number',
                         'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_margin_top_a4]',
                         'min'     => '0',
@@ -174,7 +174,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     ),
                     array(
                         'title'   => __('Label Margin Left (only PDF A4)', 'gls-woocommerce'),
-                        'desc'    => __('distance in mm', 'gls-woocommerce'),
+                        'desc'    => __('Distance in mm', 'gls-woocommerce'),
                         'type'    => 'number',
                         'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_margin_left_a4]',
                         'min'     => '0',

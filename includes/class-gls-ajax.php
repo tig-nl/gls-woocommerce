@@ -249,8 +249,8 @@ class GLS_AJAX extends WC_AJAX
         $order->update_meta_data('_gls_label', $response);
         $order->save();
 
-        GLS_Admin_Notice::admin_add_notice('Label created successfully','success','shop_order');
-        wp_send_json_success('Label created successfully', $response->status);
+        GLS_Admin_Notice::admin_add_notice(__('Label created successfully', 'gls-woocommerce'),'success','shop_order');
+        wp_send_json_success(__('Label created successfully', 'gls-woocommerce'), $response->status);
     }
 
     /**
@@ -263,14 +263,14 @@ class GLS_AJAX extends WC_AJAX
         /** @var StdClass $response */
         $response = GLS()->api_delete_label()->call();
 
-        self::catch_admin_ajax_errors($response, 'Label could not be deleted from the GLS API');
+        self::catch_admin_ajax_errors($response, __('Label could not be deleted from the GLS API', 'gls-woocommerce'));
 
         $order = wc_get_order(GLS()->post('order_id'));
         $order->delete_meta_data('_gls_label');
         $order->save();
 
-        GLS_Admin_Notice::admin_add_notice('Label deleted successfully','success','shop_order');
-        wp_send_json_success('Label deleted successfully', $response->status);
+        GLS_Admin_Notice::admin_add_notice(__('Label(s) deleted successfully', 'gls-woocommerce'),'success','shop_order');
+        wp_send_json_success(__('Label(s) deleted successfully', 'gls-woocommerce'), $response->status);
     }
 
     /**
