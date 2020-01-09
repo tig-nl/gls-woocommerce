@@ -351,7 +351,7 @@ class GLS_Delivery_Options
      * @param $packages
      * @return array
      */
-    public function disable_shipping_rates_cache($packages) {
+    public static function disable_shipping_rates_cache($packages) {
 
         if (is_admin() && !defined('DOING_AJAX'))
             return $packages;
