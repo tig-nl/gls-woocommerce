@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-09 23:02+0100\n"
-"PO-Revision-Date: 2020-01-09 23:03+0100\n"
+"POT-Creation-Date: 2020-01-09 23:08+0100\n"
+"PO-Revision-Date: 2020-01-09 23:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -74,6 +74,16 @@ msgstr "Aantal labels"
 
 #: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:78
 msgid "Print"
+msgstr "Print"
+
+#: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:79
+msgid "Create"
+msgstr "Aanmaken"
+
+#: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:80
+#, fuzzy
+#| msgid "Print"
+msgid "Print All"
 msgstr "Print"
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:71
@@ -157,8 +167,8 @@ msgstr "Label Marge boven (alleen PDF A4)"
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:169
 #: includes/admin/settings/class-gls-settings-delivery-options.php:177
-msgid "distance in mm"
-msgstr "afstand in mm"
+msgid "Distance in mm"
+msgstr "Afstand in mm"
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:176
 msgid "Label Margin Left (only PDF A4)"
@@ -246,7 +256,7 @@ msgstr ""
 #: includes/admin/settings/class-gls-settings-delivery-options.php:339
 #, php-format
 msgid "%shere%s"
-msgstr ""
+msgstr "%shier%s"
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:324
 #, fuzzy
@@ -329,11 +339,19 @@ msgid "Your order is sent."
 msgstr "Uw order is verstuurd."
 
 #: includes/class-gls-ajax.php:252 includes/class-gls-ajax.php:253
-msgid "Label created successfully"
+#, fuzzy
+#| msgid "Label created successfully"
+msgid "Label(s) created successfully"
 msgstr "Label(s) aangemaakt"
 
-#: includes/class-gls-ajax.php:272
-msgid "Label deleted successfully"
+#: includes/class-gls-ajax.php:266
+msgid "Label could not be deleted from the GLS API"
+msgstr "Label kon niet worden verwijderd via de GLS API"
+
+#: includes/class-gls-ajax.php:272 includes/class-gls-ajax.php:273
+#, fuzzy
+#| msgid "Label deleted successfully"
+msgid "Label(s) deleted successfully"
 msgstr "Label(s) verwijderd"
 
 #: includes/class-gls-ajax.php:310 includes/class-gls-ajax.php:312

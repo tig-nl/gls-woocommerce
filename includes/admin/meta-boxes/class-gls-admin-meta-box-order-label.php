@@ -75,7 +75,11 @@ class GLS_Admin_Meta_Box_Order_Label
                 <?php endif; ?>
 
                 <?php
-                $button_label = _n($label ? 'Print' : 'Create', $label ? 'Print All' : 'Create', $amount, 'gls-woocommerce');
+                $print = __('Print');
+                $create = __('Create');
+                $print_all = __('Print All');
+
+                $button_label = _n($label ? $print : $create, $label ? $print_all : $create, $amount, 'gls-woocommerce');
                 ?>
 
                 <button type="button"
