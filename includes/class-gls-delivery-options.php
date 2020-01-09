@@ -106,6 +106,7 @@ class GLS_Delivery_Options
             'GLS_Option_S9',
             'GLS_Option_S12',
             'GLS_Option_S17',
+            'GLS_Option_SaturdayService',
             'GLS_Option_ShopDelivery'
         );
 
@@ -147,7 +148,7 @@ class GLS_Delivery_Options
                 continue;
             }
 
-            $saturdayServiceEnabled = $this->any_express_services_enabled($enabled, ['gls_s9', 'gls_s12', 'gls_s17'])
+            $saturdayServiceEnabled = $this->any_express_services_enabled($enabled, ['gls_s9', 'gls_s12', 'gls_s17', 'gls_saturdayservice'])
                                       && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_SATURDAY_LABEL;
             $expressServiceEnabled  = $this->any_express_services_enabled($enabled)
                                       && $option->service == GLS_Delivery_Option::GLS_DELIVERY_OPTION_EXPRESS_LABEL;
@@ -155,8 +156,8 @@ class GLS_Delivery_Options
 
             // SaturdayService
             if ($saturdayServiceEnabled) {
-                $option->fee = 0;
-                $option->formatted_fee = '';
+                $option->fee = $this->additional_fee($option, $enabled) ?? 0;
+                $option->formatted_fee = ($option->fee <> 0) ? wc_price($option->fee) : '';
                 $delivery_options[] = $option;
             }
 
@@ -320,28 +321,63 @@ class GLS_Delivery_Options
     }
 
     /**
+     * Disable cache on packages to always trigger woocommerce_package_rates,
+     * see: https://github.com/woocommerce/woocommerce/issues/22100
      *
+     * @param $packages
+     *
+     * @return array
      */
-    public static function update_shipping_rate()
-    {
-        global $woocommerce;
+    public static function disable_shipping_rates_cache($packages) {
 
         if (is_admin() && !defined('DOING_AJAX'))
-            return;
+            return $packages;
 
         $session         = WC()->session;
         $shipping_method = $session->get('chosen_shipping_methods');
 
         if (!GLS()->is_gls_selected(reset($shipping_method))) {
-            return;
+            return $packages;
+        }
+
+        if (is_array($packages) && $packages[0]) {
+            $packages[0]['rand'] = rand();
+        }
+
+        return $packages;
+    }
+
+    /**
+     * Update shipping price when GLS Delivery Option or ParcelShop is selected.
+     *
+     * @param $rates
+     * @return mixed
+     */
+    public static function adjust_shipping_rate($rates){
+
+        if (is_admin() && !defined('DOING_AJAX'))
+            return $rates;
+
+        $session         = WC()->session;
+        $shipping_method = $session->get('chosen_shipping_methods');
+
+        if (!GLS()->is_gls_selected(reset($shipping_method))) {
+            return $rates;
         }
 
         $service = $session->get('gls_service');
         $details = $service['details'] ?? [];
-        $title   = (bool) $details['is_parcel_shop'] ? __('ParcelShop', 'gls-woocommerce') : $details['title'] ?? '';
+        //$title   = (bool) $details['is_parcel_shop'] ? __('ParcelShop', 'gls-woocommerce') : $details['title'] ?? '';
         $fee     = $details['fee'] ?? '';
 
-        $woocommerce->cart->add_fee(__('Delivery', 'gls-woocommerce') . ' ' . $title, $fee, true, '');
+        foreach ($rates as &$rate) {
+            if ($rate->get_method_id() == 'tig_gls') {
+                $rate->cost += (float) $fee;
+                $tax_array = WC_Tax::calc_tax($rate->cost, WC_Tax::get_rates(), false );
+                $rate->set_taxes($tax_array);
+            }
+        }
+        return $rates;
     }
 
     /**

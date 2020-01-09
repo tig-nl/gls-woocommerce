@@ -170,14 +170,25 @@ class GLS_Api_Label_Create
     private function prepare_notification_email()
     {
         $email = [
-            "sendMail"           => true,
+            "sendMail"           => $this->is_flex_delivery_enabled(),
             "senderName"         => get_option('woocommerce_email_from_name'),
             "senderReplyAddress" => get_option('woocommerce_email_from_address'),
             "senderContactName"  => get_option('woocommerce_email_from_name'),
-            "EmailSubject"       => 'Uw order is verzonden.'
+            // TODO: Make subject configurable?
+            "EmailSubject"       => __('Your order is sent.', 'gls-woocommerce')
         ];
 
         return $email;
+    }
+
+    /**
+     * Booleans are translated to 'yes' and null in WordPress.
+     *
+     * @return bool
+     */
+    private function is_flex_delivery_enabled()
+    {
+        return $this->options['flex_delivery'] == 'yes';
     }
 
     /**
