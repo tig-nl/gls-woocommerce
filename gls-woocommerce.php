@@ -26,9 +26,7 @@ if (!defined('GLS_PLUGIN_FILE')) {
  */
 function tig_gls_delivery_options()
 {
-    if (WC()->cart->needs_shipping()) {
-        include_once dirname(__FILE__) . '/templates/checkout/delivery-options.php';
-    }
+    include_once dirname(__FILE__) . '/templates/checkout/delivery-options.php';
 }
 
 add_action('woocommerce_checkout_before_order_review_heading', 'tig_gls_delivery_options');

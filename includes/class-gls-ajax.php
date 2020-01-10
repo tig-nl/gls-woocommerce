@@ -83,6 +83,11 @@ class GLS_AJAX extends WC_AJAX
     public static function update_delivery_options()
     {
         check_ajax_referer('update-delivery-options', 'security');
+
+        if (!WC()->cart->needs_shipping()) {
+            wp_send_json_error(__('The products in this cart do not require shipping.', 'gls-woocommerce'), 405);
+        }
+
         /** @var StdClass $response */
         $response = GLS()->api_delivery_options()->call();
 
