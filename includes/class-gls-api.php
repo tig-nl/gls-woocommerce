@@ -46,6 +46,11 @@ class GLS_Api
     /** @var string $http */
     public $http;
 
+    /**
+     * @var GLS_Encryption
+     */
+    public $encryption;
+
     /** @var array $options */
     public $options;
 
@@ -79,10 +84,11 @@ class GLS_Api
         $endpoint,
         $body
     ) {
-        $this->endpoint = $endpoint;
-        $this->body     = $body;
-        $this->options  = get_option(GLS_Admin::GLS_SETTINGS_API);
-        $this->http     = $this->options['test_mode'] == 'yes' ? $this->url . 'Test/V1/api/' : $this->url . 'V1/api/';
+        $this->endpoint   = $endpoint;
+        $this->body       = $body;
+        $this->options    = get_option(GLS_Admin::GLS_SETTINGS_API);
+        $this->http       = $this->options['test_mode'] == 'yes' ? $this->url . 'Test/V1/api/' : $this->url . 'V1/api/';
+        $this->encryption = GLS_Encryption::instance();
 
         $this->init();
     }
@@ -92,8 +98,13 @@ class GLS_Api
      */
     public function init()
     {
-        $this->body['username'] = $this->options['username'];
-        $this->body['password'] = $this->options['password'];
+        try {
+            $this->body['username'] = $this->encryption->Decrypt($this->options['username']);
+            $this->body['password'] = $this->encryption->Decrypt($this->options['password']);
+        }
+        catch(Exception $exception) {
+            return false;
+        }
     }
 
     /**
@@ -101,6 +112,13 @@ class GLS_Api
      */
     public function call()
     {
+        try {
+            $subscription_key = $this->encryption->Decrypt($this->options['subscription_key']);
+        }
+        catch(Exception $exception) {
+            //nothing
+        }
+
         $args = array(
             'body'        => json_encode($this->body),
             'timeout'     => '5',
@@ -111,7 +129,7 @@ class GLS_Api
                 'Accept'                    => 'application/json',
                 'Content-Type'              => 'application/json; charset=UTF-8',
                 'User-Agent'                => 'GLSWooCommercePlugin',
-                'Ocp-Apim-Subscription-Key' => $this->options['subscription_key']
+                'Ocp-Apim-Subscription-Key' => $subscription_key ?? ''
             ),
             'cookies'     => array()
         );
