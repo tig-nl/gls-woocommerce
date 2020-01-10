@@ -152,7 +152,7 @@ class GLS_AJAX extends WC_AJAX
         $session = WC()->session;
 
         if (isset($details['service']) && isset($details['title']) && isset($details['fee'])) {
-            $session->set('gls_service', GLS()->post());
+            $session->set('gls_service', GLS()->post(null, false));
         }
 
         wp_die();
