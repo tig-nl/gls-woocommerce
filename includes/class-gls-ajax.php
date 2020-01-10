@@ -150,7 +150,10 @@ class GLS_AJAX extends WC_AJAX
         $_POST['delivery_address'] = self::map_delivery_address($delivery_address, $type);
 
         $session = WC()->session;
-        $session->set('gls_service', $_POST);
+
+        if (isset($details['service']) && isset($details['title']) && isset($details['fee'])) {
+            $session->set('gls_service', GLS()->post());
+        }
 
         wp_die();
     }
