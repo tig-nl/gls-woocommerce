@@ -11,20 +11,12 @@ class ComposerStaticInit124513258fafaa75d4957031c78b8551
         array (
             'setasign\\Fpdi\\' => 14,
         ),
-        'D' => 
-        array (
-            'Defuse\\Crypto\\' => 14,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'setasign\\Fpdi\\' => 
         array (
             0 => __DIR__ . '/..' . '/setasign/fpdi/src',
-        ),
-        'Defuse\\Crypto\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
         ),
     );
 

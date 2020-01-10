@@ -30,18 +30,10 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Key;
-
 defined('ABSPATH') || exit;
 
 class GLS_Encryption
 {
-    /**
-     *
-     */
-    const GLS_SECRET_FILE = '../gls-secret.key';
-
     /** @var null $_instance */
     protected static $_instance = null;
 
@@ -63,80 +55,50 @@ class GLS_Encryption
     }
 
     /**
-     * GLS_Encryption constructor.
-     */
-    public function __construct()
-    {
-        $this->init();
-    }
-
-    /**
-     *
-     */
-    public function init()
-    {
-        if (!$this->hasSecretKey()) {
-            $this->writeSecretKeyToFile();
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasSecretKey()
-    {
-        //GLS_ABSPATH;
-        $file = plugin_dir_path( __FILE__ ) . self::GLS_SECRET_FILE;
-        return file_exists($file) && filesize($file) > 0;
-    }
-
-    /**
-     * Generates a random Key and writes it to a file
-     * 
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     */
-    public function writeSecretKeyToFile()
-    {
-        $key  = Key::createNewRandomKey();
-        $objectData = serialize($key);
-
-        $file = plugin_dir_path( __FILE__ ) . self::GLS_SECRET_FILE;
-        file_put_contents($file, $objectData);
-    }
-
-    /**
      * Retrieve secret key for encryption/decryption
      *
      * @return mixed
      */
     public static function getSecretKey()
     {
-        $file = plugin_dir_path( __FILE__ ) . self::GLS_SECRET_FILE;
-        $key = file_get_contents($file);
-        return unserialize($key);
+        return $key = substr(NONCE_SALT,0,32);
     }
 
     /**
      * @param $value
      * @return string
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
-     * @throws \Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
      */
     public static function Decrypt($value)
     {
         $key = self::getSecretKey();
-        return Crypto::Decrypt($value, $key);
+        $decoded = base64_decode($value);
+        $nonce = substr($decoded, 0, 24);
+        $ciphertext = substr($decoded, 24);
+        return sodium_crypto_aead_xchacha20poly1305_ietf_decrypt(
+            $ciphertext,
+            $nonce,
+            $nonce,
+            $key
+        );
     }
 
     /**
      * @param $value
      * @return string
-     * @throws \Defuse\Crypto\Exception\EnvironmentIsBrokenException
+     * @throws SodiumException
      */
     public static function Encrypt($value)
     {
         $key = self::getSecretKey();
-        return Crypto::Encrypt($value, $key);
+        $nonce = random_bytes(24);
+        return base64_encode(
+            $nonce . sodium_crypto_aead_xchacha20poly1305_ietf_encrypt(
+                $value,
+                $nonce,
+                $nonce,
+                $key
+            )
+        );
     }
 
     /**
