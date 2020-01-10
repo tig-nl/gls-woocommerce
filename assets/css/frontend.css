@@ -6,6 +6,16 @@
   }
 }
 
+.gls-block-title:before {
+    content: '';
+    background: url('../images/gls-logo.png') left top no-repeat;
+    background-size: 64px;
+    width: 64px;
+    height: 18px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
 /* Tabs ============================================================================================================= */
 
 .gls-tabs {
@@ -14,7 +24,7 @@
 }
 
 .gls-tabs .gls-tab {
-  float:left;
+  float: left;
   width: 50%;
   font-size: 14px;
   text-align: center;
