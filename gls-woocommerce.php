@@ -21,11 +21,14 @@ if (!defined('GLS_PLUGIN_FILE')) {
 }
 
 /**
- * Add Shipping Options before Order Review in WooCommerce Checkout.
+ * Add Shipping Options before Order Review in WooCommerce Checkout if any items
+ * in cart require shipping.
  */
 function tig_gls_delivery_options()
 {
-    include_once dirname(__FILE__) . '/templates/checkout/delivery-options.php';
+    if (WC()->cart->needs_shipping()) {
+        include_once dirname(__FILE__) . '/templates/checkout/delivery-options.php';
+    }
 }
 
 add_action('woocommerce_checkout_before_order_review_heading', 'tig_gls_delivery_options');
