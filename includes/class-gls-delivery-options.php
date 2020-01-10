@@ -367,7 +367,6 @@ class GLS_Delivery_Options
 
         $service = $session->get('gls_service');
         $details = $service['details'] ?? [];
-        //$title   = (bool) $details['is_parcel_shop'] ? __('ParcelShop', 'gls-woocommerce') : $details['title'] ?? '';
         $fee     = $details['fee'] ?? '';
 
         foreach ($rates as &$rate) {
