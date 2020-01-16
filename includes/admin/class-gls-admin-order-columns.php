@@ -76,7 +76,7 @@ class GLS_Admin_Order_Columns
                 echo '<span aria-hidden="true">—</span><span class="screen-reader-text">' . __('GLS shipping information not available.', 'gls-woocommerce') . '</span>';
             }
 
-            if ($delivery_option && isset($delivery_option[0]) && isset($delivery_option[0]['details'])) {
+            if ($delivery_option && isset($delivery_option[0]['details']['title'])) {
                 echo $delivery_option[0]['details']['title'];
             }
 
