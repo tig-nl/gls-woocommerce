@@ -157,7 +157,7 @@ class GLS_Delivery_Options
             // SaturdayService
             if ($saturdayServiceEnabled) {
                 $option->fee = $this->additional_fee($option, $enabled) ?? 0;
-                $option->formatted_fee = ($option->fee <> 0) ? wc_price($option->fee) : '';
+                $option->formatted_fee = $this->format_fee($option->fee);
                 $delivery_options[] = $option;
             }
 
@@ -224,8 +224,8 @@ class GLS_Delivery_Options
         return array_filter(
             $options,
             function (&$option) use ($enabled_options) {
-                $option->fee = $this->additional_fee($option, $enabled_options);
-                $option->formatted_fee = wc_price($option->fee);
+                $option->fee           = $this->additional_fee($option, $enabled_options);
+                $option->formatted_fee = $this->format_fee($option->fee);
 
                 return $this->is_express_service_enabled($enabled_options, $option);
             }
@@ -236,7 +236,7 @@ class GLS_Delivery_Options
      * @param $option
      * @param $enabled_options
      *
-     * @return string
+     * @return string|float
      */
     private function additional_fee($option, $enabled_options)
     {
@@ -244,6 +244,22 @@ class GLS_Delivery_Options
         $fee  = isset($enabled_options[$code]) ? $enabled_options[$code]->additional_fee : '';
 
         return $fee;
+    }
+
+    /**
+     * Shipping Costs are always entered excluding tax if tax is enabled in WooCommerce. Shipping Costs do not adapt to
+     * settings like 'Enter prices including tax'.
+     *
+     * @param $fee
+     *
+     * @return string
+     */
+    private function format_fee($fee)
+    {
+        $tax = WC_Tax::calc_tax((float) $fee, WC_Tax::get_rates(), false);
+        $tax = reset($tax);
+
+        return '+ ' . wc_price($tax + (float) $fee);
     }
 
     /**
