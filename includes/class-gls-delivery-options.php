@@ -259,7 +259,7 @@ class GLS_Delivery_Options
         $tax = WC_Tax::calc_tax((float) $fee, WC_Tax::get_rates(), false);
         $tax = reset($tax);
 
-        return '+ ' . wc_price($tax + (float) $fee);
+        return '+' . wc_price((float) $tax + (float) $fee);
     }
 
     /**
@@ -411,5 +411,17 @@ class GLS_Delivery_Options
         $order->update_meta_data('_gls_delivery_option', $service);
 
         return $order;
+    }
+
+    /**
+     * @return float
+     */
+    public function format_shop_delivery_fee()
+    {
+        $shop_delivery  = GLS()->delivery_options()->delivery_options['gls_shop_delivery'];
+        $additional_fee = $shop_delivery->additional_fee;
+        $tax            = WC_Tax::calc_tax((float) $additional_fee, WC_Tax::get_rates(), false);
+
+        return wc_price((float) reset($tax) + (float) $additional_fee);
     }
 }

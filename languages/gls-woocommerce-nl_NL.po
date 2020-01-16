@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-16 11:45+0100\n"
-"PO-Revision-Date: 2020-01-16 11:48+0100\n"
+"POT-Creation-Date: 2020-01-16 14:14+0100\n"
+"PO-Revision-Date: 2020-01-16 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -420,12 +420,12 @@ msgid "Shipping Options"
 msgstr "Verzendopties"
 
 #: templates/checkout/delivery-options.php:38
-msgid "Delivery"
-msgstr "Bezorging"
+msgid "Home delivery"
+msgstr "Thuisbezorging"
 
 #: templates/checkout/delivery-options.php:41
-msgid "Pick up"
-msgstr "Afhalen"
+msgid "ParcelShop"
+msgstr "PakketShop"
 
 #: templates/checkout/delivery-options.php:75
 msgid "Show business hours"
@@ -434,6 +434,9 @@ msgstr "Toon kantooruren"
 #: templates/checkout/delivery-options.php:80
 msgid "Close"
 msgstr "Sluiten"
+
+#~ msgid "Pick up"
+#~ msgstr "Afhalen"
 
 #~ msgid "Used fields form other parts of woocommerce"
 #~ msgstr "Gebruikt velden van andere instellingen binnen woocommerce"
@@ -445,9 +448,6 @@ msgstr "Sluiten"
 #~ "Schakel dit in om e-mailnotificaties van GLS naar uw klanten te "
 #~ "activeren. Met FlexDeliveryService mogen uw klanten van GLS het "
 #~ "bezorgmoment aanpassen."
-
-#~ msgid "ParcelShop"
-#~ msgstr "PakketShop"
 
 #~ msgid "Tracking Code"
 #~ msgstr "Tracking code"
