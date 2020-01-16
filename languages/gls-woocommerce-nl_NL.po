@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-16 14:14+0100\n"
-"PO-Revision-Date: 2020-01-16 14:15+0100\n"
+"Project-Id-Version: GLS for Woocommerce v1\n"
+"POT-Creation-Date: 2020-01-16 15:21+0100\n"
+"PO-Revision-Date: 2020-01-16 15:25+0100\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: TIG support@tig.nl\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,7 +12,7 @@ msgstr ""
 "X-Generator: Poedit 2.2.4\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-KeywordsList: __;_e;_n;_x;esc_html__\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x;esc_html__\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: gls-woocommerce.php:67 includes/admin/class-gls-admin-api-notice.php:59
@@ -36,12 +36,16 @@ msgstr "GLS - Maak & Print Labels"
 #: includes/admin/class-gls-admin-bulk-actions.php:122
 #, php-format
 msgid "Failed Order id: #%s for GLS shipment information."
-msgstr "Mislukt Order-id: #% s voor GLS verzendinformatie."
+msgid_plural "Failed Order ids: #%s for GLS shipment information."
+msgstr[0] "Mislukt Order-id: #%s voor GLS verzendinformatie."
+msgstr[1] "Mislukt Order-ids: #%s voor GLS verzendinformatie."
 
 #: includes/admin/class-gls-admin-bulk-actions.php:130
 #, php-format
 msgid "Processed %s Order for GLS shipment information."
-msgstr "Verwerkt %s Order voor GLS verzendinformatie."
+msgid_plural "Processed %s Orders for GLS shipment information."
+msgstr[0] "%s order verwerkt voor GLS verzendinformatie."
+msgstr[1] "%s orders verwerkt voor GLS verzendinformatie."
 
 #: includes/admin/class-gls-admin-order-columns.php:57
 msgid "GLS Shipping Information"
@@ -65,8 +69,11 @@ msgid "Settings"
 msgstr "Instellingen"
 
 #: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:68
+#, php-format
 msgid "Delete label"
-msgstr "Delete label"
+msgid_plural "Delete %s labels"
+msgstr[0] "Verwijder label"
+msgstr[1] "Verwijderd %s labels"
 
 #: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:73
 msgid "No. of labels"
@@ -201,6 +208,8 @@ msgid ""
 "Enable this to send updates to your customers about their shipment and allow "
 "them to adjust delivery times while it's in transit."
 msgstr ""
+"Schakel dit in, zodat uw klanten updates ontvangen van GLS over hun zending "
+"en het bezorgmoment aangepast kan worden, terwijl het onderweg is."
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:229
 msgid ""
