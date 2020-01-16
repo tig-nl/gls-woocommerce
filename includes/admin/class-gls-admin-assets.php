@@ -60,7 +60,7 @@ if (!class_exists('GLS_Admin_Assets', false)) {
             $screen_id = $screen ? $screen->id : '';
 
             // @formatter:off
-            wp_register_style('gls_admin_styles', GLS()->plugin_url() . '/assets/css/admin.css', array('woocommerce_admin_styles'), GLS_VERSION);
+            wp_register_style('gls_admin_styles', GLS()->plugin_url('/assets/css/admin.min.css'), array('woocommerce_admin_styles'), GLS_VERSION);
             // @formatter:on
 
             if (in_array($screen_id, wc_get_screen_ids())) {
