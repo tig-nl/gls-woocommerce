@@ -226,7 +226,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     ),
                     array(
                         'title' => __('Delivery Options', 'gls-woocommerce'),
-                        'desc'  => __('Available delivery options are listed below and can be enabled/disabled to control their visibility on the frontend.', 'gls-woocommerce'),
+                        'desc'  => __('Available delivery options are listed below and can be enabled/disabled to control their visibility on the frontend. Fees should be entered <strong>excl. VAT</strong>.', 'gls-woocommerce'),
                         'type'  => 'title',
                         'id'    => 'delivery_options_options',
                     ),
@@ -450,7 +450,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         $default_columns = array(
                             'name'           => __('Delivery Option', 'gls-woocommerce'),
                             'description'    => __('Description', 'gls-woocommerce'),
-                            'additional_fee' => __('Additional Fee', 'gls-woocommerce') . '&nbsp;(' . $woocommerce_currency . ')',
+                            'additional_fee' => __('Additional Fee (excl. VAT)', 'gls-woocommerce') . '&nbsp;(' . $woocommerce_currency . ')',
                             'status'         => __('Enabled', 'gls-woocommerce')
                         );
 

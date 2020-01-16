@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-09 23:08+0100\n"
-"PO-Revision-Date: 2020-01-09 23:09+0100\n"
+"POT-Creation-Date: 2020-01-16 11:45+0100\n"
+"PO-Revision-Date: 2020-01-16 11:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15,12 +15,12 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html__\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: gls-woocommerce.php:66 includes/admin/class-gls-admin-api-notice.php:59
-#: includes/admin/settings/class-gls-settings-delivery-options.php:50
+#: gls-woocommerce.php:67 includes/admin/class-gls-admin-api-notice.php:59
+#: includes/admin/settings/class-gls-settings-delivery-options.php:56
 msgid "GLS"
 msgstr "GLS"
 
-#: gls-woocommerce.php:67
+#: gls-woocommerce.php:68
 msgid "Connect WooCommerce to GLS to provide GLS delivery options in checkout."
 msgstr ""
 "Activeer GLS WooCommerce om GLS verzendmethode opties te bieden in de kassa."
@@ -81,71 +81,69 @@ msgid "Create"
 msgstr "Aanmaken"
 
 #: includes/admin/meta-boxes/class-gls-admin-meta-box-order-label.php:80
-#, fuzzy
-#| msgid "Print"
 msgid "Print All"
-msgstr "Print"
+msgstr "Print Alle"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:71
-#: includes/admin/settings/class-gls-settings-delivery-options.php:94
+#: includes/admin/settings/class-gls-settings-delivery-options.php:80
+#: includes/admin/settings/class-gls-settings-delivery-options.php:103
 msgid "API Configuration"
 msgstr "API Configuratie"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:72
-#: includes/admin/settings/class-gls-settings-delivery-options.php:219
+#: includes/admin/settings/class-gls-settings-delivery-options.php:81
+#: includes/admin/settings/class-gls-settings-delivery-options.php:228
 msgid "Delivery Options"
 msgstr "Verzendopties"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:95
+#: includes/admin/settings/class-gls-settings-delivery-options.php:104
 msgid "Add your API credentials to connect WooCommerce to the GLS API."
 msgstr "Voeg uw API gegevens in om GLS te activeren."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:100
+#: includes/admin/settings/class-gls-settings-delivery-options.php:109
 msgid "Test mode"
 msgstr "Test modus"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:102
+#: includes/admin/settings/class-gls-settings-delivery-options.php:111
 msgid "Use test mode in staging or development environments"
 msgstr "Gebruik testmodus in staging of ontwikkelomgevingen"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:107
+#: includes/admin/settings/class-gls-settings-delivery-options.php:116
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:112
+#: includes/admin/settings/class-gls-settings-delivery-options.php:121
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:117
+#: includes/admin/settings/class-gls-settings-delivery-options.php:126
 msgid "Subscription key"
 msgstr "Abonnementssleutel"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:122
+#: includes/admin/settings/class-gls-settings-delivery-options.php:131
 msgid "Test credentials"
 msgstr "Test accountgegevens"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:138
+#: includes/admin/settings/class-gls-settings-delivery-options.php:147
 msgid "Services"
 msgstr "Services"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:139
+#: includes/admin/settings/class-gls-settings-delivery-options.php:148
 msgid "Configure the display of the available delivery options in checkout."
 msgstr "Configureer de weergave van de verzendopties in de kassa."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:144
+#: includes/admin/settings/class-gls-settings-delivery-options.php:153
 msgid "Cut-off Time"
 msgstr "Cut-off Time"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:145
+#: includes/admin/settings/class-gls-settings-delivery-options.php:154
 msgid "Deadline at which an order can be placed in order to be processed."
 msgstr ""
 "Deadline, tot deze tijd kan een order geplaatst worden en verwerkt worden."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:152
+#: includes/admin/settings/class-gls-settings-delivery-options.php:161
 msgid "Processing Time"
 msgstr "Verwerkingstijd"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:153
+#: includes/admin/settings/class-gls-settings-delivery-options.php:162
 msgid ""
 "The time (in days) it takes to process and package an order before it's "
 "shipped."
@@ -153,40 +151,40 @@ msgstr ""
 "De tijd (in dagen) die nodig is voor het verwerken en verpakken van een "
 "bestelling voordat het wordt verscheept."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:160
+#: includes/admin/settings/class-gls-settings-delivery-options.php:169
 msgid "Label format"
 msgstr "Labelformaat"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:161
+#: includes/admin/settings/class-gls-settings-delivery-options.php:170
 msgid "Which label format do you need"
 msgstr "Welk label formaat wilt u gebruiken"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:168
+#: includes/admin/settings/class-gls-settings-delivery-options.php:177
 msgid "Label Margin Top (only PDF A4)"
 msgstr "Label Marge boven (alleen PDF A4)"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:169
-#: includes/admin/settings/class-gls-settings-delivery-options.php:177
+#: includes/admin/settings/class-gls-settings-delivery-options.php:178
+#: includes/admin/settings/class-gls-settings-delivery-options.php:186
 msgid "Distance in mm"
 msgstr "Afstand in mm"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:176
+#: includes/admin/settings/class-gls-settings-delivery-options.php:185
 msgid "Label Margin Left (only PDF A4)"
 msgstr "Label Marge links (alleen PDF A4)"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:184
+#: includes/admin/settings/class-gls-settings-delivery-options.php:193
 msgid "No. of Shops to Display"
 msgstr "Aantal Parcelshops weergeven in de kassa"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:185
+#: includes/admin/settings/class-gls-settings-delivery-options.php:194
 msgid "Number of ParcelShops to display in the ShopDelivery-tab in checkout."
 msgstr "Aantal ParcelShops weer te geven in de ShopDelivery-tab in de kassa."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:192
+#: includes/admin/settings/class-gls-settings-delivery-options.php:201
 msgid "Enable ShopReturnService"
 msgstr "Inschakelen ShopReturnService"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:193
+#: includes/admin/settings/class-gls-settings-delivery-options.php:202
 msgid ""
 "Enable this to offer easy returns to your customers. A return label is "
 "generated along with every delivery label."
@@ -194,41 +192,39 @@ msgstr ""
 "Schakel dit in om gemakkelijk terugzenden aan uw klanten aan te bieden. Een "
 "return label wordt gegenereerd samen met elke leveringsetiket."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:199
+#: includes/admin/settings/class-gls-settings-delivery-options.php:208
 msgid "Enable FlexDeliveryService"
 msgstr "Inschakelen FlexDeliveryService"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:200
+#: includes/admin/settings/class-gls-settings-delivery-options.php:209
 msgid ""
 "Enable this to send updates to your customers about their shipment and allow "
 "them to adjust delivery times while it's in transit."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:220
+#: includes/admin/settings/class-gls-settings-delivery-options.php:229
 msgid ""
 "Available delivery options are listed below and can be enabled/disabled to "
-"control their visibility on the frontend."
+"control their visibility on the frontend. Fees should be entered "
+"<strong>excl. VAT</strong>."
 msgstr ""
 "Verzendopties worden hieronder vermeld en de zichtbaarheid op de kassa kan "
-"worden ingeschakeld."
+"worden ingeschakeld. Kosten dienen <strong>excl. BTW</strong> ingevuld te "
+"worden."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:267
+#: includes/admin/settings/class-gls-settings-delivery-options.php:276
 msgid "PDF (A6)"
 msgstr "PDF (A6)"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:268
+#: includes/admin/settings/class-gls-settings-delivery-options.php:277
 msgid "PDF (A4, 2 labels/page)"
 msgstr "PDF (A4, 2 labels/pagina)"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:269
+#: includes/admin/settings/class-gls-settings-delivery-options.php:278
 msgid "PDF (A4, 4 labels/page)"
 msgstr "PDF (A4, 4 labels/pagina)"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:292
-#, fuzzy
-#| msgid ""
-#| "In order for the GLS plugin to work correctly, the store address has to "
-#| "be filled in."
+#: includes/admin/settings/class-gls-settings-delivery-options.php:313
 msgid ""
 "In order for the GLS plugin to work correctly, the store address needs to be "
 "set."
@@ -236,92 +232,77 @@ msgstr ""
 "Om de GLS verzendmethode goed te laten werken moet het winkeladres worden "
 "ingevuld."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:296
+#: includes/admin/settings/class-gls-settings-delivery-options.php:317
 msgid "Store Address"
 msgstr "Winkeladres"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:304
+#: includes/admin/settings/class-gls-settings-delivery-options.php:325
 msgid "This address will be printed on the ShopReturnService labels."
 msgstr "Dit adres zal worden gebruikt voor ShopReturnService labels."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:306
-#, fuzzy
-#| msgid ""
-#| "The store address can be changed under the WooCommerce \"General\" tab"
+#: includes/admin/settings/class-gls-settings-delivery-options.php:327
 msgid "The store address can be changed"
-msgstr ""
-"Het winkel adres can aangepast worden bij de WooCommerce tab “Algemeen”"
+msgstr "Het winkeladres kan aangepast worden bij de WooCommerce tab “Algemeen”"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:306
-#: includes/admin/settings/class-gls-settings-delivery-options.php:339
+#: includes/admin/settings/class-gls-settings-delivery-options.php:327
+#: includes/admin/settings/class-gls-settings-delivery-options.php:360
 #, php-format
 msgid "%shere%s"
 msgstr "%shier%s"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:324
-#, fuzzy
-#| msgid ""
-#| "In order for the GLS plugin to work correctly, the email sender options "
-#| "has to be filled in."
+#: includes/admin/settings/class-gls-settings-delivery-options.php:345
 msgid ""
 "In order for the GLS plugin to work correctly, the email sender options "
 "needs to be set."
 msgstr ""
-"Om de GLS verzendmethode goed te laten werken moeten de emailafzender opties "
-"worden ingevuld."
+"Om de GLS verzendmethode goed te laten werken moeten de email afzender "
+"opties worden ingevuld."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:330
+#: includes/admin/settings/class-gls-settings-delivery-options.php:351
 msgid "Email Sender Options"
 msgstr "E-mailafzender opties"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:337
-#, fuzzy
-#| msgid ""
-#| "Track and trace emails will be send from GLS from this email address."
+#: includes/admin/settings/class-gls-settings-delivery-options.php:358
 msgid ""
 "Track and trace emails sent by GLS will be send from this email address."
-msgstr "Track and  track emails worden verstuurd vanuit GLS met deze afzender."
+msgstr "Track &  Trace emails worden verstuurd vanuit GLS met deze afzender."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:339
-#, fuzzy
-#| msgid ""
-#| "The email sender options can be changed under the WooCommerce \"Emails\" "
-#| "tab"
+#: includes/admin/settings/class-gls-settings-delivery-options.php:360
 msgid "The email sender options can be changed"
 msgstr ""
-"De e-mailafzender opties kunnen worden aangepast bij de WooCommerce tab “E-"
+"De e-mail afzender opties kunnen worden aangepast bij de WooCommerce tab “E-"
 "mails”"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:357
+#: includes/admin/settings/class-gls-settings-delivery-options.php:378
 msgid "Api credentials are correct."
 msgstr "Api gegevens zijn correct ingevuld."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:365
+#: includes/admin/settings/class-gls-settings-delivery-options.php:386
 msgid "Api credentials are not correct, please fill in the correct values."
 msgstr "Api gegevens zijn niet correct, vul alstublieft de juiste gegevens in."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:430
+#: includes/admin/settings/class-gls-settings-delivery-options.php:451
 msgid "Delivery Option"
 msgstr "Verzendoptie"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:431
+#: includes/admin/settings/class-gls-settings-delivery-options.php:452
 msgid "Description"
 msgstr "Beschrijving"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:432
-msgid "Additional Fee"
-msgstr "Extra kosten"
+#: includes/admin/settings/class-gls-settings-delivery-options.php:453
+msgid "Additional Fee (excl. VAT)"
+msgstr "Extra kosten (excl. BTW)"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:433
+#: includes/admin/settings/class-gls-settings-delivery-options.php:454
 msgid "Enabled"
 msgstr "Ingeschakeld"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:481
+#: includes/admin/settings/class-gls-settings-delivery-options.php:502
 #, php-format
 msgid "The \"%s\" delivery option is currently enabled"
 msgstr "De “%s” verzendoptie is momenteel ingeschakeld"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:484
+#: includes/admin/settings/class-gls-settings-delivery-options.php:505
 #, php-format
 msgid "The \"%s\" delivery option is currently disabled"
 msgstr "De “%s” verzendoptie is momenteel uitgeschakeld"
@@ -338,27 +319,27 @@ msgstr "Geen postcode opgegeven."
 msgid "Your order is sent."
 msgstr "Uw order is verstuurd."
 
-#: includes/class-gls-ajax.php:252 includes/class-gls-ajax.php:253
-#, fuzzy
-#| msgid "Label created successfully"
+#: includes/class-gls-ajax.php:88
+msgid "The products in this cart do not require shipping."
+msgstr "De producten in de winkelwagen hoeven niet te worden verzonden."
+
+#: includes/class-gls-ajax.php:260 includes/class-gls-ajax.php:261
 msgid "Label(s) created successfully"
 msgstr "Label(s) aangemaakt"
 
-#: includes/class-gls-ajax.php:266
+#: includes/class-gls-ajax.php:274
 msgid "Label could not be deleted from the GLS API"
 msgstr "Label kon niet worden verwijderd via de GLS API"
 
-#: includes/class-gls-ajax.php:272 includes/class-gls-ajax.php:273
-#, fuzzy
-#| msgid "Label deleted successfully"
+#: includes/class-gls-ajax.php:280 includes/class-gls-ajax.php:281
 msgid "Label(s) deleted successfully"
 msgstr "Label(s) verwijderd"
 
-#: includes/class-gls-ajax.php:310 includes/class-gls-ajax.php:312
+#: includes/class-gls-ajax.php:318 includes/class-gls-ajax.php:320
 msgid "The GLS plugin is not configured properly"
 msgstr "De GLS verzendmethode is goed geconfigureerd"
 
-#: includes/class-gls-ajax.php:324 includes/class-gls-ajax.php:325
+#: includes/class-gls-ajax.php:332 includes/class-gls-ajax.php:333
 msgid "Invalid request"
 msgstr "Ongeldige aanvraag"
 
