@@ -35,10 +35,10 @@
     <div id="delivery_options" class="gls-woocommerce-checkout-delivery-options">
         <div class="gls-tabs">
             <div class="gls-tab gls-tab-delivery active">
-                <span><?php _e('Delivery', 'gls-woocommerce'); ?></span>
+                <span class="gls-tab-title"><?php _e('Home delivery', 'gls-woocommerce'); ?></span>
             </div>
             <div class="gls-tab gls-tab-pickup">
-                <span><?php _e('Pick up', 'gls-woocommerce'); ?></span>
+                <span class="gls-tab-title"><?php _e('ParcelShop', 'gls-woocommerce'); ?></span> <span class="gls-tab-price"><?= GLS()->delivery_options()->format_shop_delivery_fee(); ?></span>
             </div>
         </div>
         <div class="gls-error error" style="display: none;"></div>

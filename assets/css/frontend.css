@@ -27,7 +27,6 @@
   float: left;
   width: 50%;
   font-size: 14px;
-  text-align: center;
   padding: 16px;
   color: #172156;
   border: 1px solid #D4D9E3;
@@ -36,12 +35,20 @@
   -webkit-transition: width .2s;
 }
 
+.gls-tabs .gls-tab .gls-tab-price {
+  float: right;
+}
+
 .gls-tabs .gls-tab.active {
   background: #172156;
   font-weight: bold;
   color: white;
   border: 1px solid #172156;
   cursor: default;
+}
+
+.gls-tabs .gls-tab.active .gls-tab-price {
+  color: #FBC000;
 }
 
 .gls-tabs .gls-tab:first-child{
