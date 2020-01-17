@@ -64,3 +64,7 @@
 .gls-email-sender {
     font-weight: bold;
 }
+
+label[for="gls-order-label-hide"] img {
+    height: 18px;
+}
