@@ -60,6 +60,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         add_action('woocommerce_admin_field_services', array($this, 'services_settings'));
         add_action('woocommerce_admin_field_delivery_options', array($this, 'delivery_options_settings'));
         add_action('woocommerce_admin_field_api_check', array($this,'api_check_settings'));
+        add_action('woocommerce_admin_field_support', array($this,'support_options'));
         add_action('woocommerce_admin_field_store_address', array($this,'store_address'));
         add_action('woocommerce_admin_field_from_email', array($this,'from_email'));
         add_action('woocommerce_admin_field_encrypt_text', array($this,'encrypt_text_field'));
@@ -106,25 +107,33 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'id'    => 'api_configuration_options'
                     ),
                     array(
+                        'title' => __('Support', 'gls-woocommerce'),
+                        'type'  => 'support',
+                    ),
+
+                    array(
                         'title'   => __('Test mode', 'gls-woocommerce'),
                         'type'    => 'checkbox',
-                        'label'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
+                        'desc_tip'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
                         'default' => 'no',
                         'id'      => GLS_Admin::GLS_SETTINGS_API . '[test_mode]'
                     ),
                     array(
                         'title' => __('Username', 'gls-woocommerce'),
+                        'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'type'  => 'encrypt_text',
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[username]'
                     ),
                     array(
                         'title' => __('Password', 'gls-woocommerce'),
+                        'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'type'  => 'encrypt_password',
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[password]'
                     ),
                     array(
                         'title' => __('Subscription key', 'gls-woocommerce'),
                         'type'  => 'encrypt_password',
+                        'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[subscription_key]'
                     ),
                     array(
@@ -375,7 +384,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             ?>
             <tr valign="top">
                 <td class="gls_api_check_wrapper" colspan="2">
-                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.', 'gls-woocommerce');?></p></div>
+                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.', 'gls-woocommerce');?>&nbsp;<a href="<?php echo admin_url('admin.php?page=wc-settings&tab=tig_gls&section=delivery_options');?>"><?php _e('Click here to setup the delivery options', 'gls-woocommerce');?></a></p></div>
                 </td>
             </tr>
         <?php
@@ -433,6 +442,55 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         <?php
     }
 
+    public function support_options()
+    {
+        ?>
+        <tr valign="top">
+            <td colspan="4">
+                <table class="gls_options widefat" style="width: 500px;" cellspacing="0" aria-describedby="delivery_options_options-description">
+                    <thead>
+                        <tr>
+                            <td><img style="height:25px;" src="<?php echo GLS()->plugin_url('/assets/images/gls-logo.png');?>"></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td><img style="height:50px;float: right;" src="<?php echo GLS()->plugin_url('/assets/images/tig-logo.png');?>"></td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="4"><h3 style="margin:0;"><?php _e('GLS Netherlands Shipping WooCommerce Plugin','gls-woocommerce');?></h3></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><?php _e('This plugin is developed by ','gls-woocommerce');?>
+                            <a href="https://tig.nl" target="_blank">TIG</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><?php _e('To use this extension you need to be a business customer of GLS Netherlands. If you are not yet a business customer, just request your individual offer using this form: ','gls-woocommerce');?>
+                            <a href="https://gls-group.eu/NL/nl/contact" target="_blank"><?php _e('become a customer.','gls-woocommerce');?></a>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><h3 style="margin:0;"><?php _e('Do you need help with setting up this plugin?','gls-woocommerce');?></h3></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('Phone','gls-woocommerce');?></strong></td>
+                        <td colspan="3"><?php echo '(+31) (0) 88 550 3053 ';?><i><?php _e('during business hours','gls-woocommerce');?></i></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('E-mail','gls-woocommerce');?></strong></td>
+                        <td colspan="3"><a href="mailto:helpdesk@gls-netherlands.com">helpdesk@gls-netherlands.com</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('GLS Website','gls-woocommerce');?></strong></td>
+                        <td colspan="3"><a href="https://gls-group.eu/NL/nl/home" target="_blank">https://gls-group.eu/</a></td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <?php
+    }
     /**
      * Output delivery options settings.
      */
