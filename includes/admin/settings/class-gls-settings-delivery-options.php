@@ -384,7 +384,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             ?>
             <tr valign="top">
                 <td class="gls_api_check_wrapper" colspan="2">
-                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.', 'gls-woocommerce');?>&nbsp;<a href="<?php echo admin_url('admin.php?page=wc-settings&tab=tig_gls&section=delivery_options');?>"><?php _e('Click here to setup the delivery options', 'gls-woocommerce');?></a></p></div>
+                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.', 'gls-woocommerce');?>&nbsp;<a href="<?php echo admin_url('admin.php?page=wc-settings&tab=tig_gls&section=delivery_options');?>"><?php _e('Click here to setup the delivery options.', 'gls-woocommerce');?></a></p></div>
                 </td>
             </tr>
         <?php

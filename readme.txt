@@ -31,5 +31,8 @@ N/A
 
 == Changelog ==
 
+= 1.1.0 =
+Public release.
+
 = 1.0.0 =
 First release.

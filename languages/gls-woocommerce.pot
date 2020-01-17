@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-17 16:19+0100\n"
+"POT-Creation-Date: 2020-01-17 16:29+0100\n"
 "PO-Revision-Date: 2020-01-06 13:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -84,211 +84,266 @@ msgstr ""
 msgid "Print All"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:80
-#: includes/admin/settings/class-gls-settings-delivery-options.php:103
+#: includes/admin/settings/class-gls-settings-delivery-options.php:81
+#: includes/admin/settings/class-gls-settings-delivery-options.php:104
 msgid "API Configuration"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:81
-#: includes/admin/settings/class-gls-settings-delivery-options.php:228
+#: includes/admin/settings/class-gls-settings-delivery-options.php:82
+#: includes/admin/settings/class-gls-settings-delivery-options.php:237
 msgid "Delivery Options"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:104
+#: includes/admin/settings/class-gls-settings-delivery-options.php:105
 msgid "Add your API credentials to connect WooCommerce to the GLS API."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:109
+#: includes/admin/settings/class-gls-settings-delivery-options.php:110
+msgid "Support"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:115
 msgid "Test mode"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:111
+#: includes/admin/settings/class-gls-settings-delivery-options.php:117
 msgid "Use test mode in staging or development environments"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:116
+#: includes/admin/settings/class-gls-settings-delivery-options.php:122
 msgid "Username"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:121
+#: includes/admin/settings/class-gls-settings-delivery-options.php:123
+#: includes/admin/settings/class-gls-settings-delivery-options.php:129
+#: includes/admin/settings/class-gls-settings-delivery-options.php:136
+msgid ""
+"Need help with setting up the plugin? See support box above for details, "
+"don't hesitate to contact us!"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:128
 msgid "Password"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:126
+#: includes/admin/settings/class-gls-settings-delivery-options.php:134
 msgid "Subscription key"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:131
+#: includes/admin/settings/class-gls-settings-delivery-options.php:140
 msgid "Test credentials"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:147
+#: includes/admin/settings/class-gls-settings-delivery-options.php:156
 msgid "Services"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:148
+#: includes/admin/settings/class-gls-settings-delivery-options.php:157
 msgid "Configure the display of the available delivery options in checkout."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:153
+#: includes/admin/settings/class-gls-settings-delivery-options.php:162
 msgid "Cut-off Time"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:154
+#: includes/admin/settings/class-gls-settings-delivery-options.php:163
 msgid "Deadline at which an order can be placed in order to be processed."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:161
+#: includes/admin/settings/class-gls-settings-delivery-options.php:170
 msgid "Processing Time"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:162
+#: includes/admin/settings/class-gls-settings-delivery-options.php:171
 msgid ""
 "The time (in days) it takes to process and package an order before it's "
 "shipped."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:169
+#: includes/admin/settings/class-gls-settings-delivery-options.php:178
 msgid "Label format"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:170
+#: includes/admin/settings/class-gls-settings-delivery-options.php:179
 msgid "Which label format do you need"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:177
+#: includes/admin/settings/class-gls-settings-delivery-options.php:186
 msgid "Label Margin Top (only PDF A4)"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:178
-#: includes/admin/settings/class-gls-settings-delivery-options.php:186
+#: includes/admin/settings/class-gls-settings-delivery-options.php:187
+#: includes/admin/settings/class-gls-settings-delivery-options.php:195
 msgid "Distance in mm"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:185
+#: includes/admin/settings/class-gls-settings-delivery-options.php:194
 msgid "Label Margin Left (only PDF A4)"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:193
+#: includes/admin/settings/class-gls-settings-delivery-options.php:202
 msgid "No. of Shops to Display"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:194
+#: includes/admin/settings/class-gls-settings-delivery-options.php:203
 msgid "Number of ParcelShops to display in the ShopDelivery-tab in checkout."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:201
+#: includes/admin/settings/class-gls-settings-delivery-options.php:210
 msgid "Enable ShopReturnService"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:202
+#: includes/admin/settings/class-gls-settings-delivery-options.php:211
 msgid ""
 "Enable this to offer easy returns to your customers. A return label is "
 "generated along with every delivery label."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:208
+#: includes/admin/settings/class-gls-settings-delivery-options.php:217
 msgid "Enable FlexDeliveryService"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:209
+#: includes/admin/settings/class-gls-settings-delivery-options.php:218
 msgid ""
 "Enable this to send updates to your customers about their shipment and allow "
 "them to adjust delivery times while it's in transit."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:229
+#: includes/admin/settings/class-gls-settings-delivery-options.php:238
 msgid ""
 "Available delivery options are listed below and can be enabled/disabled to "
 "control their visibility on the frontend. Fees should be entered "
 "<strong>excl. VAT</strong>."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:276
+#: includes/admin/settings/class-gls-settings-delivery-options.php:285
 msgid "PDF (A6)"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:277
+#: includes/admin/settings/class-gls-settings-delivery-options.php:286
 msgid "PDF (A4, 2 labels/page)"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:278
+#: includes/admin/settings/class-gls-settings-delivery-options.php:287
 msgid "PDF (A4, 4 labels/page)"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:313
+#: includes/admin/settings/class-gls-settings-delivery-options.php:322
 msgid ""
 "In order for the GLS plugin to work correctly, the store address needs to be "
 "set."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:317
+#: includes/admin/settings/class-gls-settings-delivery-options.php:326
 msgid "Store Address"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:325
+#: includes/admin/settings/class-gls-settings-delivery-options.php:334
 msgid "This address will be printed on the ShopReturnService labels."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:327
+#: includes/admin/settings/class-gls-settings-delivery-options.php:336
 msgid "The store address can be changed"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:327
-#: includes/admin/settings/class-gls-settings-delivery-options.php:360
+#: includes/admin/settings/class-gls-settings-delivery-options.php:336
+#: includes/admin/settings/class-gls-settings-delivery-options.php:369
 #, php-format
 msgid "%shere%s"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:345
+#: includes/admin/settings/class-gls-settings-delivery-options.php:354
 msgid ""
 "In order for the GLS plugin to work correctly, the email sender options "
 "needs to be set."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:351
+#: includes/admin/settings/class-gls-settings-delivery-options.php:360
 msgid "Email Sender Options"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:358
+#: includes/admin/settings/class-gls-settings-delivery-options.php:367
 msgid ""
 "Track and trace emails sent by GLS will be send from this email address."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:360
+#: includes/admin/settings/class-gls-settings-delivery-options.php:369
 msgid "The email sender options can be changed"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:378
+#: includes/admin/settings/class-gls-settings-delivery-options.php:387
 msgid "Api credentials are correct."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:386
+#: includes/admin/settings/class-gls-settings-delivery-options.php:387
+msgid "Click here to setup the delivery options."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:395
 msgid "Api credentials are not correct, please fill in the correct values."
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:451
+#: includes/admin/settings/class-gls-settings-delivery-options.php:460
+msgid "GLS Netherlands Shipping WooCommerce Plugin"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:463
+msgid "This plugin is developed by "
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:468
+msgid ""
+"To use this extension you need to be a business customer of GLS Netherlands. "
+"If you are not yet a business customer, just request your individual offer "
+"using this form: "
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:469
+msgid "become a customer."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:474
+msgid "Do you need help with setting up this plugin?"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:477
+msgid "Phone"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:478
+msgid "during business hours"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:481
+msgid "E-mail"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:485
+msgid "GLS Website"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:509
 msgid "Delivery Option"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:452
+#: includes/admin/settings/class-gls-settings-delivery-options.php:510
 msgid "Description"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:453
+#: includes/admin/settings/class-gls-settings-delivery-options.php:511
 msgid "Additional Fee (excl. VAT)"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:454
+#: includes/admin/settings/class-gls-settings-delivery-options.php:512
 msgid "Enabled"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:502
+#: includes/admin/settings/class-gls-settings-delivery-options.php:560
 #, php-format
 msgid "The \"%s\" delivery option is currently enabled"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:505
+#: includes/admin/settings/class-gls-settings-delivery-options.php:563
 #, php-format
 msgid "The \"%s\" delivery option is currently disabled"
 msgstr ""
