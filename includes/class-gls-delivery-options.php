@@ -156,9 +156,9 @@ class GLS_Delivery_Options
 
             // SaturdayService
             if ($saturdayServiceEnabled) {
-                $option->fee = $this->additional_fee($option, $enabled) ?? 0;
+                $option->fee           = $this->additional_fee($option, $enabled) ?? 0;
                 $option->formatted_fee = $this->format_fee($option->fee);
-                $delivery_options[] = $option;
+                $delivery_options[]    = $option;
             }
 
             /**
@@ -252,12 +252,20 @@ class GLS_Delivery_Options
      *
      * @param $fee
      *
-     * @return string
+     * @return string|void
      */
     private function format_fee($fee)
     {
+        if (!$fee) {
+            return;
+        }
+
         $tax = WC_Tax::calc_tax((float) $fee, WC_Tax::get_rates(), false);
         $tax = reset($tax);
+
+        if ($fee < 0) {
+            return wc_price((float) $tax + (float) $fee);
+        }
 
         return '+' . wc_price((float) $tax + (float) $fee);
     }
@@ -414,13 +422,18 @@ class GLS_Delivery_Options
     }
 
     /**
-     * @return float
+     * @return float|void
      */
     public function format_shop_delivery_fee()
     {
         $shop_delivery  = GLS()->delivery_options()->delivery_options['gls_shop_delivery'];
         $additional_fee = $shop_delivery->additional_fee;
-        $tax            = WC_Tax::calc_tax((float) $additional_fee, WC_Tax::get_rates(), false);
+
+        if (!$additional_fee) {
+            return;
+        }
+
+        $tax = WC_Tax::calc_tax((float) $additional_fee, WC_Tax::get_rates(), false);
 
         return wc_price((float) reset($tax) + (float) $additional_fee);
     }
