@@ -447,17 +447,17 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         ?>
         <tr valign="top">
             <td colspan="4">
-                <table class="gls_options widefat" style="width: 500px;" cellspacing="0" aria-describedby="delivery_options_options-description">
+                <table class="gls_options widefat gls_support" cellspacing="0" aria-describedby="security_options-description">
                     <thead>
                         <tr>
-                            <td><img style="height:25px;" src="<?php echo GLS()->plugin_url('/assets/images/gls-logo.png');?>"></td>
+                            <td><img class="img25" src="<?php echo GLS()->plugin_url('/assets/images/gls-logo.png');?>"></td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            <td><img style="height:50px;float: right;" src="<?php echo GLS()->plugin_url('/assets/images/tig-logo.png');?>"></td>
+                            <td><img class="img50 right_logo" src="<?php echo GLS()->plugin_url('/assets/images/tig-logo.png');?>"></td>
                         </tr>
                     </thead>
                     <tr>
-                        <td colspan="4"><h3 style="margin:0;"><?php _e('GLS Netherlands Shipping WooCommerce Plugin','gls-woocommerce');?></h3></td>
+                        <td colspan="4"><h3 class="no_margin"><?php _e('GLS Netherlands Shipping WooCommerce Plugin','gls-woocommerce');?></h3></td>
                     </tr>
                     <tr>
                         <td colspan="4"><?php _e('This plugin is developed by ','gls-woocommerce');?>
@@ -471,7 +471,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4"><h3 style="margin:0;"><?php _e('Do you need help with setting up this plugin?','gls-woocommerce');?></h3></td>
+                        <td colspan="4"><h3 class="no_margin"><?php _e('Do you need help with setting up this plugin?','gls-woocommerce');?></h3></td>
                     </tr>
                     <tr>
                         <td><strong><?php _e('Phone','gls-woocommerce');?></strong></td>

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GLS for Woocommerce v1\n"
-"POT-Creation-Date: 2020-01-17 16:31+0100\n"
-"PO-Revision-Date: 2020-01-17 16:31+0100\n"
+"POT-Creation-Date: 2020-01-20 18:08+0100\n"
+"PO-Revision-Date: 2020-01-20 18:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: TIG support@tig.nl\n"
 "Language: nl\n"
@@ -328,7 +328,7 @@ msgstr ""
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:469
 msgid "become a customer."
-msgstr "wordt klant."
+msgstr "zakelijke klant."
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:474
 msgid "Do you need help with setting up this plugin?"
