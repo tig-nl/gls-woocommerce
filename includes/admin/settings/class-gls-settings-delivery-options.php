@@ -63,6 +63,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         add_action('woocommerce_admin_field_support', array($this,'support_options'));
         add_action('woocommerce_admin_field_store_address', array($this,'store_address'));
         add_action('woocommerce_admin_field_from_email', array($this,'from_email'));
+        add_action('woocommerce_admin_field_is_shipping_method_setup', array($this,'is_shipping_method_setup'));
         add_action('woocommerce_admin_field_encrypt_text', array($this,'encrypt_text_field'));
         add_action('woocommerce_admin_field_encrypt_password', array($this,'encrypt_password_field'));
         // @formatter:on
@@ -227,6 +228,9 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'type'  => 'from_email',
                     ),
                     array(
+                        'type'  => 'is_shipping_method_setup',
+                    ),
+                    array(
                         'type' => 'services'
                     ),
                     array(
@@ -370,6 +374,67 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             </td>
         </tr>
 
+        <?php
+    }
+
+    /**
+     * @param $methods
+     * @param $zone
+     * @return array
+     */
+    public function get_gls_shipping_methods($methods, $zone)
+    {
+        $gls_shipping_method = array();
+
+        if (!empty($methods)) {
+            foreach ($methods as $method) {
+                if (get_class($method) == 'GLS_Shipping_Method' ) {
+                    $enabled_string = ($method->enabled == 'yes') ? __('active', 'gls_woocommerce') : __('deactive', 'gls_woocommerce');
+                    $gls_shipping_method[] = '<a href="' . admin_url('admin.php?page=wc-settings&tab=shipping&zone_id=' . $zone) . '">' . $method->title . '</a> &nbsp;<strong>' . $enabled_string. '</strong>';
+                }
+            }
+        }
+
+        return $gls_shipping_method;
+    }
+
+    /**
+     * Render Shipping method setup.
+     */
+    public function is_shipping_method_setup()
+    {
+        $gls_shipping_method = array();
+
+        $delivery_zones = WC_Shipping_Zones::get_zones();
+        $zones = [0];
+        $zones = array_merge($zones, array_keys($delivery_zones));
+
+        if (!empty($zones)) {
+            foreach ($zones as $zone) {
+                $worldwide = new WC_Shipping_Zone($zone);
+                $methods   = $worldwide->get_shipping_methods();
+                $gls_shipping_method = array_merge($gls_shipping_method, $this->get_gls_shipping_methods($methods, $zone));
+            }
+        }
+
+        if (empty($gls_shipping_method)) {
+            $error_address = __('In order for the GLS plugin to work correctly, it should be setup as active shipping method.', 'gls-woocommerce');
+        } ?>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for=""><?php _e('GLS shipping method check', 'gls-woocommerce'); ?>: </label>
+            </th>
+            <td class="forminp forminp-number">
+                <?php if ($error_address) : ?>
+                    <p class="description"><?php echo $error_address; ?></p>
+                <?php else: ?>
+                    <?php _e('Configured GLS shipping methods found', 'gls-woocommerce'); ?>: <br/>
+                    <?php echo implode($gls_shipping_method,'<br>');?>
+                    <p class="description"><?php _e('Active shipping methods will be shown to the customer in the checkout.', 'gls-woocommerce');?></p>
+                <?php endif;?>
+                <p class="description"><?php _e('The shipping methods can be changed', 'gls-woocommerce');?> <?= sprintf(__('%shere%s', 'gls-woocommerce'), '<a href="' . admin_url('admin.php?page=wc-settings&tab=shipping') . '">', '</a>'); ?></p>
+            </td>
+        </tr>
         <?php
     }
 
