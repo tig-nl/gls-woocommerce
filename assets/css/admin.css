@@ -1,0 +1,89 @@
+/**
+ *
+ *          ..::..
+ *     ..::::::::::::..
+ *   ::'''''':''::'''''::
+ *   ::..  ..:  :  ....::
+ *   ::::  :::  :  :   ::
+ *   ::::  :::  :  ''' ::
+ *   ::::..:::..::.....::
+ *     ''::::::::::::''
+ *          ''::''
+ *
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Creative Commons License.
+ * It is available through the world-wide-web at this URL:
+ * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to servicedesk@tig.nl so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future. If you wish to customize this module for your
+ * needs please contact servicedesk@tig.nl for more information.
+ *
+ * @copyright   Copyright (c) Total Internet Group B.V. https://tig.nl/copyright
+ * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ */
+
+#poststuff #gls-order-label .inside {
+    margin: 0;
+    padding: 0;
+}
+
+.order_actions.order_label ul li {
+    border-bottom: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.order_actions.order_label .print_label,
+.order_actions.order_label .create_label {
+    float: right;
+}
+
+#gls-order-label img {
+    height: 18px;
+}
+
+#gls-label-amount {
+    width: 50px;
+}
+
+.gls_options th {
+    padding-left: 10px;
+}
+
+.gls_options th.status {
+    padding-right: 10px !important;
+}
+
+.gls-email-sender {
+    font-weight: bold;
+}
+
+label[for="gls-order-label-hide"] img {
+    height: 18px;
+}
+
+.gls_support {
+    width: 500px;
+}
+
+.gls_support img.img25{
+    height: 25px;
+}
+
+.gls_support img.img50{
+    height: 50px;
+}
+.gls_support img.right_logo{
+    float: right;
+}
+
+.gls_support .no_margin{
+    margin: 0;
+}
