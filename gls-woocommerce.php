@@ -3,8 +3,8 @@
  * @formatter:off
  * Plugin Name: GLS for WooCommerce
  * Plugin URI: https://tig.nl/
- * Description: Send and process orders in WooCommerce using GLS' shipping services.
- * Version: 1.1.0
+ * Description: GLS offers shipping solutions nationally and internationally in Europe and worldwide. By using this plugin you can integrate GLS shipping methods in WooCommerce.
+ * Version: 1.1.3
  * Author: TIG
  * Author URI: https://tig.nl/
  * License: GPL2v2 or later
