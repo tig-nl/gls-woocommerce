@@ -53,7 +53,7 @@ class GLS_Admin_Meta_Boxes
         }
 
         foreach (wc_get_order_types('order-meta-boxes') as $type) {
-            add_meta_box('gls-order-label', '<img src="' . GLS()->plugin_url('/assets/images/gls-logo.png') . '">' . '&nbsp;', 'GLS_Admin_Meta_Box_Order_Label::output', $type, 'side', 'high');
+            add_meta_box('gls-order-label', '<img src="' . GLS()->plugin_url('/assets/images/gls-logo.png') . '">' . '&nbsp;&nbsp;' . __('Create labels', 'gls-woocommerce'), 'GLS_Admin_Meta_Box_Order_Label::output', $type, 'side', 'high');
         }
     }
 }
