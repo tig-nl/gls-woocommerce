@@ -60,8 +60,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         add_action('woocommerce_admin_field_services', array($this, 'services_settings'));
         add_action('woocommerce_admin_field_delivery_options', array($this, 'delivery_options_settings'));
         add_action('woocommerce_admin_field_api_check', array($this,'api_check_settings'));
+        add_action('woocommerce_admin_field_support', array($this,'support_options'));
         add_action('woocommerce_admin_field_store_address', array($this,'store_address'));
         add_action('woocommerce_admin_field_from_email', array($this,'from_email'));
+        add_action('woocommerce_admin_field_is_shipping_method_setup', array($this,'is_shipping_method_setup'));
         add_action('woocommerce_admin_field_encrypt_text', array($this,'encrypt_text_field'));
         add_action('woocommerce_admin_field_encrypt_password', array($this,'encrypt_password_field'));
         // @formatter:on
@@ -106,25 +108,33 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'id'    => 'api_configuration_options'
                     ),
                     array(
+                        'title' => __('Support', 'gls-woocommerce'),
+                        'type'  => 'support',
+                    ),
+
+                    array(
                         'title'   => __('Test mode', 'gls-woocommerce'),
                         'type'    => 'checkbox',
-                        'label'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
+                        'desc_tip'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
                         'default' => 'no',
                         'id'      => GLS_Admin::GLS_SETTINGS_API . '[test_mode]'
                     ),
                     array(
                         'title' => __('Username', 'gls-woocommerce'),
+                        'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'type'  => 'encrypt_text',
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[username]'
                     ),
                     array(
                         'title' => __('Password', 'gls-woocommerce'),
+                        'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'type'  => 'encrypt_password',
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[password]'
                     ),
                     array(
                         'title' => __('Subscription key', 'gls-woocommerce'),
                         'type'  => 'encrypt_password',
+                        'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[subscription_key]'
                     ),
                     array(
@@ -216,6 +226,9 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     ),
                     array(
                         'type'  => 'from_email',
+                    ),
+                    array(
+                        'type'  => 'is_shipping_method_setup',
                     ),
                     array(
                         'type' => 'services'
@@ -365,6 +378,67 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
     }
 
     /**
+     * @param $methods
+     * @param $zone
+     * @return array
+     */
+    public function get_gls_shipping_methods($methods, $zone)
+    {
+        $gls_shipping_method = array();
+
+        if (!empty($methods)) {
+            foreach ($methods as $method) {
+                if (get_class($method) == 'GLS_Shipping_Method' ) {
+                    $enabled_string = ($method->enabled == 'yes') ? __('active', 'gls_woocommerce') : __('deactive', 'gls_woocommerce');
+                    $gls_shipping_method[] = '<a href="' . admin_url('admin.php?page=wc-settings&tab=shipping&zone_id=' . $zone) . '">' . $method->title . '</a> &nbsp;<strong>' . $enabled_string. '</strong>';
+                }
+            }
+        }
+
+        return $gls_shipping_method;
+    }
+
+    /**
+     * Render Shipping method setup.
+     */
+    public function is_shipping_method_setup()
+    {
+        $gls_shipping_method = array();
+
+        $delivery_zones = WC_Shipping_Zones::get_zones();
+        $zones = [0];
+        $zones = array_merge($zones, array_keys($delivery_zones));
+
+        if (!empty($zones)) {
+            foreach ($zones as $zone) {
+                $worldwide = new WC_Shipping_Zone($zone);
+                $methods   = $worldwide->get_shipping_methods();
+                $gls_shipping_method = array_merge($gls_shipping_method, $this->get_gls_shipping_methods($methods, $zone));
+            }
+        }
+
+        if (empty($gls_shipping_method)) {
+            $error_address = __('In order for the GLS plugin to work correctly, it should be setup as active shipping method.', 'gls-woocommerce');
+        } ?>
+        <tr valign="top">
+            <th scope="row" class="titledesc">
+                <label for=""><?php _e('GLS shipping method check', 'gls-woocommerce'); ?>: </label>
+            </th>
+            <td class="forminp forminp-number">
+                <?php if ($error_address) : ?>
+                    <p class="description"><?php echo $error_address; ?></p>
+                <?php else: ?>
+                    <?php _e('Configured GLS shipping methods found', 'gls-woocommerce'); ?>: <br/>
+                    <?php echo implode($gls_shipping_method,'<br>');?>
+                    <p class="description"><?php _e('Active shipping methods will be shown to the customer in the checkout.', 'gls-woocommerce');?></p>
+                <?php endif;?>
+                <p class="description"><?php _e('The shipping methods can be changed', 'gls-woocommerce');?> <?= sprintf(__('%shere%s', 'gls-woocommerce'), '<a href="' . admin_url('admin.php?page=wc-settings&tab=shipping') . '">', '</a>'); ?></p>
+            </td>
+        </tr>
+        <?php
+    }
+
+    /**
      * Output delivery options settings.
      */
     public function api_check_settings()
@@ -375,7 +449,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             ?>
             <tr valign="top">
                 <td class="gls_api_check_wrapper" colspan="2">
-                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.', 'gls-woocommerce');?></p></div>
+                    <div id="api_moderated_ok" class="updated inline"><p><?php _e('Api credentials are correct.', 'gls-woocommerce');?>&nbsp;<a href="<?php echo admin_url('admin.php?page=wc-settings&tab=tig_gls&section=delivery_options');?>"><?php _e('Click here to setup the delivery options.', 'gls-woocommerce');?></a></p></div>
                 </td>
             </tr>
         <?php
@@ -433,6 +507,55 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         <?php
     }
 
+    public function support_options()
+    {
+        ?>
+        <tr valign="top">
+            <td colspan="4">
+                <table class="gls_options widefat gls_support" cellspacing="0" aria-describedby="security_options-description">
+                    <thead>
+                        <tr>
+                            <td><img class="img25" src="<?php echo GLS()->plugin_url('/assets/images/gls-logo.png');?>"></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td><img class="img50 right_logo" src="<?php echo GLS()->plugin_url('/assets/images/tig-logo.png');?>"></td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td colspan="4"><h3 class="no_margin"><?php _e('GLS Netherlands Shipping WooCommerce Plugin','gls-woocommerce');?></h3></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><?php _e('This plugin is developed by ','gls-woocommerce');?>
+                            <a href="https://tig.nl" target="_blank">TIG</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><?php _e('To use this extension you need to be a business customer of GLS Netherlands. If you are not yet a business customer, just request your individual offer using this form: ','gls-woocommerce');?>
+                            <a href="https://gls-group.eu/NL/nl/contact" target="_blank"><?php _e('become a customer.','gls-woocommerce');?></a>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><h3 class="no_margin"><?php _e('Do you need help with setting up this plugin?','gls-woocommerce');?></h3></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('Phone','gls-woocommerce');?></strong></td>
+                        <td colspan="3"><?php echo '(+31) (0) 88 550 3053 ';?><i><?php _e('during business hours','gls-woocommerce');?></i></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('E-mail','gls-woocommerce');?></strong></td>
+                        <td colspan="3"><a href="mailto:helpdesk@gls-netherlands.com">helpdesk@gls-netherlands.com</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('GLS Website','gls-woocommerce');?></strong></td>
+                        <td colspan="3"><a href="https://gls-group.eu/NL/nl/home" target="_blank">https://gls-group.eu/</a></td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+        <?php
+    }
     /**
      * Output delivery options settings.
      */

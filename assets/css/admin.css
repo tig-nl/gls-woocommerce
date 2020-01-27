@@ -68,3 +68,22 @@
 label[for="gls-order-label-hide"] img {
     height: 18px;
 }
+
+.gls_support {
+    width: 500px;
+}
+
+.gls_support img.img25{
+    height: 25px;
+}
+
+.gls_support img.img50{
+    height: 50px;
+}
+.gls_support img.right_logo{
+    float: right;
+}
+
+.gls_support .no_margin{
+    margin: 0;
+}

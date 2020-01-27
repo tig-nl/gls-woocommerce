@@ -7,7 +7,7 @@
   },
   "type": "woocommerce-plugin",
   "license": "CC-BY-NC-ND-3.0",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "authors": [
     {
       "name": "TIG",
@@ -19,6 +19,6 @@
     "email": "support@tig.nl",
     "issues": "https://portal.tig.nl/"
   },
-  "homepage": "https://tig.nl/postnl",
+  "homepage": "https://gls-group.eu/",
   "keywords": ["GLS", "Official GLS extension", "WooCommerce"]
 }
