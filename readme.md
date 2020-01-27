@@ -4,7 +4,7 @@ GLS offers shipping solutions nationally and internationally in Europe and world
 
 ## Description
 
-[GLS](https://gls-group.eu/) offers reliable shipping solutions nationally and internationally in Europe and Worldwide. Europe is the defined core market. By using this plugin you can integrate GLS shipping methods into your WooCommerce store's checkout page and you are able to create GLS shipping labels for your orders within your WooCommerce back office. The use of the extension is free, you only pay for created shipping labels according to your shipping contract with GLS Netherlands.
+[GLS](https://gls-group.eu/) offers reliable shipping solutions nationally and internationally in Europe and Worldwide. Europe is the defined core market. By using this plugin you can integrate GLS shipping methods into your WooCommerce store's checkout page and you are able to create GLS shipping labels for your orders within your WooCommerce admin area. The use of the extension is free, you only pay for created shipping labels according to your shipping contract with GLS Netherlands.
 
 GLS Netherlands Shipping for WooCommerce enables you to manage the delivery of your parcels and to propose different delivery methods to your clients in your webshop. To see additional solutions, take a look at our [shipping solutions](https://gls-group.eu/NL/en/shipping-solutions).
 
@@ -15,16 +15,16 @@ To use this plugin you need to be a business customer of [GLS Netherlands](https
 ## Features
 
 ### Shipping Methods For Your Checkout Process.
-Integrate GLS shipping methods into the checkout process of your store. Provide your customers the option to choose a next day or a GLS ParcelShop delivery. For the delivery to a GLS ParcelShop or to your own shop as the final delivery point, a respective GLS ParcelShop search will be provided. You can define the shipping method and the price.
+Integrate GLS shipping methods into the checkout process of your store. Provide your customers the option to choose a next day or a GLS ParcelShop delivery. For the delivery to a GLS ParcelShop, a list of GLS ParcelShops (sorted by distance) is provided. You can define shipping rates per zone (using Shipping Zones) and per Delivery Service.
 
-### Create GLS Shipping Labels.
-After creating the delivery note within the Magento back office you can create the GLS shipping label in PDF format.
+### Create and Print GLS Shipping Labels.
+Easily create and print (multiple) shipping labels for an order from the WooCommerce admin area.
 
 ### Mass Actions For Batch Processing.
 The batch processing option enables you to automatically create labels and shipments for multiple orders.
 
 ### Track Your Shipments.
-Tracking links and PDF Labels are automatically included in the Magento shipment overview after creation of the shipping label.
+Tracking links and PDF Labels are automatically included in the WooCommerce order overview after creating a shipping label.
 
 ## Supported GLS Products & Services
 
@@ -46,12 +46,12 @@ Tracking links and PDF Labels are automatically included in the Magento shipment
 * The recipient can choose an alternative delivery option before the first delivery attempt.
 
 ### ShopReturnService
-* Automatically include a return label with every requested label.
+* Automatically include a return label with every requested shipping label.
 
 ## Installation
 
 ### WordPress.org Repository
-1. From your WordPress administrator area, go to: *Plugins > Add new*.
+1. From your WordPress admin area, go to: *Plugins > Add new*.
 2. Search for '*GLS Netherlands*'.
 3. Click '*Install now*' and afterwards '*Activate*'.
 
