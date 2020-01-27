@@ -360,7 +360,7 @@ class GLS_Delivery_Options
         $session         = WC()->session;
         $shipping_method = $session->get('chosen_shipping_methods');
 
-        if (!GLS()->is_gls_selected(reset($shipping_method))) {
+        if (is_array($shipping_method) && !GLS()->is_gls_selected(reset($shipping_method))) {
             return $packages;
         }
 
@@ -385,7 +385,7 @@ class GLS_Delivery_Options
         $session         = WC()->session;
         $shipping_method = $session->get('chosen_shipping_methods');
 
-        if (!GLS()->is_gls_selected(reset($shipping_method))) {
+        if (is_array($shipping_method) && !GLS()->is_gls_selected(reset($shipping_method))) {
             return $rates;
         }
 
