@@ -616,7 +616,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                                     echo wp_kses_post($option->get_method_description());
                                     break;
                                 case 'additional_fee':
-                                    echo "<input type='text' class='short wc_input_price' value='$additional_fee' name='additional_fee[$option->id]' />";
+                                    echo "<input step='0.01' type='number' class='short' value='$additional_fee' name='additional_fee[$option->id]' />";
                                     break;
                                 case 'status':
                                     echo '<a class="gls-delivery-option-method-toggle-enabled" href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=tig_gls&section=' . strtolower($option->id))) . '">';
