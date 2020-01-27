@@ -3,6 +3,8 @@ Contributors: tig-nl
 Tags: gls, woocommerce, netherlands, shipping, delivery, services, checkout, pdf, label
 Requires at least: 4.6
 Tested up to: 5.3
+WC Tested up to: 3.9
+Requires PHP: 7.1
 Stable tag: 1.1.3
 License: CC-BY-NC-ND-3.0
 License URI: http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -52,7 +54,7 @@ Further configuration can be done within *WooCommerce > Settings > GLS*.
 
 == Frequently Asked Questions ==
 
-Visit the FAQ at: https://docs.tig.nl/x/QQDpB
+Visit the FAQ at: [https://docs.tig.nl/x/QQDpB](https://docs.tig.nl/x/QQDpB)
 
 == Screenshots ==
 
@@ -60,4 +62,4 @@ N/A
 
 == Changelog ==
 
-Visit the Changelog at: https://docs.tig.nl/x/RQDpB
+Visit the Changelog at: [https://docs.tig.nl/x/RQDpB](https://docs.tig.nl/x/RQDpB)

@@ -9,6 +9,8 @@
  * Author URI: https://tig.nl/
  * License: GPL2v2 or later
  * Text Domain: gls-woocommerce
+ * WC Requires at least: 3.8.1
+ * WC Tested up to: 3.9
  * @formatter:on
  */
 
