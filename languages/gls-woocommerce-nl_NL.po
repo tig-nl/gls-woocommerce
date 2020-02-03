@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GLS for Woocommerce v1\n"
-"POT-Creation-Date: 2020-01-22 09:48+0100\n"
-"PO-Revision-Date: 2020-01-22 09:52+0100\n"
+"POT-Creation-Date: 2020-01-27 09:44+0100\n"
+"PO-Revision-Date: 2020-01-27 09:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: TIG support@tig.nl\n"
 "Language: nl\n"
@@ -47,6 +47,10 @@ msgid_plural "Processed %s Orders for GLS shipment information."
 msgstr[0] "%s order verwerkt voor GLS verzendinformatie."
 msgstr[1] "%s orders verwerkt voor GLS verzendinformatie."
 
+#: includes/admin/class-gls-admin-meta-boxes.php:56
+msgid "Create labels"
+msgstr "Maak labels"
+
 #: includes/admin/class-gls-admin-order-columns.php:57
 msgid "GLS Shipping Information"
 msgstr "GLS Verzendinformatie"
@@ -64,7 +68,7 @@ msgstr "Download Label"
 msgid "Track ID"
 msgstr "Track ID"
 
-#: includes/admin/class-gls-admin.php:78
+#: includes/admin/class-gls-admin.php:76
 msgid "Settings"
 msgstr "Instellingen"
 

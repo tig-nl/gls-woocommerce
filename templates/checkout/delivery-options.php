@@ -44,24 +44,24 @@
         <div class="gls-error error" style="display: none;"></div>
         <div class="gls-services">
             <div class="gls-delivery-options">
-                <div class="container gls-delivery-option" style="display: none;">
+                <div class="gls-container gls-delivery-option" style="display: none;">
                     <strong class="gls-sub-delivery-options-title" style="display: none;">%%title%%</strong>
 
                     <input type="radio" name="gls_delivery_option" class="radio" id="default"/>
-                    <label class="label" for="default">%%title%%</label>
+                    <label class="gls-label" for="default">%%title%%</label>
                     <span class="delivery-fee">%%fee%%</span>
 
                     <div class="gls-sub-delivery-options">
                         <div class="gls-sub-delivery-option" style="display: none;">
                             <input type="radio" name="gls_delivery_option" class="radio" />
-                            <label class="sub-label" for="%%service%%">%%title%%</label>
+                            <label class="gls-sub-label" for="%%service%%">%%title%%</label>
                             <span class="delivery-fee">%%fee%%</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="gls-parcel-shops" style="display: none;">
-                <div class="container gls-parcel-shop" style="display: none;">
+                <div class="gls-container gls-parcel-shop" style="display: none;">
                     <input type="radio" name="gls_delivery_option" class="radio" value="%%parcelShopId%%" id="shop_%%parcelShopId%%" />
                     <label for="shop_%%parcelShopId%%"></label><br/>
 
@@ -75,8 +75,8 @@
                         <?php _e('Show business hours', 'gls-woocommerce'); ?>
                     </a>
 
-                    <div class="table container">
-                        <a class="close">
+                    <div class="table gls-container">
+                        <a class="gls-close">
                             <span><?php _e('Close', 'gls-woocommerce'); ?></span>
                             <svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -89,9 +89,9 @@
                             </svg>
                         </a>
                         <div class="table parcel-business-hours">
-                            <div class="row">
-                                <div class="cell day-of-the-week">%%dayOfWeek%%</div>
-                                <div class="cell opening-hours">%%openTime%% - %%closedTime%%</div>
+                            <div class="gls-row">
+                                <div class="gls-cell day-of-the-week">%%dayOfWeek%%</div>
+                                <div class="gls-cell opening-hours">%%openTime%% - %%closedTime%%</div>
                             </div>
                         </div>
                     </div>

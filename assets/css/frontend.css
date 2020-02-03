@@ -253,7 +253,7 @@
   display :none;
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container {
   border: 1px solid #D4D9E3;
   border-radius: 5px;
   width: 100%;
@@ -264,7 +264,7 @@
   transform: scale(0);
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container.active {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container.active {
   background: #fff;
   height: unset;
   display :table;
@@ -276,42 +276,42 @@
   transform: scale(1);
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container .row {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container .gls-row {
   display :table !important;
   width: 100%;
   padding-bottom: 3px;
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container .row:nth-child(1){
+.gls-parcel-shops .gls-parcel-shop .table.gls-container .gls-row:nth-child(1){
   display :none !important;
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container .row .cell{
+.gls-parcel-shops .gls-parcel-shop .table.gls-container .gls-row .gls-cell{
   display :table-cell;
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container .row .cell.day-of-the-week {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container .gls-row .gls-cell.day-of-the-week {
   width: 30%;
   padding-right: 7px;
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container .row .cell.opening-hours {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container .gls-row .gls-cell.opening-hours {
   width: 70%;
 }
 
 /* Close */
 
-.gls-parcel-shops .gls-parcel-shop .table.container {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container {
   position: relative;
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container .close {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container .gls-close {
   position: absolute;
   right: 15px;
   top: 12px;
 }
 
-.gls-parcel-shops .gls-parcel-shop .table.container .close svg {
+.gls-parcel-shops .gls-parcel-shop .table.gls-container .gls-close svg {
   display :inline;
   vertical-align: middle;
   margin-left: 5px;

@@ -47,7 +47,7 @@ jQuery(
                 this.$checkout_form.on('click', '.gls-tab-pickup',
                     function() { gls_delivery_options_form.toggle_tabs.call(this, '.gls-tab-delivery', '.gls-delivery-options', '.gls-parcel-shops')}
                 );
-                this.$checkout_form.on('click', '.open-business-hours-link, .close', this.toggle_business_hours);
+                this.$checkout_form.on('click', '.open-business-hours-link, .gls-close', this.toggle_business_hours);
             },
 
             /**
@@ -315,7 +315,7 @@ jQuery(
 
                 var i = 0;
                 option.businessHours.forEach(function(business_hours) {
-                    gls_delivery_options_form.map_parcel_shop_business_hours(business_hours, template, template.find('.parcel-business-hours > .row')[i]);
+                    gls_delivery_options_form.map_parcel_shop_business_hours(business_hours, template, template.find('.parcel-business-hours > .gls-row')[i]);
                     i++;
                 });
 
@@ -387,8 +387,8 @@ jQuery(
             set_background_color: function(selectedDeliveryOption) {
                 var notSelectedDeliveryOptions = $('.woocommerce-checkout input[name="gls_delivery_option"]:not(:checked)');
 
-                notSelectedDeliveryOptions.parents('.container').removeClass('gls-highlight');
-                selectedDeliveryOption.parents('.container').addClass('gls-highlight');
+                notSelectedDeliveryOptions.parents('.gls-container').removeClass('gls-highlight');
+                selectedDeliveryOption.parents('.gls-container').addClass('gls-highlight');
             },
 
             /**
@@ -409,11 +409,11 @@ jQuery(
              */
             toggle_business_hours: function () {
                 if (this.className === 'open-business-hours-link') {
-                    $(this).next('.table.container').toggleClass('active');
+                    $(this).next('.table.gls-container').toggleClass('active');
                     $(this).addClass('active');
                 } else {
-                    $(this).parent('.table.container').removeClass('active');
-                    $(this).parent('.table.container').prev('.open-business-hours-link').removeClass('active');
+                    $(this).parent('.table.gls-container').removeClass('active');
+                    $(this).parent('.table.gls-container').prev('.open-business-hours-link').removeClass('active');
                 }
             },
         };
