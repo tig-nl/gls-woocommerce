@@ -2,7 +2,7 @@
 /**
  * @formatter:off
  * Plugin Name: GLS for WooCommerce
- * Plugin URI: https://tig.nl/
+ * Plugin URI: https://gls-group.eu/NL/nl/home
  * Description: Send and process orders in WooCommerce using GLS' shipping services.
  * Version: 1.1.0
  * Author: TIG
