@@ -389,8 +389,9 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
         if (!empty($methods)) {
             foreach ($methods as $method) {
                 if (get_class($method) == 'GLS_Shipping_Method' ) {
-                    $enabled_string = ($method->enabled == 'yes') ? __('active', 'gls_woocommerce') : __('deactive', 'gls_woocommerce');
-                    $gls_shipping_method[] = '<a href="' . admin_url('admin.php?page=wc-settings&tab=shipping&zone_id=' . $zone) . '">' . $method->title . '</a> &nbsp;<strong>' . $enabled_string. '</strong>';
+                    $enabled_string = ($method->enabled == 'yes') ? __('active', 'gls-woocommerce') : __('deactive', 'gls-woocommerce');
+                    $freeshipping_string = ((int)$method->instance_settings['freeshipping_enabled'] > 0 && (float)$method->instance_settings['freeshipping'] > 0) ? sprintf(__('free shipping above %s %s (excl. tax) ', 'gls-woocommerce'), (float)$method->instance_settings['freeshipping'], get_option('woocommerce_currency')) : __('no free shipping', 'gls-woocommerce');
+                    $gls_shipping_method[] = '<a href="' . admin_url('admin.php?page=wc-settings&tab=shipping&zone_id=' . $zone) . '">' . $method->title . '</a> &nbsp;<strong>' . $enabled_string. '</strong> &nbsp;(' . $freeshipping_string . ')';
                 }
             }
         }
