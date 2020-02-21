@@ -468,7 +468,7 @@ class GLS_Delivery_Options
         $current_shipping_method = $current_shipping_methods[$shipping_method_id[1]];
 
         //fallback; manual init instance to get to config settings
-        if (!isset($current_shipping_method)) {
+        if (!isset($current_shipping_method) && $chosen_shipping_method) {
             $current_shipping_method = $current_shipping_methods[$shipping_method_id[0]];
             $current_shipping_method->instance_id = $shipping_method_id[1];
             $current_shipping_method->init_instance_settings();
