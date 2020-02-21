@@ -57,7 +57,7 @@ class GLS_Settings_Woocommerce_Shipping_Instance
             'type'          => 'select',
             'description'   =>  __('Enable free shipping above an order amount','gls-woocommerce'),
             'desc_tip'      => true,
-            'options'       => array(1 => 'Yes', 0 => 'No'),
+            'options'       => array(0 => __('No','gls-woocommerce'), 1 => __('Yes','gls-woocommerce')),
             'default'       => '0'
         );
 

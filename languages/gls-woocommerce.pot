@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-02-14 11:27+0100\n"
+"POT-Creation-Date: 2020-02-21 15:37+0100\n"
 "PO-Revision-Date: 2020-01-06 13:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -392,21 +392,37 @@ msgstr ""
 msgid "The \"%s\" delivery option is currently disabled"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:55
-msgid "Apply free shipping above order amount (0 = off)"
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:56
+msgid "Enable free shipping"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:57
-msgid ""
-"Enter the order amount (excl. tax) above (and equal) which free shipping "
-"will be applied. 0 = free shipping turned off."
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:58
+msgid "Enable free shipping above an order amount"
 msgstr ""
 
-#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:63
-msgid "Apply free shipping to extra services"
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:60
+msgid "No"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:60
+msgid "Yes"
 msgstr ""
 
 #: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:65
+msgid "Apply free shipping above order amount"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:68
+msgid ""
+"Enter the order amount (excl. tax) above (and equal) which free shipping "
+"will be applied."
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:74
+msgid "Apply free shipping to extra services"
+msgstr ""
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:76
 msgid ""
 "Enable this when extra service costs are also free when free shipping "
 "applies."
@@ -454,6 +470,10 @@ msgstr ""
 
 #: includes/class-gls-delivery-options.php:86 includes/class-gls.php:87
 msgid "Unserializing instances of this class is forbidden."
+msgstr ""
+
+#: includes/class-gls-delivery-options.php:423
+msgid " (free shipping)"
 msgstr ""
 
 #: includes/options/class-gls-option-s12.php:41

@@ -240,8 +240,19 @@ class GLS_Delivery_Options
      */
     private function additional_fee($option, $enabled_options)
     {
+
+        $freeshipping = self::has_gls_freeshipping();
+        $freeshipping_extra = self::get_shipping_method_instance_setting('freeshipping_extra');
+        if ($freeshipping && $freeshipping_extra =="yes") {
+            return '';
+        }
+
         $code = 'gls_' . strtolower($option->service);
         $fee  = isset($enabled_options[$code]) ? $enabled_options[$code]->additional_fee : '';
+
+        if ($fee < 0 && $freeshipping) {
+            return '';
+        }
 
         return $fee;
     }
@@ -390,7 +401,7 @@ class GLS_Delivery_Options
         }
 
         // Free Shipping
-        $freeshipping = self::calculate_gls_freeshipping();
+        $freeshipping = self::has_gls_freeshipping();
         $freeshipping_extra = self::get_shipping_method_instance_setting('freeshipping_extra');
 
         $service = $session->get('gls_service');
@@ -423,7 +434,7 @@ class GLS_Delivery_Options
     /**
      * @return bool
      */
-    public static function calculate_gls_freeshipping()
+    public static function has_gls_freeshipping()
     {
         $enabled = (int)self::get_shipping_method_instance_setting('freeshipping_enabled');
 
@@ -455,6 +466,13 @@ class GLS_Delivery_Options
         $shipping_method_id = explode(':',$chosen_shipping_method[0]);
         $current_shipping_methods = WC()->shipping->get_shipping_methods();
         $current_shipping_method = $current_shipping_methods[$shipping_method_id[1]];
+
+        //fallback; manual init instance to get to config settings
+        if (!isset($current_shipping_method)) {
+            $current_shipping_method = $current_shipping_methods[$shipping_method_id[0]];
+            $current_shipping_method->instance_id = $shipping_method_id[1];
+            $current_shipping_method->init_instance_settings();
+        }
 
         //get instance setting
         if ($current_shipping_method->instance_settings[$setting_name]) {
@@ -491,6 +509,18 @@ class GLS_Delivery_Options
         $additional_fee = $shop_delivery->additional_fee;
 
         if (!$additional_fee) {
+            return;
+        }
+
+        $freeshipping = self::has_gls_freeshipping();
+
+        //negative fee + free shipping means display no value
+        if ($additional_fee < 0 && $freeshipping) {
+            return;
+        }
+
+        $freeshipping_extra = self::get_shipping_method_instance_setting('freeshipping_extra');
+        if ($freeshipping && $freeshipping_extra == "yes") {
             return;
         }
 

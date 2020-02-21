@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GLS for Woocommerce v1\n"
-"POT-Creation-Date: 2020-02-14 16:13+0100\n"
-"PO-Revision-Date: 2020-02-14 16:14+0100\n"
+"POT-Creation-Date: 2020-02-21 15:37+0100\n"
+"PO-Revision-Date: 2020-02-21 15:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: TIG support@tig.nl\n"
 "Language: nl\n"
@@ -432,6 +432,14 @@ msgstr "Gratis verzenden aanzetten"
 msgid "Enable free shipping above an order amount"
 msgstr "Verzendkosten vervallen bij orderbedrag vanaf"
 
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:60
+msgid "No"
+msgstr "Nee"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:60
+msgid "Yes"
+msgstr "Ja"
+
 #: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:65
 msgid "Apply free shipping above order amount"
 msgstr "Verzendkosten vervallen bij orderbedrag vanaf"
@@ -500,7 +508,7 @@ msgstr "Klonen verboden."
 msgid "Unserializing instances of this class is forbidden."
 msgstr "Unserializing instanties van deze klasse is verboden."
 
-#: includes/class-gls-delivery-options.php:412
+#: includes/class-gls-delivery-options.php:423
 msgid " (free shipping)"
 msgstr " (gratis verzenden)"
 
