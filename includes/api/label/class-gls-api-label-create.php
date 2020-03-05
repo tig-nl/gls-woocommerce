@@ -126,7 +126,7 @@ class GLS_Api_Label_Create
     private function map_services($details, $type = null, $countryCode = 'NL')
     {
         $service = [
-            "shopReturnService" => (bool) ($this->options['shop_return'] && $countryCode == 'NL')
+            "shopReturnService" => (bool) ($this->options['shop_return'] == 'yes' && $countryCode == 'NL')
         ];
         switch ($type) {
             case 'ParcelShop':
