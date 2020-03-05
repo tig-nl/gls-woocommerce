@@ -1,26 +1,26 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GLS for Woocommerce v1\n"
-"POT-Creation-Date: 2020-01-27 09:44+0100\n"
-"PO-Revision-Date: 2020-01-27 09:44+0100\n"
+"POT-Creation-Date: 2020-02-21 15:37+0100\n"
+"PO-Revision-Date: 2020-02-21 15:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: TIG support@tig.nl\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x;esc_html__\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: gls-woocommerce.php:67 includes/admin/class-gls-admin-api-notice.php:59
+#: gls-woocommerce.php:69 includes/admin/class-gls-admin-api-notice.php:59
 #: includes/admin/settings/class-gls-settings-delivery-options.php:56
 msgid "GLS"
 msgstr "GLS"
 
-#: gls-woocommerce.php:68
+#: gls-woocommerce.php:70
 msgid "Connect WooCommerce to GLS to provide GLS delivery options in checkout."
 msgstr ""
 "Activeer GLS WooCommerce om GLS verzendmethode opties te bieden in de kassa."
@@ -68,7 +68,7 @@ msgstr "Download Label"
 msgid "Track ID"
 msgstr "Track ID"
 
-#: includes/admin/class-gls-admin.php:76
+#: includes/admin/class-gls-admin.php:77
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -273,7 +273,7 @@ msgstr "Het winkeladres kan aangepast worden bij de WooCommerce tab “Algemeen�
 
 #: includes/admin/settings/class-gls-settings-delivery-options.php:340
 #: includes/admin/settings/class-gls-settings-delivery-options.php:373
-#: includes/admin/settings/class-gls-settings-delivery-options.php:435
+#: includes/admin/settings/class-gls-settings-delivery-options.php:436
 #, php-format
 msgid "%shere%s"
 msgstr "%shier%s"
@@ -309,7 +309,16 @@ msgstr "actief"
 msgid "deactive"
 msgstr "inactief"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:421
+#: includes/admin/settings/class-gls-settings-delivery-options.php:393
+#, php-format
+msgid "free shipping above %s %s (excl. tax) "
+msgstr "verzendkosten vervallen bij orderbedrag van %s %s (excl. BTW) "
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:393
+msgid "no free shipping"
+msgstr "altijd verzendkosten rekenen"
+
+#: includes/admin/settings/class-gls-settings-delivery-options.php:422
 msgid ""
 "In order for the GLS plugin to work correctly, it should be setup as active "
 "shipping method."
@@ -317,45 +326,45 @@ msgstr ""
 "Om de GLS verzendmethode goed te laten werken moet het GLS geconfigureerd "
 "zijn als actieve verzendmethode."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:425
+#: includes/admin/settings/class-gls-settings-delivery-options.php:426
 msgid "GLS shipping method check"
 msgstr "GLS verzendmethode check"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:431
+#: includes/admin/settings/class-gls-settings-delivery-options.php:432
 msgid "Configured GLS shipping methods found"
 msgstr "Geconfigureerde GLS verzendmethodes"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:433
+#: includes/admin/settings/class-gls-settings-delivery-options.php:434
 msgid "Active shipping methods will be shown to the customer in the checkout."
 msgstr "Actieve verzendmethodes worden getoond in de kassa."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:435
+#: includes/admin/settings/class-gls-settings-delivery-options.php:436
 msgid "The shipping methods can be changed"
 msgstr ""
 "Verzendmethodes kunnen worden aangepast bij de WooCommerce tab "
 "“Verzendmethoden”"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:452
+#: includes/admin/settings/class-gls-settings-delivery-options.php:453
 msgid "Api credentials are correct."
 msgstr "Api gegevens zijn correct ingevuld."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:452
+#: includes/admin/settings/class-gls-settings-delivery-options.php:453
 msgid "Click here to setup the delivery options."
 msgstr "Klik hier voor de verzendopties."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:460
+#: includes/admin/settings/class-gls-settings-delivery-options.php:461
 msgid "Api credentials are not correct, please fill in the correct values."
 msgstr "Api gegevens zijn niet correct, vul alstublieft de juiste gegevens in."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:525
+#: includes/admin/settings/class-gls-settings-delivery-options.php:526
 msgid "GLS Netherlands Shipping WooCommerce Plugin"
 msgstr "GLS WooCommerce Plugin"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:528
+#: includes/admin/settings/class-gls-settings-delivery-options.php:529
 msgid "This plugin is developed by "
 msgstr "Deze plugin is ontwikkeld door "
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:533
+#: includes/admin/settings/class-gls-settings-delivery-options.php:534
 msgid ""
 "To use this extension you need to be a business customer of GLS Netherlands. "
 "If you are not yet a business customer, just request your individual offer "
@@ -365,55 +374,95 @@ msgstr ""
 "van GLS Nederland. Als u nog geen zakelijke klant bent, kunt u zich "
 "eenvoudig registreren met dit formulier: "
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:534
+#: includes/admin/settings/class-gls-settings-delivery-options.php:535
 msgid "become a customer."
 msgstr "zakelijke klant."
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:539
+#: includes/admin/settings/class-gls-settings-delivery-options.php:540
 msgid "Do you need help with setting up this plugin?"
 msgstr "Hulp nodig met het opzetten van deze plugin?"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:542
+#: includes/admin/settings/class-gls-settings-delivery-options.php:543
 msgid "Phone"
 msgstr "Telefoonnummer"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:543
+#: includes/admin/settings/class-gls-settings-delivery-options.php:544
 msgid "during business hours"
 msgstr "tijdens kantooruren"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:546
+#: includes/admin/settings/class-gls-settings-delivery-options.php:547
 msgid "E-mail"
 msgstr "E-mailadres"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:550
+#: includes/admin/settings/class-gls-settings-delivery-options.php:551
 msgid "GLS Website"
 msgstr "GLS Website"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:574
+#: includes/admin/settings/class-gls-settings-delivery-options.php:575
 msgid "Delivery Option"
 msgstr "Verzendoptie"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:575
+#: includes/admin/settings/class-gls-settings-delivery-options.php:576
 msgid "Description"
 msgstr "Beschrijving"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:576
+#: includes/admin/settings/class-gls-settings-delivery-options.php:577
 msgid "Additional Fee (excl. VAT)"
 msgstr "Extra kosten (excl. BTW)"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:577
+#: includes/admin/settings/class-gls-settings-delivery-options.php:578
 msgid "Enabled"
 msgstr "Ingeschakeld"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:625
+#: includes/admin/settings/class-gls-settings-delivery-options.php:626
 #, php-format
 msgid "The \"%s\" delivery option is currently enabled"
 msgstr "De “%s” verzendoptie is momenteel ingeschakeld"
 
-#: includes/admin/settings/class-gls-settings-delivery-options.php:628
+#: includes/admin/settings/class-gls-settings-delivery-options.php:629
 #, php-format
 msgid "The \"%s\" delivery option is currently disabled"
 msgstr "De “%s” verzendoptie is momenteel uitgeschakeld"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:56
+msgid "Enable free shipping"
+msgstr "Gratis verzenden aanzetten"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:58
+msgid "Enable free shipping above an order amount"
+msgstr "Verzendkosten vervallen bij orderbedrag vanaf"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:60
+msgid "No"
+msgstr "Nee"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:60
+msgid "Yes"
+msgstr "Ja"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:65
+msgid "Apply free shipping above order amount"
+msgstr "Verzendkosten vervallen bij orderbedrag vanaf"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:68
+msgid ""
+"Enter the order amount (excl. tax) above (and equal) which free shipping "
+"will be applied."
+msgstr ""
+"Vul een orderbedrag (excl. btw) in vanaf waar de de verzendkosten komen te "
+"vervallen."
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:74
+msgid "Apply free shipping to extra services"
+msgstr "Ook geen verzendkosten rekenen voor extra services"
+
+#: includes/admin/settings/class-gls-settings-woocommerce-shipping-instance.php:76
+msgid ""
+"Enable this when extra service costs are also free when free shipping "
+"applies."
+msgstr ""
+"Vink dit aan als je voor extra services ook de verzendkosten wil laten "
+"vervallen bij het boven ingevulde orderbedrag."
 
 #: includes/api/class-gls-api-get-delivery-options.php:65
 msgid "Postcode and/or country not specified."
@@ -458,6 +507,10 @@ msgstr "Klonen verboden."
 #: includes/class-gls-delivery-options.php:86 includes/class-gls.php:87
 msgid "Unserializing instances of this class is forbidden."
 msgstr "Unserializing instanties van deze klasse is verboden."
+
+#: includes/class-gls-delivery-options.php:423
+msgid " (free shipping)"
+msgstr " (gratis verzenden)"
 
 #: includes/options/class-gls-option-s12.php:41
 msgid "TimeDefiniteService (Saturday before 12.00 AM)"

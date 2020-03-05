@@ -240,8 +240,19 @@ class GLS_Delivery_Options
      */
     private function additional_fee($option, $enabled_options)
     {
+
+        $freeshipping = self::has_gls_freeshipping();
+        $freeshipping_extra = self::get_shipping_method_instance_setting('freeshipping_extra');
+        if ($freeshipping && $freeshipping_extra =="yes") {
+            return '';
+        }
+
         $code = 'gls_' . strtolower($option->service);
         $fee  = isset($enabled_options[$code]) ? $enabled_options[$code]->additional_fee : '';
+
+        if ($fee < 0 && $freeshipping) {
+            return '';
+        }
 
         return $fee;
     }
@@ -389,18 +400,86 @@ class GLS_Delivery_Options
             return $rates;
         }
 
+        // Free Shipping
+        $freeshipping = self::has_gls_freeshipping();
+        $freeshipping_extra = self::get_shipping_method_instance_setting('freeshipping_extra');
+
         $service = $session->get('gls_service');
         $details = $service['details'] ?? [];
         $fee     = $details['fee'] ?? '';
 
         foreach ($rates as &$rate) {
             if ($rate->get_method_id() == 'tig_gls') {
-                $rate->cost += (float) $fee;
+                if ($freeshipping) {
+                    $rate->cost = 0;
+                }
+
+                if (!$freeshipping || $freeshipping_extra == "no") {
+                    $rate->cost += (float)$fee;
+                }
+
+                if ($rate->cost <= 0) {
+                    $rate->cost = 0;
+                    $rate->label = $rate->label . __(' (free shipping)','gls-woocommerce');
+                }
+
                 $tax_array = WC_Tax::calc_tax($rate->cost, WC_Tax::get_rates(), false );
+
                 $rate->set_taxes($tax_array);
             }
         }
         return $rates;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function has_gls_freeshipping()
+    {
+        $enabled = (int)self::get_shipping_method_instance_setting('freeshipping_enabled');
+
+        if (!$enabled) {
+            return false;
+        }
+
+        $freeshipping_amount = (float)self::get_shipping_method_instance_setting('freeshipping');
+
+        if ($freeshipping_amount > 0) {
+            $session = WC()->session;
+            $cart_totals = $session->get('cart_totals');
+            if ($freeshipping_amount <= ($cart_totals['subtotal'] + $cart_totals['subtotal_tax'])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $setting_name
+     * @return |null
+     */
+    public static function get_shipping_method_instance_setting($setting_name)
+    {
+        $session = WC()->session;
+        $chosen_shipping_method = $session->get('chosen_shipping_methods');
+
+        $shipping_method_id = explode(':',$chosen_shipping_method[0]);
+        $current_shipping_methods = WC()->shipping->get_shipping_methods();
+        $current_shipping_method = $current_shipping_methods[$shipping_method_id[1]];
+
+        //fallback; manual init instance to get to config settings
+        if (!isset($current_shipping_method) && $chosen_shipping_method) {
+            $current_shipping_method = $current_shipping_methods[$shipping_method_id[0]];
+            $current_shipping_method->instance_id = $shipping_method_id[1];
+            $current_shipping_method->init_instance_settings();
+        }
+
+        //get instance setting
+        if ($current_shipping_method->instance_settings[$setting_name]) {
+            return $current_shipping_method->instance_settings[$setting_name];
+        }
+
+        return null;
     }
 
     /**
@@ -430,6 +509,18 @@ class GLS_Delivery_Options
         $additional_fee = $shop_delivery->additional_fee;
 
         if (!$additional_fee) {
+            return;
+        }
+
+        $freeshipping = self::has_gls_freeshipping();
+
+        //negative fee + free shipping means display no value
+        if ($additional_fee < 0 && $freeshipping) {
+            return;
+        }
+
+        $freeshipping_extra = self::get_shipping_method_instance_setting('freeshipping_extra');
+        if ($freeshipping && $freeshipping_extra == "yes") {
             return;
         }
 

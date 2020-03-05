@@ -5,6 +5,29 @@
             return;
         }
 
+        // Toggle free shipping fields (via ajax request)
+        $(document).on("change", '#tig_glstig_gls_freeshipping_enabled', function() {
+            toggleFreeShippingFields($(this).val());
+        });
+
+        $(document).on("click", '.wc-shipping-zone-method-settings', function() {
+            toggleFreeShippingFields($('#tig_glstig_gls_freeshipping_enabled').val());
+        });
+
+        function toggleFreeShippingFields(value) {
+            $("#tig_glstig_gls_freeshipping").parent().parent().parent().css('display','none');
+            $("#tig_glstig_gls_freeshipping_extra").parent().parent().parent().parent().css('display','none');
+
+            if (value == 1 ) {
+                $("#tig_glstig_gls_freeshipping").parent().parent().parent().css('display','table-row');
+                $("#tig_glstig_gls_freeshipping_extra").parent().parent().parent().parent().css('display','table-row');
+            }
+        }
+
+        if ($("#tig_glstig_gls_freeshipping_enabled").length) {
+            toggleFreeShippingFields($("#tig_glstig_gls_freeshipping_enabled").val());
+        }
+
         var is_blocked = function ($node) {
             return $node.is('.processing') || $node.parents('.processing').length;
         };
