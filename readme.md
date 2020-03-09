@@ -45,6 +45,9 @@ Tracking links and PDF Labels are automatically included in the WooCommerce orde
 ### ShopReturnService
 * Automatically include a return label with every requested shipping label.
 
+### Free Shipping
+* Setup free shipping above an order amount per shipping destination.
+
 ## Installation
 
 ### WordPress.org Repository

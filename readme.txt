@@ -5,7 +5,7 @@ Requires at least: 4.6
 Tested up to: 5.3
 WC Tested up to: 3.9
 Requires PHP: 7.1
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: CC-BY-NC-ND-3.0
 License URI: http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
 
@@ -38,6 +38,9 @@ To use this plugin you need to be a business customer of [GLS Netherlands](https
 * **ShopDeliveryService**: Delivery to a GLS ParcelShop.
 * **FlexDeliveryService**: The recipient can choose an alternative delivery option before the first delivery attempt.
 * **ShopReturnService**: Automatically include a return label with every requested shipping label.
+
+= Free Shipping =
+* Setup free shipping above an order amount per shipping destination.
 
 == Installation ==
 
