@@ -44,7 +44,7 @@ final class GLS
      *
      * @var string
      */
-    public $version = '1.1.3';
+    public $version = '1.2.0';
 
     /**
      * The single instance of the class.
@@ -305,7 +305,11 @@ final class GLS
      */
     public function post($key = null, $clean = true)
     {
-        if (!$key) {
+        if (!$key && !$clean) {
+            return wp_unslash($_POST);
+        }
+
+        if (!$key && $clean) {
             return wc_clean(wp_unslash($_POST));
         }
 
