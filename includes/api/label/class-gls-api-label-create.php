@@ -90,6 +90,13 @@ class GLS_Api_Label_Create
         $labelType        = $this->get_label_type();
         $shipmentId       = $order->ID;
 
+        // @todo fix correct email when stored. This fixes that sometimes emailaddresses are empty or incomplete
+        // which stops the label creation
+        if ($delivery_address['email'] != $order->get_billing_email()) {
+            $delivery_address['email'] = $order->get_billing_email();
+            $delivery_address['phone'] = $order->get_billing_phone();
+        }
+
         $data                      = GLS_Api::add_shipping_information();
         $data["services"]          = $this->map_services($delivery_option['details'], $delivery_option['type'], $delivery_address['countryCode']);
         $data["trackingLinkType"]  = 'u';
@@ -126,7 +133,7 @@ class GLS_Api_Label_Create
     private function map_services($details, $type = null, $countryCode = 'NL')
     {
         $service = [
-            "shopReturnService" => (bool) ($this->options['shop_return'] && $countryCode == 'NL')
+            "shopReturnService" => (bool) ($this->options['shop_return'] == 'yes' && $countryCode == 'NL')
         ];
         switch ($type) {
             case 'ParcelShop':
