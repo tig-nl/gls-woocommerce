@@ -3,6 +3,7 @@ Contributors: tig-nl
 Tags: gls, woocommerce, netherlands, shipping, delivery, services, checkout, pdf, label
 Requires at least: 4.6
 Tested up to: 5.3
+WC requires at least: 3.0
 WC Tested up to: 3.9
 Requires PHP: 7.1
 Stable tag: 1.2.0
