@@ -477,7 +477,7 @@ class GLS_Delivery_Options
         }
 
         //get instance setting
-        if ($current_shipping_method->instance_settings[$setting_name]) {
+        if (isset($current_shipping_method->instance_settings[$setting_name]) && $current_shipping_method->instance_settings[$setting_name]) {
             return $current_shipping_method->instance_settings[$setting_name];
         }
 
@@ -544,10 +544,10 @@ class GLS_Delivery_Options
         $company    = $type . 'company';
 
         return [
-            'name1'         => $delivery_address[$first_name] . ' ' . $delivery_address[$last_name],
+            'name1'         => $delivery_address[$company] ? $delivery_address[$company] : $delivery_address[$first_name] . ' ' . $delivery_address[$last_name],
             'street'        => $delivery_address[$street],
             'houseNo'       => substr($delivery_address[$houseNo], 0, 10),
-            'name2'         => $delivery_address[$houseNo],
+            'name2'         => $delivery_address[$company] ? $delivery_address[$first_name] . ' ' . $delivery_address[$last_name] : $delivery_address[$houseNo],
             'countryCode'   => $delivery_address[$country],
             'zipCode'       => $delivery_address[$zipcode],
             'city'          => $delivery_address[$city],
