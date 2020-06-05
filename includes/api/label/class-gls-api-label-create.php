@@ -90,7 +90,7 @@ class GLS_Api_Label_Create
         $labelType        = $this->get_label_type();
         $shipmentId       = $order->ID;
 
-        // @todo fix correct email when stored. This fixes that sometimes emailaddresses are empty or incomplete
+        // @todo fix correct email when stored. This fixes that sometimes email addresses are empty or incomplete
         // which stops the label creation
         if ($delivery_address['email'] != $order->get_billing_email()) {
             $delivery_address['email'] = $order->get_billing_email();
@@ -108,6 +108,7 @@ class GLS_Api_Label_Create
             'pickupAddress'   => $this->prepare_pickup_address()
         ];
         $data['shippingDate']      = date("Y-m-d");
+        $data['reference']         = $shipmentId;
         $data['units']             = $this->prepare_shipping_unit($shipmentId, $this->label_amount);
 
         if (in_array(
