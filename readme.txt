@@ -5,7 +5,7 @@ Requires at least: 4.6
 Tested up to: 5.3
 WC Tested up to: 3.9
 Requires PHP: 7.1
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: CC-BY-NC-ND-3.0
 License URI: http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
 

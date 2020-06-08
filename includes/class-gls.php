@@ -172,6 +172,7 @@ final class GLS
         add_filter('woocommerce_cart_shipping_packages', array('GLS_Delivery_Options','disable_shipping_rates_cache'), 10, 2);
         add_filter('woocommerce_package_rates', array('GLS_Delivery_Options','adjust_shipping_rate'), 50);
         add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 1, 2);
+        add_action('woocommerce_checkout_order_processed', array('GLS_Delivery_Options', 'update_delivery_address'), 10, 3);
     }
 
 
@@ -331,17 +332,15 @@ final class GLS
     }
 
     /**
+     * Check if GLS is the selected shipping method.
+     *
      * @param $shipping_method
      *
      * @return bool
      */
     public function is_gls_selected($shipping_method)
     {
-        if (strpos($shipping_method, 'tig_gls') !== false) {
-            return true;
-        }
-
-        return false;
+        return strpos($shipping_method, 'tig_gls') !== false ? true : false;
     }
 
     /**

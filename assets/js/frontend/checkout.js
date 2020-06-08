@@ -341,13 +341,10 @@ jQuery(
             },
 
             /**
-             *
+             * Save selected delivery option to customer session.
              */
             delivery_option_selected: function () {
-                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked'),
-                    shippingAddress        = $('#ship-to-different-address-checkbox:checked').length > 0
-                        ? $('.woocommerce-shipping-fields input, .woocommerce-shipping-fields select, #billing_phone_field input, #billing_email_field input')
-                        : $('.woocommerce-billing-fields input, .woocommerce-billing-fields select');
+                var selectedDeliveryOption = $('.woocommerce-checkout input[name="gls_delivery_option"]:checked');
 
                 if (selectedDeliveryOption !== gls_delivery_options_form.selected_delivery_option) {
                     $(document.body).trigger('delivery_option_selected');
@@ -365,8 +362,7 @@ jQuery(
                                 service: selectedDeliveryOption.val(),
                                 title: selectedDeliveryOption.data('title'),
                                 fee: selectedDeliveryOption.data('fee')
-                            },
-                            delivery_address: shippingAddress.serialize()
+                            }
                         },
                         beforeSend: function() {
                             $('[id*=tig_gls]').prop('checked', true);
