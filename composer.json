@@ -6,7 +6,7 @@
     "setasign/fpdi-fpdf": "^2.2"
   },
   "type": "woocommerce-plugin",
-  "license": "CC-BY-NC-ND-3.0",
+  "license": "GPL-3.0-or-later",
   "version": "1.2.0",
   "authors": [
     {
