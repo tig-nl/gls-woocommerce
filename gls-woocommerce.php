@@ -14,8 +14,8 @@
  * WC Requires at least: 3.8.1
  * WC Tested up to: 3.9
  *
- * License: CC-BY-NC-ND-3.0
- * License URI: http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * License: GPLv3 or later
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  * @formatter:on
  */
 
