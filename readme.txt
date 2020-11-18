@@ -6,8 +6,8 @@ Tested up to: 5.5
 WC Tested up to: 4.7
 Requires PHP: 7.1
 Stable tag: 1.3.0
-License: CC-BY-NC-ND-3.0
-License URI: http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+License: GPL-3.0-or-later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 GLS offers shipping solutions nationally and internationally in Europe and worldwide. By using this plugin you can integrate GLS shipping methods in WooCommerce.
 

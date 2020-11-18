@@ -14,9 +14,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Creative Commons License.
+ * This source file is subject to the GPLv3 or later.
  * It is available through the world-wide-web at this URL:
- * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * http://www.gnu.org/licenses/gpl-3.0.html
  * If you are unable to obtain it through the world-wide-web, please send an email
  * to servicedesk@tig.nl so we can send you a copy immediately.
  *
@@ -27,7 +27,7 @@
  * needs please contact servicedesk@tig.nl for more information.
  *
  * @copyright   Copyright (c) Total Internet Group B.V. https://tig.nl/copyright
- * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 defined( 'ABSPATH' ) || exit;
