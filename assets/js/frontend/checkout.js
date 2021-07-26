@@ -1,6 +1,8 @@
 /* global gls_checkout_params */
 jQuery(
     function ($) {
+        var _tig_gls_shipping_name = 'tig_gls';
+
         // gls_checkout_params is required to continue, ensure the object exists
         if (typeof gls_checkout_params === 'undefined') {
             return false;
@@ -10,6 +12,8 @@ jQuery(
             selected_delivery_option: false,
             delivery_options_xhr: false,
             parcel_shops_xhr: false,
+            ajax_calls_successful: 0,
+            $gls_wrapper: $('.gls-wrapper'),
             $order_review: $('#order_review'),
             $checkout_form: $('form.checkout'),
             $delivery_options_container: $('.gls-delivery-options'),
@@ -33,6 +37,9 @@ jQuery(
                 // Trigger on load
                 this.trigger_update_delivery_options();
 
+                // Show and hide wrapper based on selection
+                $(document.body).bind('updated_checkout', this.show_hide_wrapper);
+
                 // Inputs/selects which update delivery options
                 this.$checkout_form.on(
                     'change',
@@ -51,6 +58,48 @@ jQuery(
             },
 
             /**
+             * Is TIG GLS shipping method selected
+             *
+             * @returns {boolean}
+             */
+            is_tig_gls_shipping_selected: function(){
+                var shippingMethods = $('input[name*=shipping_method]');
+                var isTigGlsSelected = false;
+                // Can be either hidden for single shipping method or radio list
+                shippingMethods.each(function(idx, elem){
+                    if (isTigGlsSelected) {
+                        return;
+                    }
+
+                    if ($(elem).is(':radio') && !$(elem).is(':checked')) {
+                        return;
+                    }
+
+                    if ($(elem).val().startsWith(_tig_gls_shipping_name)) {
+                        isTigGlsSelected = true;
+                    }
+                });
+                return isTigGlsSelected;
+            },
+
+            /**
+             * Show and hide wrapper based on shipping method selection
+             * Load data if shiwn
+             */
+            show_hide_wrapper: function() {
+                if (!gls_delivery_options_form.$gls_wrapper.length) {
+                    return;
+                }
+
+                var showWrapper = gls_delivery_options_form.is_tig_gls_shipping_selected();
+                if (gls_delivery_options_form.$gls_wrapper.is(":hidden") && showWrapper) {
+                    gls_delivery_options_form.trigger_update_delivery_options();
+                }
+
+                gls_delivery_options_form.$gls_wrapper.toggle(showWrapper);
+            },
+
+            /**
              * The main event.
              *
              * Triggers both calls to update delivery options and parcel shops.
@@ -60,6 +109,7 @@ jQuery(
              */
             update_delivery_options: function (event, args) {
                 gls_delivery_options_form.reset_update_checkout_timer();
+                gls_delivery_options_form.ajax_calls_successful = 0;
                 gls_delivery_options_form.updateTimer = setTimeout(gls_delivery_options_form.update_delivery_options_action, '5', args);
                 gls_delivery_options_form.updateTimer = setTimeout(gls_delivery_options_form.update_parcel_shops_action, '5', args);
             },
@@ -80,6 +130,36 @@ jQuery(
             },
 
             /**
+             * Get data from form
+             * @returns {{country: (string), security: *, postcode: (string)}}
+             */
+            get_data_from_form: function(nonce){
+                var country = $('#billing_country').val(),
+                    postcode = $(':input#billing_postcode').val();
+
+                if ($('#ship-to-different-address').find('input').is(':checked')) {
+                    country = $('#shipping_country').val();
+                    postcode = $(':input#shipping_postcode').val();
+                }
+
+                return {
+                    security: nonce,
+                    postcode: postcode,
+                    country: country
+                };
+
+            },
+
+            /**
+             * Avoid race condition hiding error
+             */
+            partial_ajax_call_successful: function() {
+                if (++gls_delivery_options_form.ajax_calls_successful === 2) {
+                    gls_delivery_options_form.$error_container.hide();
+                }
+            },
+
+            /**
              *
              */
             update_delivery_options_action: function () {
@@ -91,19 +171,11 @@ jQuery(
                     return;
                 }
 
-                var country = $('#billing_country').val(),
-                    postcode = $(':input#billing_postcode').val();
-
-                if ($('#ship-to-different-address').find('input').is(':checked')) {
-                    country = $('#shipping_country').val();
-                    postcode = $(':input#shipping_postcode').val();
+                if (!gls_delivery_options_form.is_tig_gls_shipping_selected()) {
+                    return;
                 }
 
-                var data = {
-                    security: gls_checkout_params.update_delivery_options_nonce,
-                    postcode: postcode,
-                    country: country
-                };
+                var data = gls_delivery_options_form.get_data_from_form(gls_checkout_params.update_delivery_options_nonce);
 
                 gls_delivery_options_form.delivery_options_xhr = $.ajax({
                     type: 'POST',
@@ -122,7 +194,7 @@ jQuery(
                         }
                     },
                     success: function (options) {
-                        gls_delivery_options_form.$error_container.hide();
+                        gls_delivery_options_form.partial_ajax_call_successful();
 
                         if (options.data.length > 0) {
                             options.data.forEach(gls_delivery_options_form.display_delivery_option);
@@ -152,19 +224,11 @@ jQuery(
                     return;
                 }
 
-                var country = $('#billing_country').val(),
-                    postcode = $(':input#billing_postcode').val();
-
-                if ($('#ship-to-different-address').find('input').is(':checked')) {
-                    country = $('#shipping_country').val();
-                    postcode = $(':input#shipping_postcode').val();
+                if (!gls_delivery_options_form.is_tig_gls_shipping_selected()) {
+                    return;
                 }
 
-                var data = {
-                    security: gls_checkout_params.update_parcel_shops_nonce,
-                    postcode: postcode,
-                    country: country
-                };
+                var data = gls_delivery_options_form.get_data_from_form(gls_checkout_params.update_parcel_shops_nonce);
 
                 gls_delivery_options_form.parcel_shops_xhr = $.ajax({
                     type: 'POST',
@@ -183,7 +247,8 @@ jQuery(
                         }
                     },
                     success: function (options) {
-                        gls_delivery_options_form.$error_container.hide();
+                        gls_delivery_options_form.partial_ajax_call_successful();
+
                         let pickup_tab = $('.gls-tab-pickup');
                         let delivery_tab = $('.gls-tab-delivery');
 

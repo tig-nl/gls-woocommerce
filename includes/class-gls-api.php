@@ -108,6 +108,24 @@ class GLS_Api
     }
 
     /**
+     * Some calls need a customerNo
+     * 2021-05-14: Calls needing customerNo: CreateLabel, CreatePickup, CreateShopReturn
+     */
+    public function addCustomerNo()
+    {
+        try {
+            $customerNo = $this->encryption->Decrypt($this->options['customer_no']);
+            if(empty($customerNo))
+                return;
+
+            $this->body['customerNo'] = $customerNo;
+        }
+        catch(Exception $exception) {
+
+        }
+    }
+
+    /**
      * @return string
      */
     public function call()

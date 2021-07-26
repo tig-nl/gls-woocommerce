@@ -50,9 +50,30 @@ class GLS_Admin_Notice
         self::$notice_array = get_transient(self::ADMIN_NOTICE_TRANSIENT);
 
         //extend notice
-        self::$notice_array[$screen_id][$type] = $message;
+        if (!isset(self::$notice_array[$screen_id][$type])) {
+            self::$notice_array[$screen_id][$type] = [];
+        }
+
+        self::$notice_array[$screen_id][$type][] = $message;
 
         set_transient(self::ADMIN_NOTICE_TRANSIENT, self::$notice_array, self::ADMIN_NOTICE_EXPIRATION);
+    }
+
+    /**
+     * @param        $message
+     * @param string $type
+     */
+    private static function echo_notices($messages, $type = 'info'){
+        if(!is_array($messages)){
+            $messages = [$messages];
+        }
+        foreach($messages as $message){
+            ?>
+            <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
+                <p><?php _e($message, 'gls-woocommerce'); ?></p>
+            </div>
+            <?php
+        }
     }
 
     /**
@@ -70,12 +91,8 @@ class GLS_Admin_Notice
                     continue;
                 }
 
-                foreach ($admin_notice as $type => $message) {
-                    ?>
-                    <div id="message" class="notice notice-<?php echo $type; ?> is-dismissible">
-                        <p><?php _e($message, 'gls-woocommerce'); ?></p>
-                    </div>
-                    <?php
+                foreach ($admin_notice as $type => $messages) {
+                    static::echo_notices($messages, $type);
                 }
             }
         }

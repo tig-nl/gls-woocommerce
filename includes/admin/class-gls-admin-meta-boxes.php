@@ -52,6 +52,18 @@ class GLS_Admin_Meta_Boxes
             return;
         }
 
+        $has_gls_shipping = false;
+        foreach($order->get_shipping_methods() as $shippingMethod){
+            if (GLS::instance()->is_gls_selected($shippingMethod['method_id'])) {
+                $has_gls_shipping = true;
+                break;
+            }
+        }
+
+        if (!$has_gls_shipping) {
+            return;
+        }
+
         foreach (wc_get_order_types('order-meta-boxes') as $type) {
             add_meta_box('gls-order-label', '<img src="' . GLS()->plugin_url('/assets/images/gls-logo.png') . '">' . '&nbsp;&nbsp;' . __('Create labels', 'gls-woocommerce'), 'GLS_Admin_Meta_Box_Order_Label::output', $type, 'side', 'high');
         }

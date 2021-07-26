@@ -243,6 +243,38 @@ class GLS_AJAX extends WC_AJAX
     }
 
     /**
+     * Add error as notice
+     * Translate common errors into
+     * @param        $field
+     * @param        $error
+     * @param string $type
+     * @param string $screen_id
+     */
+    private static function add_error_as_notice($field, $error, $type = 'error', $screen_id = 'shop_order'){
+        // Fairly common errors
+        if($field === 'addresses.PickupAddress.Name1'){
+            if($error === "The value Name1 cannot exceed 30 characters."){
+                GLS_Admin_Notice::admin_add_notice(_('Shop name does not fit on the GLS label. The shop name may contain at most 30 characters. Please split in Settings -> General -> Site Title'), $type, $screen_id);
+                return;
+            }
+        }
+        GLS_Admin_Notice::admin_add_notice(sprintf(_('Field %s contains errors: %s'), $field, $error), $type, $screen_id);
+    }
+
+    /**
+     * @param        $errors
+     * @param string $type
+     * @param string $screen_id
+     */
+    private static function add_errors_as_notice($errors, $type = 'error', $screen_id = 'shop_order'){
+        foreach($errors as $field => $errorArray){
+            foreach($errorArray as $error){
+                self::add_error_as_notice($field, $error);
+            }
+        }
+    }
+
+    /**
      * @param        $response
      * @param string $message
      */
@@ -250,6 +282,9 @@ class GLS_AJAX extends WC_AJAX
     {
         if ($response->error || isset($response->statusCode) && $response->statusCode !== 200) {
             GLS_Admin_Notice::admin_add_notice($message ?? $response->message,'error','shop_order');
+            if (!empty($response->errors)) {
+                self::add_errors_as_notice($response->errors, 'error', 'shop_order');
+            }
             wp_send_json_error($message ?? $response->message, $response->status);
         }
     }

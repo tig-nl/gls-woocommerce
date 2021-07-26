@@ -39,6 +39,11 @@ defined('ABSPATH') || exit;
  */
 class GLS_Delivery_Options
 {
+    const GLS_MAP_ADDRESS_SETTING  = 'address_type_selector';
+    const GLS_MAP_ADDRESS_PERSONAL = 'P';
+    const GLS_MAP_ADDRESS_BUSINESS = 'B';
+    const GLS_MAP_ADDRESS_AUTO     = 'A';
+
     const GLS_DELIVERY_OPTION_META_KEY = '_gls_delivery_option';
 
     /**
@@ -457,27 +462,70 @@ class GLS_Delivery_Options
     }
 
     /**
+     * Get Shipping Method Instance by ID
+     * @param $method_id
+     * @param $instance_id
+     *
+     * @return WC_Shipping_Method|null
+     */
+    private static function get_shipping_method_instance_by_id($method_id, $instance_id){
+        $current_shipping_methods = WC()->shipping->get_shipping_methods();
+
+        if (!isset($current_shipping_methods[$method_id])) {
+            return null;
+        }
+        $current_shipping_method = $current_shipping_methods[$method_id];
+        $current_shipping_method->instance_id = $instance_id;
+        $current_shipping_method->init_instance_settings();
+        return $current_shipping_method;
+    }
+
+    /**
+     * Get Shipping Method Instance Setting by Name
+     *
+     * @param $setting_name
+     * @return mixed|null
+     */
+    private static function get_shipping_method_instance_setting_admin($setting_name){
+        global $post;
+
+        $order = new WC_Order($post->ID);
+        $order_shipping_method = $order->get_items('shipping');
+        if (!$order_shipping_method) {
+            return null;
+        }
+        $order_shipping_method = array_values($order_shipping_method)[0];
+
+        $current_shipping_method = self::get_shipping_method_instance_by_id($order_shipping_method['method_id'], $order_shipping_method['instance_id']);
+
+        if ($current_shipping_method && isset($current_shipping_method->instance_settings[$setting_name]) && $current_shipping_method->instance_settings[$setting_name]) {
+            return $current_shipping_method->instance_settings[$setting_name];
+        }
+        return null;
+    }
+
+    /**
+     * Get Shipping Method Instance Setting by Name
      * @param $setting_name
      * @return |null
      */
     public static function get_shipping_method_instance_setting($setting_name)
     {
         $session = WC()->session;
-        $chosen_shipping_method = $session->get('chosen_shipping_methods');
-
-        $shipping_method_id = explode(':',$chosen_shipping_method[0]);
-        $current_shipping_methods = WC()->shipping->get_shipping_methods();
-        $current_shipping_method = $current_shipping_methods[$shipping_method_id[1]];
-
-        //fallback; manual init instance to get to config settings
-        if (!isset($current_shipping_method) && $chosen_shipping_method) {
-            $current_shipping_method = $current_shipping_methods[$shipping_method_id[0]];
-            $current_shipping_method->instance_id = $shipping_method_id[1];
-            $current_shipping_method->init_instance_settings();
+        if (!$session) {
+            return self::get_shipping_method_instance_setting_admin($setting_name);
         }
 
+        $chosen_shipping_method = $session->get('chosen_shipping_methods');
+        if (!$chosen_shipping_method) {
+            return null;
+        }
+        $shipping_method_and_instance_id = explode(':', $chosen_shipping_method[0]);
+
+        $current_shipping_method = self::get_shipping_method_instance_by_id($shipping_method_and_instance_id[0], $shipping_method_and_instance_id[1]);
+
         //get instance setting
-        if (isset($current_shipping_method->instance_settings[$setting_name]) && $current_shipping_method->instance_settings[$setting_name]) {
+        if ($current_shipping_method && isset($current_shipping_method->instance_settings[$setting_name]) && $current_shipping_method->instance_settings[$setting_name]) {
             return $current_shipping_method->instance_settings[$setting_name];
         }
 
@@ -525,6 +573,36 @@ class GLS_Delivery_Options
     }
 
     /**
+     * Called when order is updated in WooCommerce
+     *
+     *
+     * @param WC_Order $order
+     * @param $updated_props
+     */
+    public static function update_order_delivery_address($order, $updated_props){
+        if (!in_array('shipping', $updated_props)) {
+            return;
+        }
+
+        // Get current GLS options and update address
+        $gls_order_data                     = $order->get_meta(self::GLS_DELIVERY_OPTION_META_KEY);
+        $gls_combined_address_data = [];
+        foreach($order->get_data()['shipping'] as $k => $v){
+            $gls_combined_address_data['shipping_' . $k] = $v;
+        }
+        foreach($order->get_data()['billing'] as $k => $v){
+            $gls_combined_address_data['billing_' . $k] = $v;
+        }
+        foreach($order->get_changes()['shipping'] as $k => $v){
+            $gls_combined_address_data['shipping_' . $k] = $v;
+        }
+        $gls_order_data['delivery_address'] = self::map_delivery_address($gls_combined_address_data, 'shipping_');
+
+        $order->update_meta_data(self::GLS_DELIVERY_OPTION_META_KEY, $gls_order_data);
+        $order->save_meta_data();
+    }
+
+    /**
      * Map delivery address in the format required by GLS, so we can always deliver it in the right format.
      *
      * @param        $delivery_address
@@ -543,6 +621,12 @@ class GLS_Delivery_Options
         $city       = $type . 'city';
         $company    = $type . 'company';
 
+        $addresseeType = GLS()->delivery_options()->get_shipping_method_instance_setting(self::GLS_MAP_ADDRESS_SETTING);
+
+        if ($addresseeType !== self::GLS_MAP_ADDRESS_BUSINESS && $addresseeType !== self::GLS_MAP_ADDRESS_PERSONAL) {
+            $addresseeType = empty($delivery_address[$company]) ? self::GLS_MAP_ADDRESS_PERSONAL : self::GLS_MAP_ADDRESS_BUSINESS;
+        }
+
         return [
             'name1'         => $delivery_address[$company] ? $delivery_address[$company] : $delivery_address[$first_name] . ' ' . $delivery_address[$last_name],
             'street'        => $delivery_address[$street],
@@ -554,7 +638,7 @@ class GLS_Delivery_Options
             // Email and Phone are always retrieved from billing, since they don't exist in shipping.
             'email'         => $delivery_address['billing_email'],
             'phone'         => $delivery_address['billing_phone'] ?: '+00000000000',
-            'addresseeType' => empty($delivery_address[$company]) ? 'p' : 'b'
+            'addresseeType' => $addresseeType
         ];
     }
 

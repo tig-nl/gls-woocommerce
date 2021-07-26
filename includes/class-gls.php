@@ -173,6 +173,7 @@ final class GLS
         add_filter('woocommerce_package_rates', array('GLS_Delivery_Options','adjust_shipping_rate'), 50);
         add_action('woocommerce_checkout_create_order', array('GLS_Delivery_Options', 'add_option_to_order'), 1, 2);
         add_action('woocommerce_checkout_order_processed', array('GLS_Delivery_Options', 'update_delivery_address'), 10, 3);
+        add_action('woocommerce_order_object_updated_props', array('GLS_Delivery_Options', 'update_order_delivery_address'), 10, 3);
     }
 
 
@@ -386,5 +387,24 @@ final class GLS
     public function api_delete_label()
     {
         return new GLS_Api_Label_Delete();
+    }
+
+    /**
+     * Is TIG GLS enabled in any zone
+     *
+     * @return bool
+     */
+    public static function is_gls_enabled_in_any_zone()
+    {
+        $zones = WC_Shipping_Zones::get_zones();
+
+        foreach($zones as $zone) {
+            foreach ($zone['shipping_methods'] as $shippingMethod) {
+                if ($shippingMethod->id === 'tig_gls' && $shippingMethod->enabled === 'yes') {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -138,6 +138,12 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'id'    => GLS_Admin::GLS_SETTINGS_API . '[subscription_key]'
                     ),
                     array(
+                        'title' => __('Customer number', 'gls-woocommerce'),
+                        'type'  => 'encrypt_text',
+                        'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[customer_no]'
+                    ),
+                    array(
                         'title' => __('Test credentials', 'gls-woocommerce'),
                         'type'  => 'api_check',
                     ),

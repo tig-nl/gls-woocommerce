@@ -52,6 +52,22 @@ class GLS_Settings_Woocommerce_Shipping_Instance
     public function filter_woocommerce_shipping_instance_form_fields_tig_gls ($form_fields)
     {
 
+        $form_field_home_delivery_label = array(
+            'title'         => __('Home Delivery Label','gls-woocommerce'),
+            'type'          => 'text',
+            'description'   =>  __('This controls the home delivery label that the user sees with the delivery options','gls-woocommerce'),
+            'desc_tip'      => true,
+            'default'       => 'Home delivery'
+        );
+
+        $form_field_parcelshop_label = array(
+            'title'         => __('ParcelShop Label','gls-woocommerce'),
+            'type'          => 'text',
+            'description'   =>  __('This controls the ParcelShop label that the user sees with the delivery options','gls-woocommerce'),
+            'desc_tip'      => true,
+            'default'       => 'ParcelShop'
+        );
+
         $form_field_freeshipping_enabled = array(
             'title'         => __('Enable free shipping','gls-woocommerce'),
             'type'          => 'select',
@@ -78,10 +94,26 @@ class GLS_Settings_Woocommerce_Shipping_Instance
             'desc_tip'      => true
         );
 
+        $form_field_business_personal = array(
+            'title'         => __('Set shipping type fixed for B2B or B2C','gls-woocommerce'),
+            'type'          => 'select',
+            'description'   =>  __('Enable this when sending only to Business or Consumer.','gls-woocommerce'),
+            'default'       => GLS_Delivery_Options::GLS_MAP_ADDRESS_AUTO,
+            'options'       => array(
+                GLS_Delivery_Options::GLS_MAP_ADDRESS_AUTO     => __('Autodetect', 'gls-woocommerce'),
+                GLS_Delivery_Options::GLS_MAP_ADDRESS_BUSINESS => __('B2B', 'gls-woocommerce'),
+                GLS_Delivery_Options::GLS_MAP_ADDRESS_PERSONAL => __('Personal', 'gls-woocommerce'),
+            ),
+            'desc_tip'      => true
+        );
 
+
+        $form_fields['home_delivery_label'] = $form_field_home_delivery_label;
+        $form_fields['parcelshop_label'] = $form_field_parcelshop_label;
         $form_fields['freeshipping_enabled'] = $form_field_freeshipping_enabled;
         $form_fields['freeshipping'] = $form_field_freeshipping;
         $form_fields['freeshipping_extra'] = $form_field_freeshipping_extra;
+        $form_fields[GLS_Delivery_Options::GLS_MAP_ADDRESS_SETTING] = $form_field_business_personal;
 
         return $form_fields;
     }

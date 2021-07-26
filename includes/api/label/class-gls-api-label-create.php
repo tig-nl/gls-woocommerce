@@ -71,6 +71,8 @@ class GLS_Api_Label_Create
      */
     public function call()
     {
+        $this->api->addCustomerNo();
+
         return $this->api->call();
     }
 
@@ -88,7 +90,14 @@ class GLS_Api_Label_Create
         $delivery_option  = $order->get_meta('_gls_delivery_option');
         $delivery_address = $delivery_option['delivery_address'];
         $labelType        = $this->get_label_type();
-        $shipmentId       = $order->ID;
+        $shipmentId       = $order->get_id();
+
+        // @todo fix correct email when stored. This fixes that sometimes email addresses are empty or incomplete
+        // which stops the label creation
+        if ($delivery_address['email'] != $order->get_billing_email()) {
+            $delivery_address['email'] = $order->get_billing_email();
+            $delivery_address['phone'] = $order->get_billing_phone();
+        }
 
         // @todo fix correct email when stored. This fixes that sometimes email addresses are empty or incomplete
         // which stops the label creation

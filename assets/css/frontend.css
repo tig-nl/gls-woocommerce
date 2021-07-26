@@ -1,5 +1,7 @@
 /* Wrapper ========================================================================================================== */
-
+.gls-wrapper {
+    display: none;
+}
 @media screen and (min-width: 769px) {
   .gls-wrapper {
     overflow: hidden;
