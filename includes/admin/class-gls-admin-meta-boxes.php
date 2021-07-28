@@ -48,7 +48,11 @@ class GLS_Admin_Meta_Boxes
         global $post;
         $order = wc_get_order($post->ID);
 
-        if ($order != false && !$order->get_meta('_gls_delivery_option')) {
+        if ($order === false || !$order->get_meta('_gls_delivery_option')) {
+            return;
+        }
+
+        if (!$order instanceof WC_Abstract_Order) {
             return;
         }
 
