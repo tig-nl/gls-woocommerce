@@ -92,7 +92,6 @@ class GLS_Admin_Order_Columns
     }
 
     public function add_gls_print_label_button($actions, $order) {
-        global $post;
         $shipping_method = array_pop($order->get_shipping_methods())->get_data()['method_id'];
         if ($shipping_method === 'tig_gls') {
             $actions['gls_print_label'] = array(
