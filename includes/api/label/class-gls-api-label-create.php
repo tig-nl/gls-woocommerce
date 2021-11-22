@@ -232,7 +232,7 @@ class GLS_Api_Label_Create
      */
     private function prepare_shipping_unit($shipment_id, $label_amount)
     {
-        if ($label_amount === "") {
+        if (empty($label_amount)) {
             $label_amount = 1;
         }
 
