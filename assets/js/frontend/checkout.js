@@ -55,6 +55,8 @@ jQuery(
                     function() { gls_delivery_options_form.toggle_tabs.call(this, '.gls-tab-delivery', '.gls-delivery-options', '.gls-parcel-shops')}
                 );
                 this.$checkout_form.on('click', '.open-business-hours-link, .gls-close', this.toggle_business_hours);
+                
+                this.$checkout_form.on('checkout_place_order', this.validate_delivery_option);
             },
 
             /**
@@ -477,6 +479,17 @@ jQuery(
                     $(this).parent('.table.gls-container').prev('.open-business-hours-link').removeClass('active');
                 }
             },
+    
+            /**
+             * Check if there is a delivery option selected.
+             * @returns {boolean}
+             */
+            validate_delivery_option: function () {
+                if (gls_delivery_options_form.selected_delivery_option === false) {
+                    gls_delivery_options_form.$error_container.html('Please select a delivery option').fadeIn();
+                    return false;
+                }
+            }
         };
 
         gls_delivery_options_form.init();
