@@ -40,7 +40,9 @@ class GLS_Admin_Order_Columns
     public function __construct()
     {
         add_filter('manage_edit-shop_order_columns', array($this, 'order_column'), 20);
+        add_filter('woocommerce_admin_order_actions', array($this, 'add_gls_print_label_button'), 100, 2);
         add_action('manage_shop_order_posts_custom_column', array($this, 'column_content'));
+        add_action('admin_head', array($this, 'add_gls_print_label_button_css'));
     }
 
     /**
@@ -87,6 +89,25 @@ class GLS_Admin_Order_Columns
                 echo __('Track ID', 'gls-woocommerce') . ": <a href='$current_label->unitTrackingLink' target='_blank'>" . $current_label->unitNo. '</a>';
             }
         }
+    }
+
+    public function add_gls_print_label_button($actions, $order) {
+        $shipping_method = array_pop($order->get_shipping_methods())->get_data()['method_id'];
+        if ($shipping_method === 'tig_gls') {
+            $actions['gls_print_label'] = array(
+                'url'    => wp_nonce_url(
+                    admin_url('admin-ajax.php?action=create_label&order_id=' . $order->get_id()),
+                    'create_label'
+                ),
+                'name'   => __('GLS - Print Label', 'woocommerce-deposits'),
+                'action' => 'create_label'
+            );
+        }
+        return $actions;
+    }
+
+    public function add_gls_print_label_button_css() {
+        echo '<style>.create_label::after {font-family: dashicons !important; content: "\f190" !important;}</style>';
     }
 }
 
