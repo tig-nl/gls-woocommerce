@@ -69,7 +69,6 @@ class GLS_Admin_Bulk_Actions
             return $redirect_to;
         }
 
-        $processed_ids = array();
         $error_ids = array();
         foreach ($post_ids as $post_id) {
             $gls_option = get_post_meta($post_id, $key = '_gls_delivery_option');
