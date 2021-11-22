@@ -83,7 +83,7 @@ class GLS_Admin_Order_Columns
             if ($label && $label[0] && $label[0]->units && $label[0]->units[0]) {
                 $current_label = $label[0]->units[0];
                 $pdf_link = add_query_arg(array('gls_pdf_action' => 'download', 'post' => $post->ID, '_wpnonce' => wp_create_nonce('download')), admin_url($pagenow));
-                echo "<br></brt><a href='$pdf_link'>" . __('Download Label') . '</a><br />';
+                echo "<br><a href='$pdf_link'>" . __('Download Label') . '</a><br/>';
                 echo __('Track ID', 'gls-woocommerce') . ": <a href='$current_label->unitTrackingLink' target='_blank'>" . $current_label->unitNo. '</a>';
             }
         }
