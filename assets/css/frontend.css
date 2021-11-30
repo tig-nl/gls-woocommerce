@@ -13,9 +13,11 @@
     background: url('../images/gls-logo.png') left top no-repeat;
     background-size: 64px;
     width: 64px;
-    height: 18px;
-    display: inline-block;
+    height: 22px;
+    display: block;
     margin-right: 5px;
+    float: left;
+    margin-top: 9px;
 }
 
 /* Tabs ============================================================================================================= */
