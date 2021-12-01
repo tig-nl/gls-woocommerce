@@ -81,7 +81,9 @@
 
         // Trigger create label call.
         $('.create_label').on('click', function (event) {
-            var order_id = this.href.match(/^\d+|\d+\b|\d+(?=\w)/g)[0];
+            if (typeof this.href !== 'undefined') {
+                var order_id = this.href.match(/^\d+|\d+\b|\d+(?=\w)/g)[0];
+            }
             var data = {
                 action: 'woocommerce_create_label',
                 security: gls_admin.nonces.create_label,
