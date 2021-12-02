@@ -214,10 +214,10 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'default' => '5'
                     ),
                     array(
-                        'title'   => __('Enable ShopReturnService', 'gls-woocommerce'),
-                        'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label.', 'gls-woocommerce'),
+                        'title'   => __('Enable changing order status', 'gls-woocommerce'),
+                        'desc'    => __('Enable this to change the order status when a GLS label is created.', 'gls-woocommerce'),
                         'type'    => 'checkbox',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[shop_return]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[order_status_change]',
                         'default' => 'yes'
                     ),
                     array(
