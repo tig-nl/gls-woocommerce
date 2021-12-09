@@ -32,7 +32,7 @@
 
 class GLS_Api
 {
-    const GLS_API_CONTROLLER_MODULE = 'WooCommerce';
+    const GLS_API_CONTROLLER_MODULE = 'TIG/Woocommerce';
 
     /** @var string $url */
     public $url = 'https://api.gls.nl/';
@@ -99,8 +99,10 @@ class GLS_Api
     public function init()
     {
         try {
-            $this->body['username'] = $this->encryption->Decrypt($this->options['username']);
-            $this->body['password'] = $this->encryption->Decrypt($this->options['password']);
+            $this->body['shippingSystemName']    = self::GLS_API_CONTROLLER_MODULE;
+            $this->body['shippingSystemVersion'] = GLS_VERSION;
+            $this->body['username']              = $this->encryption->Decrypt($this->options['username']);
+            $this->body['password']              = $this->encryption->Decrypt($this->options['password']);
         }
         catch(Exception $exception) {
             return false;
@@ -166,8 +168,6 @@ class GLS_Api
     public static function add_shipping_information()
     {
         return [
-            "shippingSystemName"    => self::GLS_API_CONTROLLER_MODULE,
-            "shippingSystemVersion" => GLS_VERSION,
             "shiptype"              => "p"
         ];
     }
