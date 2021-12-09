@@ -214,6 +214,21 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'default' => '5'
                     ),
                     array(
+                        'title'   => __('Enable changing order status', 'gls-woocommerce'),
+                        'desc'    => __('Enable this to change the order status when a GLS label is created.', 'gls-woocommerce'),
+                        'type'    => 'checkbox',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[order_status_change]',
+                        'default' => 'yes'
+                    ),
+                    array(
+                        'title'   => __('Order status', 'gls-woocommerce'),
+                        'desc'    => __('Status of the order after creating the label', 'gls-woocommerce'),
+                        'type'    => 'select',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[new_order_status]',
+                        'options' => $this->getOrderStatusses(),
+                        'default' => 'wc-pending'
+                    ),
+                    array(
                         'title'   => __('Enable ShopReturnService', 'gls-woocommerce'),
                         'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label.', 'gls-woocommerce'),
                         'type'    => 'checkbox',
@@ -295,6 +310,19 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
             'pdfA6S' => __('PDF (A6)', 'gls-woocommerce'),
             'pdf2A4' => __('PDF (A4, 2 labels/page)', 'gls-woocommerce'),
             'pdf4A4' => __('PDF (A4, 4 labels/page)', 'gls-woocommerce'),
+        ];
+    }
+
+    public function getOrderStatusses()
+    {
+        return [
+          'pending' => __('Pending payment', 'gls-woocommerce'),
+          'processing' => __('Processing', 'gls-woocommerce'),
+          'on-hold' => __('On hold', 'gls-woocommerce'),
+          'completed' => __('Completed', 'gls-woocommerce'),
+          'cancelled' => __('Cancelled', 'gls-woocommerce'),
+          'refunded' => __('Refunded', 'gls-woocommerce'),
+          'failed' => __('Failed', 'gls-woocommerce'),
         ];
     }
 
