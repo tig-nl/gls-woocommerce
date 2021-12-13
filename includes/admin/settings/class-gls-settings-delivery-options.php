@@ -218,7 +218,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'desc'    => __('Enable this to change the order status when a GLS label is created.', 'gls-woocommerce'),
                         'type'    => 'checkbox',
                         'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[order_status_change]',
-                        'default' => 'yes'
+                        'default' => 'no'
                     ),
                     array(
                         'title'   => __('Order status', 'gls-woocommerce'),
