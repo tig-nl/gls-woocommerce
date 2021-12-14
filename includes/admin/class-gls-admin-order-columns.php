@@ -94,9 +94,10 @@ class GLS_Admin_Order_Columns
     public function add_gls_print_label_button($actions, $order) {
         $shipping_method = array_pop($order->get_shipping_methods())->get_data()['method_id'];
         if ($shipping_method === 'tig_gls') {
+            $order_id = method_exists( $order, 'get_id' ) ? $order->get_id() : $order->id;
             $actions['gls_print_label'] = array(
                 'url'    => wp_nonce_url(
-                    admin_url('admin-ajax.php?action=create_label&order_id=' . $order->get_id()),
+                    admin_url('admin-ajax.php?action=create_label&order_id=' . $order_id),
                     'create_label'
                 ),
                 'name'   => __('GLS - Print Label', 'woocommerce-deposits'),
