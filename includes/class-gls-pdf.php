@@ -164,7 +164,7 @@ class GLS_Pdf
             $pdf->useTemplate($templateId);
 
             //add page for return labels
-            if ($pageSize) {
+            if ($pageSize = 2) {
                 $pdf->setSourceFile(StreamReader::createByString($pdf_label));
 
                 $templateId = $pdf->importPage(2);
