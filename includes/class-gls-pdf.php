@@ -155,13 +155,25 @@ class GLS_Pdf
         // iterate through the files
         foreach (self::$pdf_label_array as $pdf_label) {
 
-            $pdf->setSourceFile(StreamReader::createByString($pdf_label));
+            $pageSize = $pdf->setSourceFile(StreamReader::createByString($pdf_label));
 
             $templateId = $pdf->importPage(1);
             $size       = $pdf->getTemplateSize($templateId);
 
             $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
             $pdf->useTemplate($templateId);
+
+            //add page for return labels
+            if ($pageSize = 2) {
+                $pdf->setSourceFile(StreamReader::createByString($pdf_label));
+
+                $templateId = $pdf->importPage(2);
+                $size       = $pdf->getTemplateSize($templateId);
+
+                $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
+                $pdf->useTemplate($templateId);
+            }
+
         }
 
         $pdf_string = $pdf->Output('S');
