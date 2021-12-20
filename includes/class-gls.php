@@ -143,6 +143,11 @@ final class GLS
         include_once GLS_ABSPATH . 'includes/abstracts/abstract-gls-delivery-option.php';
 
         /**
+         * Interface classes.
+         */
+        include_once GLS_ABSPATH . 'includes/api/class-gls-api-call-interface.php';
+
+        /**
          * Core classes.
          */
         include_once GLS_ABSPATH . 'includes/class-gls-ajax.php';
