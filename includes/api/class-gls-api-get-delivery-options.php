@@ -30,7 +30,7 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-class GLS_Api_Get_Delivery_Options
+class GLS_Api_Get_Delivery_Options implements GlsApiCallInterface
 {
     /** @var string $endpoint */
     public $endpoint = 'DeliveryOptions/GetDeliveryOptions';
@@ -52,22 +52,6 @@ class GLS_Api_Get_Delivery_Options
         $this->postcode = GLS()->post('postcode');
         $this->country  = GLS()->post('country');
         $this->body     = $this->setBody();
-    }
-
-    /**
-     * Trigger call to API.
-     *
-     * @return string
-     */
-    public function call()
-    {
-        if (!$this->postcode || !$this->country) {
-            wp_send_json_error(__('Postcode and/or country not specified.', 'gls-woocommerce'), 412);
-        }
-
-        $api = GLS_Api::instance($this->endpoint, $this->body);
-
-        return $api->call();
     }
 
     /**
@@ -109,5 +93,32 @@ class GLS_Api_Get_Delivery_Options
             'zipCode'      => $this->postcode,
             'shippingDate' => $shipping_date->format('Y-m-d')
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBody()
+    {
+        if (!$this->postcode || !$this->country) {
+            wp_send_json_error(__('Postcode and/or country not specified.', 'gls-woocommerce'), 412);
+        }
+        return $this->body;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasCustomerNo()
+    {
+        return false;
     }
 }
