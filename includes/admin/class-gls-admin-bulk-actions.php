@@ -71,6 +71,8 @@ class GLS_Admin_Bulk_Actions
 
         $processed_ids = array();
         $error_ids = array();
+
+        $glsApi = GLS_Api::instance();
         foreach ($post_ids as $post_id) {
             $gls_option = get_post_meta($post_id, $key = '_gls_delivery_option');
             $gls_label = get_post_meta($post_id, $key = '_gls_label');
@@ -78,7 +80,7 @@ class GLS_Admin_Bulk_Actions
                 $order = wc_get_order($post_id);
                 /** @var StdClass $response */
                 $createLabel = new GLS_Api_Label_Create($post_id);
-                $response = $createLabel->call();
+                $response = $glsApi->call($createLabel);
                 if ($response->status != 200) {
                     $error_ids[] = $post_id;
                     continue;

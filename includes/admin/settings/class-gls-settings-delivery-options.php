@@ -450,8 +450,9 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
      */
     public function api_check_settings()
     {
+        $api = GLS_Api::instance();
         $validation = new GLS_Api_Validate_Login();
-        $response = $validation->call();
+        $response = $api->call($validation);
         if ($response->status == 200 && $response->error == false):
             ?>
             <tr valign="top">

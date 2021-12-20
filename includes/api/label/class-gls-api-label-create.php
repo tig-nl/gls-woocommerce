@@ -30,7 +30,7 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-class GLS_Api_Label_Create
+class GLS_Api_Label_Create implements GlsApiCallInterface
 {
     /** @var string $endpoint */
     public $endpoint = 'Label/Create';
@@ -47,9 +47,6 @@ class GLS_Api_Label_Create
     /** @var $body */
     public $body = [];
 
-    /** @var GLS_Api $api */
-    private $api;
-
     /**
      * GLS_Api_Label_Create constructor.
      *
@@ -61,19 +58,6 @@ class GLS_Api_Label_Create
         $this->options      = get_option(GLS_Admin::GLS_SETTINGS_SERVICES);
         $this->label_amount = GLS()->post('label_amount');
         $this->body         = $this->setBody();
-        $this->api          = GLS_Api::instance($this->endpoint, $this->body);
-    }
-
-    /**
-     * Trigger call to API.
-     *
-     * @return string
-     */
-    public function call()
-    {
-        $this->api->addCustomerNo();
-
-        return $this->api->call();
     }
 
     /**
@@ -244,5 +228,29 @@ class GLS_Api_Label_Create
         }
 
         return $labels;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasCustomerNo()
+    {
+        return true;
     }
 }

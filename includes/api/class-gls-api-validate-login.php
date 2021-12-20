@@ -30,7 +30,7 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-class GLS_Api_Validate_Login
+class GLS_Api_Validate_Login implements GlsApiCallInterface
 {
     /** @var string $endpoint */
     public $endpoint = 'Authentication/ValidateLogin';
@@ -39,14 +39,26 @@ class GLS_Api_Validate_Login
     public $body = [];
 
     /**
-     * Trigger call to API.
-     *
-     * @return string
+     * {@inheritDoc}
      */
-    public function call()
+    public function getEndpoint()
     {
-        $api = GLS_Api::instance($this->endpoint, $this->body);
+        return $this->endpoint;
+    }
 
-        return $api->call();
+    /**
+     * {@inheritDoc}
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasCustomerNo()
+    {
+        return true;
     }
 }

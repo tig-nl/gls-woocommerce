@@ -30,55 +30,19 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-class GLS_Api_Label_Delete implements GlsApiCallInterface
-{
-    /** @var string $endpoint */
-    public $endpoint = 'Label/Delete';
-
-    /** @var array $body */
-    public $body = [];
+interface GlsApiCallInterface {
+    /**
+     * @return string
+     */
+    public function getEndpoint();
 
     /**
-     * GLS_Api_Label_Delete constructor.
+     * @return array
      */
-    public function __construct()
-    {
-        $this->body           = GLS_Api::add_shipping_information();
-        $this->body['unitNo'] = $this->getUnitNo();
-    }
+    public function getBody();
 
     /**
-     * @return string|null
+     * @return bool
      */
-    private function getUnitNo()
-    {
-        $order = wc_get_order(GLS()->post('order_id'));
-        $label = $order->get_meta('_gls_label');
-
-        return $label->units[0] ? $label->units[0]->unitNo : null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEndpoint()
-    {
-        return $this->endpoint;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function hasCustomerNo()
-    {
-        return false;
-    }
+    public function hasCustomerNo();
 }
