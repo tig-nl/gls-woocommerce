@@ -13,9 +13,12 @@
     background: url('../images/gls-logo.png') left top no-repeat;
     background-size: 64px;
     width: 64px;
-    height: 18px;
+    height: 22px;
     display: inline-block;
     margin-right: 5px;
+    float: left;
+    margin-top: 9px;
+    margin-bottom: -4px;
 }
 
 /* Tabs ============================================================================================================= */
@@ -42,10 +45,10 @@
 }
 
 .gls-tabs .gls-tab.active {
-  background: #172156;
+  background: #061ab1;
   font-weight: bold;
   color: white;
-  border: 1px solid #172156;
+  border: 1px solid #061ab1;
   cursor: default;
 }
 

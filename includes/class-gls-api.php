@@ -32,12 +32,12 @@
 
 class GLS_Api
 {
-    const GLS_API_CONTROLLER_MODULE = 'WooCommerce';
+    const GLS_API_CONTROLLER_MODULE = 'TIG/Woocommerce';
 
     /** @var string $url */
     public $url = 'https://api.gls.nl/';
 
-   /** @var string $http */
+    /** @var string $http */
     public $http;
 
     /**
@@ -83,11 +83,13 @@ class GLS_Api
     /**
      * Add needed authentication to calls.
      */
-    private function addAuthentication($body)
+    protected function addAuthentication($body)
     {
         try {
-            $body['username'] = $this->encryption->Decrypt($this->options['username']);
-            $body['password'] = $this->encryption->Decrypt($this->options['password']);
+            $body['shippingSystemName']    = self::GLS_API_CONTROLLER_MODULE;
+            $body['shippingSystemVersion'] = GLS_VERSION;
+            $body['username']              = $this->encryption->Decrypt($this->options['username']);
+            $body['password']              = $this->encryption->Decrypt($this->options['password']);
         }
         catch(Exception $exception) {
             return false;
@@ -99,7 +101,7 @@ class GLS_Api
      * Some calls need a customerNo
      * 2021-05-14: Calls needing customerNo: CreateLabel, CreatePickup, CreateShopReturn
      */
-    public function addCustomerNo($body)
+    protected function addCustomerNo($body)
     {
         try {
             $customerNo = $this->encryption->Decrypt($this->options['customer_no']);
@@ -111,7 +113,6 @@ class GLS_Api
         catch(Exception $exception) {
 
         }
-
         return $body;
     }
 
@@ -120,7 +121,6 @@ class GLS_Api
      */
     public function call(GlsApiCallInterface $apiCall)
     {
-
         try {
             $subscription_key = $this->encryption->Decrypt($this->options['subscription_key']);
         }
@@ -163,8 +163,6 @@ class GLS_Api
     public static function add_shipping_information()
     {
         return [
-            "shippingSystemName"    => self::GLS_API_CONTROLLER_MODULE,
-            "shippingSystemVersion" => GLS_VERSION,
             "shiptype"              => "p"
         ];
     }

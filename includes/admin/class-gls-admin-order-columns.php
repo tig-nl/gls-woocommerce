@@ -40,7 +40,9 @@ class GLS_Admin_Order_Columns
     public function __construct()
     {
         add_filter('manage_edit-shop_order_columns', array($this, 'order_column'), 20);
+        add_filter('woocommerce_admin_order_actions', array($this, 'add_gls_print_label_button'), 100, 2);
         add_action('manage_shop_order_posts_custom_column', array($this, 'column_content'));
+        add_action('admin_head', array($this, 'add_gls_print_label_button_css'));
     }
 
     /**
@@ -54,7 +56,7 @@ class GLS_Admin_Order_Columns
         foreach ($columns as $column_name => $column_info) {
             $new_columns[ $column_name ] = $column_info;
             if ('order_status' === $column_name ) {
-                $new_columns['gls_shipping_information'] = __( 'GLS Shipping Information', 'gls-woocommerce' );
+                $new_columns['gls_shipping_information'] = __('GLS Shipping Information', 'gls-woocommerce');
             }
         }
         return $new_columns;
@@ -83,10 +85,30 @@ class GLS_Admin_Order_Columns
             if ($label && $label[0] && $label[0]->units && $label[0]->units[0]) {
                 $current_label = $label[0]->units[0];
                 $pdf_link = add_query_arg(array('gls_pdf_action' => 'download', 'post' => $post->ID, '_wpnonce' => wp_create_nonce('download')), admin_url($pagenow));
-                echo " | <a href='$pdf_link'>" . __('Download Label') . '</a><br />';
+                echo "<br><a href='$pdf_link'>" . __('Download Label') . '</a><br/>';
                 echo __('Track ID', 'gls-woocommerce') . ": <a href='$current_label->unitTrackingLink' target='_blank'>" . $current_label->unitNo. '</a>';
             }
         }
+    }
+
+    public function add_gls_print_label_button($actions, $order) {
+        $shipping_method = array_pop($order->get_shipping_methods())->get_data()['method_id'];
+        if ($shipping_method === 'tig_gls') {
+            $order_id = method_exists( $order, 'get_id' ) ? $order->get_id() : $order->id;
+            $actions['gls_print_label'] = array(
+                'url'    => wp_nonce_url(
+                    admin_url('admin-ajax.php?action=create_label&order_id=' . $order_id),
+                    'create_label'
+                ),
+                'name'   => __('GLS - Print Label', 'woocommerce-deposits'),
+                'action' => 'create_label'
+            );
+        }
+        return $actions;
+    }
+
+    public function add_gls_print_label_button_css() {
+        echo '<style>.create_label::after {font-family: dashicons !important; content: "\f190" !important;}</style>';
     }
 }
 

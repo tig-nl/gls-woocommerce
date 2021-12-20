@@ -69,7 +69,6 @@ class GLS_Admin_Bulk_Actions
             return $redirect_to;
         }
 
-        $processed_ids = array();
         $error_ids = array();
 
         $glsApi = GLS_Api::instance();
@@ -90,6 +89,13 @@ class GLS_Admin_Bulk_Actions
             }
         }
         $processed_ids = GLS_Pdf::add_pdf_label_to_array($post_ids);
+        if (get_option('tig_gls_services')[order_status] === 'yes') {
+            foreach ($post_ids as $postId) {
+                $order = wc_get_order($postId);
+                $newOrderStatus = get_option('tig_gls_services')[new_order_status];
+                $order->update_status($newOrderStatus);
+            }
+        }
         GLS_Pdf::merge_pdf('attachment');
 
         return $redirect_to = add_query_arg( array(
