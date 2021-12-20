@@ -152,28 +152,19 @@ class GLS_Pdf
 
         $pdf = new Fpdi();
 
-        // iterate through the files
+        // iterate through the pdf label documents
         foreach (self::$pdf_label_array as $pdf_label) {
 
             $pageSize = $pdf->setSourceFile(StreamReader::createByString($pdf_label));
 
-            $templateId = $pdf->importPage(1);
-            $size       = $pdf->getTemplateSize($templateId);
-
-            $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
-            $pdf->useTemplate($templateId);
-
-            //add page for return labels
-            if ($pageSize = 2) {
-                $pdf->setSourceFile(StreamReader::createByString($pdf_label));
-
-                $templateId = $pdf->importPage(2);
+            //add all pages for of the pdf (return labels are on page 2)
+            for ($pageNo = 1; $pageNo <= $pageSize; $pageNo++) {
+                $templateId = $pdf->importPage($pageNo);
                 $size       = $pdf->getTemplateSize($templateId);
 
                 $pdf->AddPage($size['orientation'], array($size['width'], $size['height']));
                 $pdf->useTemplate($templateId);
             }
-
         }
 
         $pdf_string = $pdf->Output('S');
