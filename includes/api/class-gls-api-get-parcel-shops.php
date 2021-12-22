@@ -30,7 +30,7 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-class GLS_Api_Get_Parcel_Shops
+class GLS_Api_Get_Parcel_Shops implements GlsApiCallInterface
 {
     /** @var string $endpoint */
     public $endpoint = 'ParcelShop/GetParcelShops';
@@ -52,22 +52,6 @@ class GLS_Api_Get_Parcel_Shops
     }
 
     /**
-     * Trigger call to API.
-     *
-     * @return string
-     */
-    public function call()
-    {
-        if (!$this->postcode) {
-            wp_send_json_error(__('No postcode specified.', 'gls-woocommerce'), 412);
-        }
-
-        $api = GLS_Api::instance($this->endpoint, $this->body);
-
-        return $api->call();
-    }
-
-    /**
      * @return array
      */
     private function setBody()
@@ -76,5 +60,32 @@ class GLS_Api_Get_Parcel_Shops
             'zipcode'       => $this->postcode,
             'amountOfShops' => get_option('tig_gls_services')['display_shops'] ?? 3
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBody()
+    {
+        if (!$this->postcode) {
+            wp_send_json_error(__('No postcode specified.', 'gls-woocommerce'), 412);
+        }
+        return $this->body;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasCustomerNo()
+    {
+        return false;
     }
 }

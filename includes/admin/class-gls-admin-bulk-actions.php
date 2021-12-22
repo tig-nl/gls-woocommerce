@@ -69,8 +69,9 @@ class GLS_Admin_Bulk_Actions
             return $redirect_to;
         }
 
-        $processed_ids = array();
         $error_ids = array();
+
+        $glsApi = GLS_Api::instance();
         foreach ($post_ids as $post_id) {
             $gls_option = get_post_meta($post_id, $key = '_gls_delivery_option');
             $gls_label = get_post_meta($post_id, $key = '_gls_label');
@@ -78,7 +79,7 @@ class GLS_Admin_Bulk_Actions
                 $order = wc_get_order($post_id);
                 /** @var StdClass $response */
                 $createLabel = new GLS_Api_Label_Create($post_id);
-                $response = $createLabel->call();
+                $response = $glsApi->call($createLabel);
                 if ($response->status != 200) {
                     $error_ids[] = $post_id;
                     continue;
@@ -88,6 +89,13 @@ class GLS_Admin_Bulk_Actions
             }
         }
         $processed_ids = GLS_Pdf::add_pdf_label_to_array($post_ids);
+        if (get_option('tig_gls_services')['order_status'] === 'yes') {
+            foreach ($post_ids as $postId) {
+                $order = wc_get_order($postId);
+                $newOrderStatus = get_option('tig_gls_services')['new_order_status'];
+                $order->update_status($newOrderStatus);
+            }
+        }
         GLS_Pdf::merge_pdf('attachment');
 
         return $redirect_to = add_query_arg( array(

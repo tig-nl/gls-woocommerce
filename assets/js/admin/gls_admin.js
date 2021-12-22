@@ -80,14 +80,16 @@
         });
 
         // Trigger create label call.
-        $('.create_label').on('click', function () {
+        $('.create_label').on('click', function (event) {
+            if (typeof this.href !== 'undefined') {
+                var order_id = this.href.substring(this.href.lastIndexOf("order_id=")+9,this.href.lastIndexOf("&"));
+            }
             var data = {
                 action: 'woocommerce_create_label',
                 security: gls_admin.nonces.create_label,
-                order_id: new URL(window.location.href).searchParams.get('post'),
+                order_id: new URL(window.location.href).searchParams.get('post') ?? order_id,
                 label_amount: $('#gls-label-amount').val()
             };
-
             $.ajax({
                 url: gls_admin.ajax_url,
                 data: data,

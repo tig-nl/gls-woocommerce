@@ -44,7 +44,7 @@ final class GLS
      *
      * @var string
      */
-    public $version = '1.2.0';
+    public $version = '1.2.1';
 
     /**
      * The single instance of the class.
@@ -141,6 +141,11 @@ final class GLS
          * Abstract classes.
          */
         include_once GLS_ABSPATH . 'includes/abstracts/abstract-gls-delivery-option.php';
+
+        /**
+         * Interface classes.
+         */
+        include_once GLS_ABSPATH . 'includes/api/class-gls-api-call-interface.php';
 
         /**
          * Core classes.
