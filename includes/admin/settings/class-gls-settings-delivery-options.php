@@ -230,7 +230,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                     ),
                     array(
                         'title'   => __('Enable ShopReturnService', 'gls-woocommerce'),
-                        'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label.', 'gls-woocommerce'),
+                        'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label. (Only for shipping in the Netherlands)', 'gls-woocommerce'),
                         'type'    => 'checkbox',
                         'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[shop_return]',
                         'default' => 'yes'
