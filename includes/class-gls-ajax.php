@@ -89,7 +89,8 @@ class GLS_AJAX extends WC_AJAX
         }
 
         /** @var StdClass $response */
-        $response = GLS()->api_delivery_options()->call();
+        $api = GLS_Api::instance();
+        $response = $api->call(GLS()->api_delivery_options());
 
         self::capture_frontend_ajax_errors($response);
 
@@ -116,7 +117,8 @@ class GLS_AJAX extends WC_AJAX
         }
 
         /** @var StdClass $response */
-        $response = GLS()->api_pickup_locations()->call();
+        $api = GLS_Api::instance();
+        $response = $api->call(GLS()->api_pickup_locations());
 
         self::capture_frontend_ajax_errors($response);
 
@@ -206,8 +208,10 @@ class GLS_AJAX extends WC_AJAX
         check_ajax_referer('create-label', 'security');
 
         $order = wc_get_order(GLS()->post('order_id'));
+
         /** @var StdClass $response */
-        $response = GLS()->api_create_label($_POST['order_id'])->call();
+        $api = GLS_Api::instance();
+        $response = $api->call(GLS()->api_create_label($_POST['order_id']));
 
         self::catch_admin_ajax_errors($response);
 
@@ -234,7 +238,8 @@ class GLS_AJAX extends WC_AJAX
         check_ajax_referer('delete-label', 'security');
 
         /** @var StdClass $response */
-        $response = GLS()->api_delete_label()->call();
+        $api = GLS_Api::instance();
+        $response = $api->call(GLS()->api_delete_label());
 
         self::catch_admin_ajax_errors($response, __('Label could not be deleted from the GLS API', 'gls-woocommerce'));
 

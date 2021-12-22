@@ -37,12 +37,6 @@ class GLS_Api
     /** @var string $url */
     public $url = 'https://api.gls.nl/';
 
-    /** @var string $endpoint */
-    public $endpoint;
-
-    /** @var array $body */
-    public $body;
-
     /** @var string $http */
     public $http;
 
@@ -65,10 +59,10 @@ class GLS_Api
      * @return GLS_Api Main instance
      * @since 1.0.0
      */
-    public static function instance($endpoint, $body)
+    public static function instance()
     {
         if (is_null(self::$_instance)) {
-            self::$_instance = new self($endpoint, $body);
+            self::$_instance = new self();
         }
 
         return self::$_instance;
@@ -80,57 +74,52 @@ class GLS_Api
      * @param $endpoint
      * @param $body
      */
-    public function __construct(
-        $endpoint,
-        $body
-    ) {
-        $this->endpoint   = $endpoint;
-        $this->body       = $body;
+    public function __construct() {
         $this->options    = get_option(GLS_Admin::GLS_SETTINGS_API);
         $this->http       = $this->options['test_mode'] == 'yes' ? $this->url . 'Test/V1/api/' : $this->url . 'V1/api/';
         $this->encryption = GLS_Encryption::instance();
-
-        $this->init();
     }
 
     /**
      * Add needed authentication to calls.
      */
-    public function init()
+    protected function addAuthentication($body)
     {
         try {
-            $this->body['shippingSystemName']    = self::GLS_API_CONTROLLER_MODULE;
-            $this->body['shippingSystemVersion'] = GLS_VERSION;
-            $this->body['username']              = $this->encryption->Decrypt($this->options['username']);
-            $this->body['password']              = $this->encryption->Decrypt($this->options['password']);
+            $body['shippingSystemName']    = self::GLS_API_CONTROLLER_MODULE;
+            $body['shippingSystemVersion'] = GLS_VERSION;
+            $body['username']              = $this->encryption->Decrypt($this->options['username']);
+            $body['password']              = $this->encryption->Decrypt($this->options['password']);
         }
         catch(Exception $exception) {
             return false;
         }
+        return $body;
     }
 
     /**
      * Some calls need a customerNo
      * 2021-05-14: Calls needing customerNo: CreateLabel, CreatePickup, CreateShopReturn
      */
-    public function addCustomerNo()
+    protected function addCustomerNo($body)
     {
         try {
             $customerNo = $this->encryption->Decrypt($this->options['customer_no']);
-            if(empty($customerNo))
-                return;
-
-            $this->body['customerNo'] = $customerNo;
+            if (empty($customerNo)) {
+                return $body;
+            }
+            $body['customerNo'] = $customerNo;
         }
         catch(Exception $exception) {
 
         }
+        return $body;
     }
 
     /**
      * @return string
      */
-    public function call()
+    public function call(GlsApiCallInterface $apiCall)
     {
         try {
             $subscription_key = $this->encryption->Decrypt($this->options['subscription_key']);
@@ -139,8 +128,14 @@ class GLS_Api
             //nothing
         }
 
+        $body = $apiCall->getBody();
+        $body = $this->addAuthentication($body);
+        if($apiCall->hasCustomerNo() === true) {
+            $body = $this->addCustomerNo($body);
+        }
+
         $args = array(
-            'body'        => json_encode($this->body),
+            'body'        => json_encode($body),
             'timeout'     => '5',
             'redirection' => '5',
             'httpversion' => '1.0',
@@ -154,7 +149,7 @@ class GLS_Api
             'cookies'     => array()
         );
 
-        $response = wp_safe_remote_post($this->http . $this->endpoint . '?api-version=1.0', $args);
+        $response = wp_safe_remote_post($this->http . $apiCall->getEndpoint() . '?api-version=1.0', $args);
 
         return json_decode(wp_remote_retrieve_body($response));
     }
