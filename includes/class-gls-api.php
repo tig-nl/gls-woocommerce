@@ -76,7 +76,7 @@ class GLS_Api
      */
     public function __construct() {
         $this->options    = get_option(GLS_Admin::GLS_SETTINGS_API);
-        $this->http       = $this->options['test_mode'] == 'yes' ? $this->url . 'Test/V1/api/' : $this->url . 'V1/api/';
+        $this->http       = $this->options[GLS_Admin::API_TEST_MODE] == 'yes' ? $this->url . 'Test/V1/api/' : $this->url . 'V1/api/';
         $this->encryption = GLS_Encryption::instance();
     }
 
@@ -88,8 +88,8 @@ class GLS_Api
         try {
             $body['shippingSystemName']    = self::GLS_API_CONTROLLER_MODULE;
             $body['shippingSystemVersion'] = GLS_VERSION;
-            $body['username']              = $this->encryption->Decrypt($this->options['username']);
-            $body['password']              = $this->encryption->Decrypt($this->options['password']);
+            $body['username']              = $this->encryption->Decrypt($this->options[GLS_Admin::API_USERNAME]);
+            $body['password']              = $this->encryption->Decrypt($this->options[GLS_Admin::API_PASSWORD]);
         }
         catch(Exception $exception) {
             return false;
@@ -122,7 +122,7 @@ class GLS_Api
     public function call(GlsApiCallInterface $apiCall)
     {
         try {
-            $subscription_key = $this->encryption->Decrypt($this->options['subscription_key']);
+            $subscription_key = $this->encryption->Decrypt($this->options[GLS_Admin::API_SUBSCRIPTION_KEY]);
         }
         catch(Exception $exception) {
             //nothing
