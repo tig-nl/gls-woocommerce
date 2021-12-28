@@ -220,8 +220,8 @@ class GLS_AJAX extends WC_AJAX
         self::catch_other_errors($response);
 
         $order->update_meta_data('_gls_label', $response);
-        if (get_option('tig_gls_services')[order_status] === 'yes') {
-            $newOrderStatus = get_option('tig_gls_services')[new_order_status];
+        if (get_option('tig_gls_services')['order_status'] === 'yes') {
+            $newOrderStatus = get_option('tig_gls_services')['new_order_status'];
             $order->update_status($newOrderStatus);
         }
         $order->save();
