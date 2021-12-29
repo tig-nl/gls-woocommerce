@@ -485,6 +485,10 @@ jQuery(
              * @returns {boolean}
              */
             validate_delivery_option: function () {
+                if (gls_delivery_options_form.is_tig_gls_shipping_selected() === false) {
+                    return true;
+                }
+
                 if (gls_delivery_options_form.selected_delivery_option === false) {
                     gls_delivery_options_form.$error_container.html('Please select a delivery option').fadeIn();
                     return false;
