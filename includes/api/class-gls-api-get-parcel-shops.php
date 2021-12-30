@@ -58,7 +58,7 @@ class GLS_Api_Get_Parcel_Shops implements GlsApiCallInterface
     {
         return [
             'zipcode'       => $this->postcode,
-            'amountOfShops' => get_option('tig_gls_services')['display_shops'] ?? 3
+            'amountOfShops' => get_option(GLS_Admin::GLS_SETTINGS_SERVICES)[GLS_Admin::SETTING_DISPLAY_SHOPS] ?? 3
         ];
     }
 

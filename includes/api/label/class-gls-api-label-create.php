@@ -127,7 +127,7 @@ class GLS_Api_Label_Create implements GlsApiCallInterface
     private function map_services($details, $type = null, $countryCode = 'NL')
     {
         $service = [
-            "shopReturnService" => (bool) ($this->options['shop_return'] == 'yes' && $countryCode == 'NL')
+            "shopReturnService" => (bool) ($this->options[GLS_Admin::SETTING_ENABLE_SHOP_RETURN] == 'yes' && $countryCode == 'NL')
         ];
         switch ($type) {
             case 'ParcelShop':
@@ -146,7 +146,7 @@ class GLS_Api_Label_Create implements GlsApiCallInterface
      */
     private function get_label_type()
     {
-        return $this->options['label_format'] ?? 'pdfA6S';
+        return $this->options[GLS_Admin::SETTING_LABEL_FORMAT] ?? 'pdfA6S';
     }
 
     /**
@@ -154,7 +154,7 @@ class GLS_Api_Label_Create implements GlsApiCallInterface
      */
     private function get_label_margin_top()
     {
-        return $this->options['label_margin_top_a4'] ?? 0;
+        return $this->options[GLS_Admin::SETTING_MARGIN_TOP_A4] ?? 0;
     }
 
     /**
@@ -162,7 +162,7 @@ class GLS_Api_Label_Create implements GlsApiCallInterface
      */
     private function get_label_margin_left()
     {
-        return $this->options['label_margin_left_a4'] ?? 0;
+        return $this->options[GLS_Admin::SETTING_MARGIN_LEFT_A4] ?? 0;
     }
 
     /**
@@ -189,7 +189,7 @@ class GLS_Api_Label_Create implements GlsApiCallInterface
      */
     private function is_flex_delivery_enabled()
     {
-        return $this->options['flex_delivery'] == 'yes';
+        return $this->options[GLS_Admin::SETTING_ENABLE_FLEX_DELIVERY] == 'yes';
     }
 
     /**

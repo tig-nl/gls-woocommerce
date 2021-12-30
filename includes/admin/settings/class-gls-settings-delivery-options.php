@@ -117,31 +117,31 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'type'    => 'checkbox',
                         'desc_tip'   => __('Use test mode in staging or development environments', 'gls-woocommerce'),
                         'default' => 'no',
-                        'id'      => GLS_Admin::GLS_SETTINGS_API . '[test_mode]'
+                        'id'      => GLS_Admin::GLS_SETTINGS_API . '[' . GLS_Admin::API_TEST_MODE . ']'
                     ),
                     array(
                         'title' => __('Username', 'gls-woocommerce'),
                         'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'type'  => 'encrypt_text',
-                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[username]'
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[' . GLS_Admin::API_USERNAME . ']'
                     ),
                     array(
                         'title' => __('Password', 'gls-woocommerce'),
                         'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
                         'type'  => 'encrypt_password',
-                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[password]'
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[' . GLS_Admin::API_PASSWORD . ']'
                     ),
                     array(
                         'title' => __('Subscription key', 'gls-woocommerce'),
                         'type'  => 'encrypt_password',
                         'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
-                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[subscription_key]'
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[' . GLS_Admin::API_SUBSCRIPTION_KEY . ']'
                     ),
                     array(
                         'title' => __('Customer number', 'gls-woocommerce'),
                         'type'  => 'encrypt_text',
                         'desc_tip' => __('Need help with setting up the plugin? See support box above for details, don\'t hesitate to contact us!', 'gls-woocommerce'),
-                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[customer_no]'
+                        'id'    => GLS_Admin::GLS_SETTINGS_API . '[' . GLS_Admin::API_CUSTOMER_NUMBER . ']'
                     ),
                     array(
                         'title' => __('Test credentials', 'gls-woocommerce'),
@@ -169,7 +169,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Cut-off Time', 'gls-woocommerce'),
                         'desc'    => __('Deadline at which an order can be placed in order to be processed.', 'gls-woocommerce'),
                         'type'    => 'select',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[cutoff_time]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_CUTOFF_TIME . ']',
                         'options' => $this->generateTimeIntervals(),
                         'default' => '17:00'
                     ),
@@ -177,7 +177,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Processing Time', 'gls-woocommerce'),
                         'desc'    => __('The time (in days) it takes to process and package an order before it\'s shipped.', 'gls-woocommerce'),
                         'type'    => 'number',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[processing_time]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_PROCESSING_TIME . ']',
                         'min'     => '0',
                         'default' => '0'
                     ),
@@ -185,7 +185,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Label format', 'gls-woocommerce'),
                         'desc'    => __('Which label format do you need', 'gls-woocommerce'),
                         'type'    => 'select',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_format]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_LABEL_FORMAT . ']',
                         'options' => $this->getLabelFormat(),
                         'default' => 'pdfA6S'
                     ),
@@ -193,7 +193,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Label Margin Top (only PDF A4)', 'gls-woocommerce'),
                         'desc'    => __('Distance in mm', 'gls-woocommerce'),
                         'type'    => 'number',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_margin_top_a4]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_MARGIN_TOP_A4 . ']',
                         'min'     => '0',
                         'default' => '0'
                     ),
@@ -201,7 +201,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Label Margin Left (only PDF A4)', 'gls-woocommerce'),
                         'desc'    => __('Distance in mm', 'gls-woocommerce'),
                         'type'    => 'number',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[label_margin_left_a4]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_MARGIN_LEFT_A4 . ']',
                         'min'     => '0',
                         'default' => '0'
                     ),
@@ -209,7 +209,7 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('No. of Shops to Display', 'gls-woocommerce'),
                         'desc'    => __('Number of ParcelShops to display in the ShopDelivery-tab in checkout.', 'gls-woocommerce'),
                         'type'    => 'number',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[display_shops]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_DISPLAY_SHOPS . ']',
                         'min'     => '1',
                         'default' => '5'
                     ),
@@ -217,14 +217,14 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Enable changing order status', 'gls-woocommerce'),
                         'desc'    => __('Enable this to change the order status when a GLS label is created.', 'gls-woocommerce'),
                         'type'    => 'checkbox',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[order_status_change]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_CHANGE_ORDER_STATUS . ']',
                         'default' => 'no'
                     ),
                     array(
                         'title'   => __('Order status', 'gls-woocommerce'),
                         'desc'    => __('Status of the order after creating the label', 'gls-woocommerce'),
                         'type'    => 'select',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[new_order_status]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_NEW_ORDER_STATUS . ']',
                         'options' => $this->getOrderStatusses(),
                         'default' => 'wc-pending'
                     ),
@@ -232,14 +232,14 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
                         'title'   => __('Enable ShopReturnService', 'gls-woocommerce'),
                         'desc'    => __('Enable this to offer easy returns to your customers. A return label is generated along with every delivery label. (Only for shipping in the Netherlands)', 'gls-woocommerce'),
                         'type'    => 'checkbox',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[shop_return]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_ENABLE_SHOP_RETURN . ']',
                         'default' => 'yes'
                     ),
                     array(
                         'title'   => __('Enable FlexDeliveryService', 'gls-woocommerce'),
                         'desc'    => __("Enable this to send updates to your customers about their shipment and allow them to adjust delivery times while it's in transit.", 'gls-woocommerce'),
                         'type'    => 'checkbox',
-                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[flex_delivery]',
+                        'id'      => GLS_Admin::GLS_SETTINGS_SERVICES . '[' . GLS_Admin::SETTING_ENABLE_FLEX_DELIVERY . ']',
                         'default' => 'yes'
                     ),
                     array(
@@ -702,9 +702,9 @@ class GLS_Settings_Delivery_Options extends WC_Settings_Page
 
             //encrypt post values
             $post_values = GLS()->post(GLS_Admin::GLS_SETTINGS_API);
-            $_POST[GLS_Admin::GLS_SETTINGS_API]['password'] = $this->encryption::encrypt($post_values['password']);
-            $_POST[GLS_Admin::GLS_SETTINGS_API]['username'] = $this->encryption::encrypt($post_values['username']);
-            $_POST[GLS_Admin::GLS_SETTINGS_API]['subscription_key'] = $this->encryption::encrypt($post_values['subscription_key']);
+            $_POST[GLS_Admin::GLS_SETTINGS_API][GLS_Admin::API_PASSWORD] = $this->encryption::encrypt($post_values[GLS_Admin::API_PASSWORD]);
+            $_POST[GLS_Admin::GLS_SETTINGS_API][GLS_Admin::API_USERNAME] = $this->encryption::encrypt($post_values[GLS_Admin::API_USERNAME]);
+            $_POST[GLS_Admin::GLS_SETTINGS_API][GLS_Admin::API_SUBSCRIPTION_KEY] = $this->encryption::encrypt($post_values[GLS_Admin::API_SUBSCRIPTION_KEY]);
         }
 
         // TODO: Encrypt storage of passwords in database.
