@@ -49,7 +49,7 @@ class GLS_Settings_Woocommerce_Shipping_Instance
      * @param $form_fields
      * @return mixed
      */
-    public function filter_woocommerce_shipping_instance_form_fields_tig_gls ($form_fields)
+    public static function filter_woocommerce_shipping_instance_form_fields_tig_gls ($form_fields)
     {
 
         $form_field_home_delivery_label = array(

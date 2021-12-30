@@ -40,7 +40,23 @@ if (!defined('ABSPATH')) {
 class GLS_Admin
 {
     const GLS_SETTINGS_SERVICES = 'tig_gls_services';
+    const SETTING_NEW_ORDER_STATUS    = 'new_order_status';
+    const SETTING_CHANGE_ORDER_STATUS = 'order_status_change';
+    const SETTING_DISPLAY_SHOPS = 'display_shops';
+    const SETTING_PROCESSING_TIME = 'processing_time';
+    const SETTING_CUTOFF_TIME = 'cutoff_time';
+    const SETTING_ENABLE_SHOP_RETURN = 'shop_return';
+    const SETTING_ENABLE_FLEX_DELIVERY = 'flex_delivery';
+    const SETTING_LABEL_FORMAT   = 'label_format';
+    const SETTING_MARGIN_LEFT_A4 = 'label_margin_left_a4';
+    const SETTING_MARGIN_TOP_A4  = 'label_margin_top_a4';
+
     const GLS_SETTINGS_API      = 'tig_gls_api';
+    const API_TEST_MODE = 'test_mode';
+    const API_USERNAME = 'username';
+    const API_PASSWORD = 'password';
+    const API_SUBSCRIPTION_KEY = 'subscription_key';
+    const API_CUSTOMER_NUMBER  = 'customer_no';
 
     /**
      * Constructor.

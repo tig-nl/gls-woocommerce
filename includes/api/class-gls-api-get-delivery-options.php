@@ -75,10 +75,10 @@ class GLS_Api_Get_Delivery_Options implements GlsApiCallInterface
         $timezone      = new DateTimeZone($timezone_string);
         $date_time     = new DateTime(null, $timezone);
         $current_time  = $date_time->format('H:m:s');
-        $cutoff_time   = get_option('tig_gls_services')['cutoff_time'];
+        $cutoff_time   = get_option(GLS_Admin::GLS_SETTINGS_SERVICES)[GLS_Admin::SETTING_CUTOFF_TIME];
         $shipping_date = $date_time;
 
-        if ($processingTime = get_option('tig_gls_services')['processing_time']) {
+        if ($processingTime = get_option(GLS_Admin::GLS_SETTINGS_SERVICES)[GLS_Admin::SETTING_PROCESSING_TIME]) {
             $shipping_date->modify("+ $processingTime days");
         }
 
